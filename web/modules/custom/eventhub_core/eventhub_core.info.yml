@@ -3,6 +3,7 @@ type: module
 description: 'Core functionality for the Eventhub site.'
 core_version_requirement: ^10.3 | ^11
 package: Custom
+
 dependencies:
   - drupal:node
   - drupal:user
