@@ -2,6 +2,12 @@
 
 echo "🔍 Vérification du code avant commit..."
 
+# Vérifie que DDEV est démarré
+if ! ddev status >/dev/null 2>&1; then
+    echo "⚠️  DDEV n'est pas démarré. Démarre-le avec : ddev start"
+    exit 1
+fi
+
 # Récupère les fichiers PHP modifiés dans custom
 FILES=$(git diff --cached --name-only --diff-filter=ACM | grep '\.php$\|\.module$\|\.install$\|\.inc$\|\.profile$\|\.theme$' | grep -E 'web/(modules|themes)/custom')
 
@@ -14,14 +20,14 @@ echo "Fichiers à analyser :"
 echo "$FILES"
 echo ""
 
-# 1. PHPCS (style de code)
+# 1. PHPCS via DDEV (avec toutes les dépendances)
 echo "📋 Vérification PHPCS (standards Drupal)..."
-phpcs --standard=Drupal,DrupalPractice $FILES
+ddev exec vendor/bin/phpcs --standard=Drupal,DrupalPractice $FILES
 
 if [ $? -ne 0 ]; then
     echo ""
     echo "❌ PHPCS a détecté des erreurs de style !"
-    echo "💡 Correction automatique : phpcbf --standard=Drupal,DrupalPractice \$FILES"
+    echo "💡 Correction automatique : ddev exec vendor/bin/phpcbf --standard=Drupal,DrupalPractice <fichiers>"
     echo "   ou bypass : git commit --no-verify"
     exit 1
 fi

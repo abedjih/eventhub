@@ -1,0 +1,17 @@
+uuid: da4c31a4-d4e0-48ec-8ed5-cfed6f1485c6
+langcode: fr
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus: {  }
+    parent: ''
+name: Événement
+type: event
+description: 'Un événement culturel'
+help: null
+new_revision: true
+preview_mode: 1
+display_submitted: false

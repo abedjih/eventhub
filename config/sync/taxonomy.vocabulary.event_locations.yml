@@ -1,0 +1,9 @@
+uuid: 43b43337-406e-4b52-a6fe-927cedc5899c
+langcode: fr
+status: true
+dependencies: {  }
+name: Lieux
+vid: event_locations
+description: null
+weight: 0
+new_revision: false

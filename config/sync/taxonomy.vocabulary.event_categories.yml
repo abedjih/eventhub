@@ -1,0 +1,9 @@
+uuid: 08b4c299-a5b5-49f7-befb-4e90b4fb33f5
+langcode: fr
+status: true
+dependencies: {  }
+name: "Catégories d'événements"
+vid: event_categories
+description: 'Classification des événements par type'
+weight: 0
+new_revision: false
