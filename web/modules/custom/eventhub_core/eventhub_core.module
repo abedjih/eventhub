@@ -10,23 +10,38 @@ use Drupal\Core\Routing\RouteMatchInterface;
 /**
  * Undocumented function.
  */
+/*
 function eventhub_core_help($route_name, RouteMatchInterface $route_match) {
   if ($route_name == 'help.page.eventhub_core') {
-    return '<p>' . t('Eventhub Core module provides core functionalities for the Eventhub site.') . '</p>';
+    return '<p>' . \Drupal::translation()->translate('Eventhub Core module provides core functionalities for the Eventhub site.') . '</p>';
   }
 
 }
-
+*/
 /**
  * Undocumented function.
  */
+/*
 function eventhub_core_theme($existing, $type, $theme, $path) {
   return [
     'eventhub_event_listing' => [
       'variables' => ['events' => NULL],
       'template' => 'eventhub-event-listing',
-      'path' => drupal_get_path('module', 'eventhub_core') . '/templates',
+      'path' => \Drupal::service('extension.path.resolver')->getPath('module', 'eventhub_core') . '/templates',
     ],
-  ];
+   ];
 
 }
+*/
+
+function eventhub_core_theme_suggestions_eventhub_event_listing(array $variables) {
+  $suggestions = [];
+  $route_match = \Drupal::service('current_route_match');
+  $node = $route_match->getParameter('node');
+  if ($node instanceof \Drupal\node\NodeInterface && $node->bundle() == 'event_page') {
+    $suggestions[] = 'eventhub_event_listing__event_page';
+  }
+  return $suggestions;
+}
+
+
