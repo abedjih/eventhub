@@ -102,9 +102,4 @@
 # Ignore sonar scan
 /web/.scannerwork
 
-# Local DB dumps and backups.
-/db-backups
-/dump_*
-/**/*.sql
-.ddev/importdb
 
