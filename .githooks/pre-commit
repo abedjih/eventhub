@@ -1,0 +1,46 @@
+#!/bin/bash
+
+echo "🔍 Vérification du code avant commit..."
+
+# Récupère les fichiers PHP modifiés dans custom
+FILES=$(git diff --cached --name-only --diff-filter=ACM | grep '\.php$\|\.module$\|\.install$\|\.inc$\|\.profile$\|\.theme$' | grep -E 'web/(modules|themes)/custom')
+
+if [ -z "$FILES" ]; then
+    echo "✅ Aucun fichier PHP custom à vérifier"
+    exit 0
+fi
+
+echo "Fichiers à analyser :"
+echo "$FILES"
+echo ""
+
+# 1. PHPCS (style de code)
+echo "📋 Vérification PHPCS (standards Drupal)..."
+phpcs --standard=Drupal,DrupalPractice $FILES
+
+if [ $? -ne 0 ]; then
+    echo ""
+    echo "❌ PHPCS a détecté des erreurs de style !"
+    echo "💡 Correction automatique : phpcbf --standard=Drupal,DrupalPractice \$FILES"
+    echo "   ou bypass : git commit --no-verify"
+    exit 1
+fi
+
+echo "✅ PHPCS : OK"
+echo ""
+
+# 2. PHPStan (analyse statique via DDEV)
+echo "🔍 Analyse PHPStan..."
+ddev exec vendor/bin/phpstan analyse $FILES --no-progress --error-format=table 2>/dev/null
+
+if [ $? -ne 0 ]; then
+    echo ""
+    echo "❌ PHPStan a détecté des erreurs !"
+    echo "   Corrige-les ou bypass avec : git commit --no-verify"
+    exit 1
+fi
+
+echo "✅ PHPStan : OK"
+echo ""
+echo "🎉 Toutes les vérifications sont passées !"
+exit 0
