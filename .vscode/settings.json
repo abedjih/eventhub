@@ -1,0 +1,80 @@
+{
+  // =========================
+  // PHP (VS Code built-in)
+  // =========================
+  // Avec DDEV, VS Code ne trouve pas forcément un binaire PHP local.
+  // On désactive la validation native pour éviter le message "Cannot validate...".
+  "php.validate.enable": false,
+
+  // =========================
+  // PHPCS / Drupal Coder
+  // =========================
+  // Utilise PHPCS installé via Composer dans le projet (vendor/bin/phpcs)
+  "phpcs.enable": true,
+  "phpcs.executablePath": "${workspaceFolder}/vendor/bin/phpcs",
+
+  // Utilise le ruleset du projet (phpcs.xml ou phpcs.xml.dist à la racine)
+  "phpcs.standard": "${workspaceFolder}/phpcs.xml",
+
+  // Affiche les erreurs directement dans l’éditeur
+  "phpcs.showSources": true,
+  "phpcs.showWarnings": true,
+  "phpcs.showErrors": true,
+
+  // Lancer PHPCS à la sauvegarde
+  "phpcs.run": "onSave",
+
+  // Évite que PHPCS scanne des dossiers inutiles
+  "phpcs.ignorePatterns": [
+    "**/vendor/**",
+    "**/node_modules/**",
+    "**/web/core/**",
+    "**/sites/default/files/**",
+    "**/sites/*/files/**",
+  ],
+
+  // =========================
+  // Formatage (optionnel mais utile)
+  // =========================
+  // On évite que VS Code reformate tout seul et contredise les standards.
+  "editor.formatOnSave": false,
+
+  // =========================
+  // Drupal: fichiers & associations
+  // =========================
+  "files.associations": {
+    "*.module": "php",
+    "*.install": "php",
+    "*.inc": "php",
+    "*.profile": "php",
+    "*.theme": "php",
+    "*.engine": "php"
+  },
+
+  // =========================
+  // Exclusions pour recherche/FS watcher (perf)
+  // =========================
+  "files.exclude": {
+    "**/.ddev/.dbimageBuild": true,
+    "**/vendor": true,
+    "**/node_modules": true
+  },
+  "search.exclude": {
+    "**/vendor": true,
+    "**/node_modules": true,
+    "**/sites/default/files": true,
+    "**/sites/*/files": true
+  },
+  "files.watcherExclude": {
+    "**/vendor/**": true,
+    "**/node_modules/**": true,
+    "**/sites/default/files/**": true,
+    "**/sites/*/files/**": true
+  },
+
+  // =========================
+  // Terminal
+  // =========================
+  // Pratique : utiliser bash dans le terminal intégré
+  "terminal.integrated.defaultProfile.linux": "bash"
+}

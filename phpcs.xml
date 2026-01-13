@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<ruleset name="Project">
+  <rule ref="Drupal"/>
+  <rule ref="DrupalPractice"/>
+
+  <file>web/modules/custom</file>
+  <file>web/themes/custom</file>
+
+  <exclude-pattern>*/vendor/*</exclude-pattern>
+  <exclude-pattern>*/web/core/*</exclude-pattern>
+  <exclude-pattern>*/node_modules/*</exclude-pattern>
+  <exclude-pattern>*/sites/*/files/*</exclude-pattern>
+
+  <arg name="extensions" value="php,module,inc,install,test,profile,theme,css,info,txt,md,yml"/>
+</ruleset>

@@ -1,0 +1,32 @@
+<?php
+
+/**
+ * @file
+ * Core functionality for the Eventhub site.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Undocumented function.
+ */
+function eventhub_core_help($route_name, RouteMatchInterface $route_match) {
+  if ($route_name == 'help.page.eventhub_core') {
+    return '<p>' . t('Eventhub Core module provides core functionalities for the Eventhub site.') . '</p>';
+  }
+
+}
+
+/**
+ * Undocumented function.
+ */
+function eventhub_core_theme($existing, $type, $theme, $path) {
+  return [
+    'eventhub_event_listing' => [
+      'variables' => ['events' => NULL],
+      'template' => 'eventhub-event-listing',
+      'path' => drupal_get_path('module', 'eventhub_core') . '/templates',
+    ],
+  ];
+
+}
