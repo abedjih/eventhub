@@ -10,11 +10,10 @@ use Drupal\Core\Routing\RouteMatchInterface;
 /**
  * Implements hook_core_help().
  */
+/*
 function eventhub_core_help($route_name, RouteMatchInterface $route_match) {
   if ($route_name == 'help.page.eventhub_core') {
     return '<p>' . \Drupal::translation()->translate('Eventhub Core module provides core functionalities for the Eventhub site.') . '</p>';
   }
 }
-
-
-
+*/

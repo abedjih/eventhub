@@ -1,0 +1,6 @@
+services:
+  _defaults:
+    autoconfigure: true
+    autowire: true
+  eventhub_core.event_manager:
+    class: Drupal\eventhub_core\Service\EventManager

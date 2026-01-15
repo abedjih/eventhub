@@ -32,4 +32,17 @@ final class EventHubHook {
     }
   }
 
+  /**
+   * Implements hook_theme().
+   */
+  #[Hook('theme')]
+  public function theme() {
+    return [
+      'eventhub_events' => [
+        'variables' => ['events' => NULL],
+        'template' => 'eventhub-events',
+      ],
+    ];
+  }
+
 }
