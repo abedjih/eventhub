@@ -1,0 +1,10 @@
+global:
+  version: 1.x
+  css:
+    theme:
+      css/eventhub-core.css: {}
+  js:
+    js/eventhub-core.js: {}
+  dependencies:
+    - core/drupal
+    - core/once

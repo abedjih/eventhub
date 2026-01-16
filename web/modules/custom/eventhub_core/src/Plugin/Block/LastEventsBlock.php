@@ -51,7 +51,7 @@ final class LastEventsBlock extends BlockBase implements ContainerFactoryPluginI
    */
   public function build() {
     $build = [];
-    $events = $this->eventManager->getLastEvents(5);
+    $events = $this->eventManager->getLastEvents();
     $view_builder = $this->entityTypeManager->getViewBuilder('node');
     foreach ($events as $event) {
       $build[] = $view_builder->view($event, 'teaser');

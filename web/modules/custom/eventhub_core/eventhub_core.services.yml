@@ -2,5 +2,11 @@ services:
   _defaults:
     autoconfigure: true
     autowire: true
+  
   eventhub_core.event_manager:
     class: Drupal\eventhub_core\Service\EventManager
+  Drupal\eventhub_core\Service\EventManager: ~
+ 
+  # Liaison interface -> implémentation (IMPORTANT)
+  Drupal\eventhub_core\Service\EventManagerInterface:
+    alias: Drupal\eventhub_core\Service\EventManager

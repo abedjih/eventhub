@@ -57,6 +57,11 @@ final class EventsByCategoryBlock extends BlockBase implements ContainerFactoryP
     return [
       '#theme' => 'eventhub_events',
       '#events' => $events_rendered,
+      '#attached' => [
+        'library' => [
+          'eventhub_core/global',
+        ],
+      ],
     ];
   }
 
