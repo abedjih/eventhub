@@ -1,0 +1,29 @@
+uuid: d20ddbb2-0cea-4153-8b74-5d820a4cea59
+langcode: fr
+status: true
+dependencies:
+  config:
+    - field.field.node.formation.field_test_champ
+    - node.type.formation
+  module:
+    - user
+id: node.formation.default
+targetEntityType: node
+bundle: formation
+mode: default
+content:
+  field_test_champ:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  langcode: true

@@ -1,0 +1,11 @@
+uuid: f7c02656-ce2d-441a-abbd-515da657a431
+langcode: fr
+status: true
+dependencies:
+  config:
+    - node.type.formation
+id: node.formation
+target_entity_type_id: node
+target_bundle: formation
+default_langcode: site_default
+language_alterable: false

@@ -1,0 +1,25 @@
+uuid: c1130634-5e2c-4e09-ae54-ba9da479c27e
+langcode: fr
+status: true
+dependencies:
+  module:
+    - eventhub_core
+    - system
+  theme:
+    - olivero
+id: olivero_eventsbycategoryblock
+theme: olivero
+region: sidebar
+weight: -8
+provider: null
+plugin: events_by_category_block
+settings:
+  id: events_by_category_block
+  label: 'Events by category block'
+  label_display: '0'
+  provider: eventhub_core
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: '<front>'

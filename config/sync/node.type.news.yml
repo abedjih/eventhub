@@ -1,0 +1,17 @@
+uuid: ee49b948-173e-4c02-b6bb-65cc75bb611f
+langcode: fr
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus: {  }
+    parent: ''
+name: Actualité
+type: news
+description: 'Actualités .... '
+help: null
+new_revision: true
+preview_mode: 1
+display_submitted: false

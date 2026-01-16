@@ -1,0 +1,9 @@
+uuid: b5cdbd0a-1501-41f0-ac27-286b9520aaf2
+langcode: fr
+status: true
+dependencies: {  }
+name: 'Catégories actualité'
+vid: news_categories
+description: null
+weight: 0
+new_revision: false

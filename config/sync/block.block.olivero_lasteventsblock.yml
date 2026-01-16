@@ -1,0 +1,25 @@
+uuid: 3c16b1c2-8399-4314-ba99-f2fe510b7dcd
+langcode: fr
+status: true
+dependencies:
+  module:
+    - eventhub_core
+    - system
+  theme:
+    - olivero
+id: olivero_lasteventsblock
+theme: olivero
+region: content
+weight: -9
+provider: null
+plugin: last_events_block
+settings:
+  id: last_events_block
+  label: 'Last events block'
+  label_display: visible
+  provider: eventhub_core
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: '<front>'
