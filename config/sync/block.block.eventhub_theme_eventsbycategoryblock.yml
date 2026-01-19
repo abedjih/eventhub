@@ -1,0 +1,25 @@
+uuid: f498d8f2-b2c4-49c7-aa73-cde42a302b13
+langcode: fr
+status: true
+dependencies:
+  module:
+    - eventhub_core
+    - system
+  theme:
+    - eventhub_theme
+id: eventhub_theme_eventsbycategoryblock
+theme: eventhub_theme
+region: sidebar_second
+weight: -7
+provider: null
+plugin: events_by_category_block
+settings:
+  id: events_by_category_block
+  label: 'Events by category block'
+  label_display: '0'
+  provider: eventhub_core
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: '<front>'

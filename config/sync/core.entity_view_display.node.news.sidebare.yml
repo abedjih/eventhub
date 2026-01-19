@@ -1,0 +1,54 @@
+uuid: c9b3bcaf-2ee0-4177-8857-db496a42fbd2
+langcode: fr
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.sidebare
+    - field.field.node.news.field_category
+    - field.field.node.news.field_description
+    - field.field.node.news.field_image
+    - image.style.medium
+    - node.type.news
+  module:
+    - image
+    - text
+    - user
+id: node.news.sidebare
+targetEntityType: node
+bundle: news
+mode: sidebare
+content:
+  field_category:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_description:
+    type: text_trimmed
+    label: visually_hidden
+    settings:
+      trim_length: 300
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_image:
+    type: image
+    label: hidden
+    settings:
+      image_link: ''
+      image_style: medium
+      image_loading:
+        attribute: eager
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  langcode: true

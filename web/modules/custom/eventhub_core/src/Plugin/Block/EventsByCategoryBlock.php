@@ -53,7 +53,7 @@ final class EventsByCategoryBlock extends BlockBase implements ContainerFactoryP
     $category_id = 1;
     $events = $this->eventManager->getEventsByCategory($category_id, 5);
     $view_builder = $this->entityTypeManager->getViewBuilder('node');
-    $events_rendered = $view_builder->viewMultiple($events, 'teaser');
+    $events_rendered = $view_builder->viewMultiple($events, 'sidebare');
     return [
       '#theme' => 'eventhub_events',
       '#events' => $events_rendered,

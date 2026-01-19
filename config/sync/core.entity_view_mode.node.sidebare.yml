@@ -1,0 +1,11 @@
+uuid: 99f5452f-37b4-4d1a-a2c6-0a8a3d3028b3
+langcode: fr
+status: true
+dependencies:
+  module:
+    - node
+id: node.sidebare
+label: Sidebare
+description: null
+targetEntityType: node
+cache: true
