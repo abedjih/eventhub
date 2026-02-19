@@ -1,0 +1,25 @@
+uuid: 87e5b1aa-d2c3-4a41-8a24-6e9e208db45e
+langcode: fr
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_max_capacity
+    - taxonomy.vocabulary.event_categories
+id: taxonomy_term.event_categories.field_max_capacity
+field_name: field_max_capacity
+entity_type: taxonomy_term
+bundle: event_categories
+label: 'Capacité maximale'
+description: 'Nombre maximum de participants par défaut.'
+required: true
+translatable: true
+default_value:
+  -
+    value: 50
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

@@ -1,7 +1,0 @@
-eventhub_core.home_page:
-  path: '/events'
-  defaults:
-    _controller: '\Drupal\eventhub_core\Controller\EventsController::page'
-    _title: 'Page events'
-  requirements:
-    _permission: 'access content'

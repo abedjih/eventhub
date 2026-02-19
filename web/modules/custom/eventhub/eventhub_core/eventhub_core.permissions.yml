@@ -1,0 +1,29 @@
+create event:
+  title: 'Créer un événement'
+  description: 'Permet de créer de nouveaux événements.'
+
+edit own event:
+  title: 'Modifier ses propres événements'
+  description: 'Permet de modifier les événements créés par l''utilisateur.'
+
+edit any event:
+  title: 'Modifier tout événement'
+  description: 'Permet de modifier n''importe quel événement.'
+
+delete any event:
+  title: 'Supprimer tout événement'
+  description: 'Permet de supprimer n''importe quel événement.'
+  restrict access: true
+
+register to event:
+  title: 'S''inscrire à un événement'
+  description: 'Permet de s''inscrire comme participant à un événement.'
+
+view event registrations:
+  title: 'Voir les inscriptions'
+  description: 'Permet de voir les inscriptions à un événement.'
+
+administer eventhub:
+  title: 'Administrer EventHub'
+  description: 'Accès complet à la configuration et à l''administration d''EventHub.'
+  restrict access: true

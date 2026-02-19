@@ -1,0 +1,3 @@
+api_endpoint: 'https://geo.api.gouv.fr'
+import_batch_size: 50
+notification_email: 'admin@example.com'

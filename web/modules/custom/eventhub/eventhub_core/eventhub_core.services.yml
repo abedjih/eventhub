@@ -1,0 +1,15 @@
+services:
+  Drupal\eventhub_core\Service\RegistrationManager:
+    autowire: true
+
+  Drupal\eventhub_core\Service\EventManager:
+    autowire: true
+
+  Drupal\eventhub_core\Service\GeoDataRepository:
+    autowire: true
+
+  Drupal\eventhub_core\Service\RegistrationCountBuilder:
+    autowire: true
+
+  Drupal\eventhub_core\Hook\EntityHooks:
+    autowire: true

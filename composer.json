@@ -25,6 +25,8 @@
         "drupal/devel": "^5.5",
         "drupal/metatag": "^2.2",
         "drupal/pathauto": "^1.14",
+        "drupal/queue_ui": "^3.2",
+        "drupal/ultimate_cron": "^2.0@beta",
         "drush/drush": "^13.7"
     },
     "conflict": {

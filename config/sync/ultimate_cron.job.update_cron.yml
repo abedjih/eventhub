@@ -1,0 +1,17 @@
+uuid: 68281bee-4333-4c58-84bf-ba47eb1ee370
+langcode: fr
+status: true
+dependencies:
+  module:
+    - update
+title: 'Vérifier les mises à jour'
+id: update_cron
+weight: 0
+module: update
+callback: 'update#cron'
+scheduler:
+  id: simple
+launcher:
+  id: serial
+logger:
+  id: database

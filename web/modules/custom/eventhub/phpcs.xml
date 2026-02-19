@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<ruleset name="EventHub">
+  <description>Règles PHPCS pour le projet EventHub</description>
+
+  <arg name="extensions" value="php,module,install,theme"/>
+  <arg name="colors"/>
+  <arg value="sp"/>
+
+  <file>web/modules/custom/eventhub_core</file>
+  <file>web/modules/custom/eventhub_import</file>
+
+  <rule ref="Drupal"/>
+  <rule ref="DrupalPractice"/>
+
+  <exclude-pattern>*/node_modules/*</exclude-pattern>
+  <exclude-pattern>*/vendor/*</exclude-pattern>
+  <exclude-pattern>*/tests/*</exclude-pattern>
+</ruleset>

@@ -1,0 +1,16 @@
+<?php
+
+/**
+ * @file
+ * Module principal EventHub Core.
+ */
+
+use Drupal\Core\Entity\EntityTypeInterface;
+
+/**
+ * Implements hook_entity_bundle_field_info_alter().
+ */
+function eventhub_core_entity_bundle_field_info_alter(array &$fields, EntityTypeInterface $entity_type, string $bundle): void {
+  // Les contraintes sont appliquées directement dans les baseFieldDefinitions
+  // des entités Event et Registration.
+}
