@@ -5,9 +5,6 @@
  * Install, update and uninstall functions for EventHub Core.
  */
 
-use Drupal\Core\Field\BaseFieldDefinition;
-use Drupal\Core\StringTranslation\TranslatableMarkup;
-
 /**
  * Implements hook_schema().
  */
@@ -104,103 +101,6 @@ function eventhub_core_update_10001(): void {
 }
 
 /**
- * Migrate EventCategory config entities to taxonomy terms.
- */
-function eventhub_core_update_10002(): string {
-  $entity_type_manager = \Drupal::entityTypeManager();
-  $database = \Drupal::database();
-
-  // Step 1: Ensure the taxonomy vocabulary exists.
-  $vocabulary_storage = $entity_type_manager->getStorage('taxonomy_vocabulary');
-  if (!$vocabulary_storage->load('event_categories')) {
-    $vocabulary_storage->create([
-      'vid' => 'event_categories',
-      'name' => "Catégories d'événements",
-      'description' => 'Classification des événements par type.',
-    ])->save();
-  }
-
-  // Step 2: Create custom field on taxonomy terms.
-  _eventhub_core_ensure_taxonomy_field('field_max_capacity', 'integer', [
-    'unsigned' => TRUE,
-    'size' => 'normal',
-  ], 'Capacité maximale', 'Nombre maximum de participants par défaut.', 50);
-
-  // Step 3: Create default taxonomy terms and build ID mapping.
-  $id_map = _eventhub_core_create_default_terms();
-
-  // Step 4: Read existing category values before changing the field.
-  $events_with_categories = [];
-  if ($database->schema()->tableExists('eventhub_event') && $database->schema()->fieldExists('eventhub_event', 'category')) {
-    $events_with_categories = $database->select('eventhub_event', 'e')
-      ->fields('e', ['id', 'category'])
-      ->isNotNull('category')
-      ->execute()
-      ->fetchAllKeyed();
-  }
-
-  // Step 5: Change the category field from string to entity_reference.
-  $entity_definition_update_manager = \Drupal::entityDefinitionUpdateManager();
-  $old_field = $entity_definition_update_manager->getFieldStorageDefinition('category', 'event');
-
-  if ($old_field) {
-    // Clear existing values so uninstall works.
-    $database->update('eventhub_event')
-      ->fields(['category' => NULL])
-      ->execute();
-
-    $entity_definition_update_manager->uninstallFieldStorageDefinition($old_field);
-  }
-
-  // Install the new entity_reference field.
-  $new_field = BaseFieldDefinition::create('entity_reference')
-    ->setName('category')
-    ->setLabel(new TranslatableMarkup('Catégorie'))
-    ->setDescription(new TranslatableMarkup("Catégorie de l'événement."))
-    ->setRequired(TRUE)
-    ->setSetting('target_type', 'taxonomy_term')
-    ->setSetting('handler', 'default:taxonomy_term')
-    ->setSetting('handler_settings', [
-      'target_bundles' => [
-        'event_categories' => 'event_categories',
-      ],
-      'sort' => [
-        'field' => 'name',
-        'direction' => 'asc',
-      ],
-      'auto_create' => FALSE,
-    ])
-    ->setTargetEntityTypeId('event');
-
-  $entity_definition_update_manager->installFieldStorageDefinition(
-    'category',
-    'event',
-    'eventhub_core',
-    $new_field
-  );
-
-  // Step 6: Migrate existing data using the ID map.
-  $migrated = 0;
-  foreach ($events_with_categories as $event_id => $old_category_id) {
-    if (isset($id_map[$old_category_id])) {
-      $database->update('eventhub_event')
-        ->fields(['category' => $id_map[$old_category_id]])
-        ->condition('id', $event_id)
-        ->execute();
-      $migrated++;
-    }
-  }
-
-  // Step 7: Delete old EventCategory config entities.
-  $config_factory = \Drupal::configFactory();
-  foreach (['conference', 'meetup', 'formation', 'workshop'] as $old_id) {
-    $config_factory->getEditable("eventhub_core.event_category.$old_id")->delete();
-  }
-
-  return "Migrated EventCategory to taxonomy. $migrated events updated.";
-}
-
-/**
  * Creates default taxonomy terms for event categories.
  *
  * @return array
@@ -259,49 +159,4 @@ function _eventhub_core_create_default_terms(): array {
   }
 
   return $id_map;
-}
-
-/**
- * Ensures a field storage + instance exists on taxonomy_term.event_categories.
- */
-function _eventhub_core_ensure_taxonomy_field(
-  string $field_name,
-  string $field_type,
-  array $storage_settings,
-  string $label,
-  string $description,
-  mixed $default_value,
-): void {
-  $entity_type_manager = \Drupal::entityTypeManager();
-
-  $field_storage = $entity_type_manager
-    ->getStorage('field_storage_config')
-    ->load("taxonomy_term.$field_name");
-
-  if (!$field_storage) {
-    $entity_type_manager->getStorage('field_storage_config')->create([
-      'field_name' => $field_name,
-      'entity_type' => 'taxonomy_term',
-      'type' => $field_type,
-      'settings' => $storage_settings,
-      'cardinality' => 1,
-      'translatable' => FALSE,
-    ])->save();
-  }
-
-  $field_config = $entity_type_manager
-    ->getStorage('field_config')
-    ->load("taxonomy_term.event_categories.$field_name");
-
-  if (!$field_config) {
-    $entity_type_manager->getStorage('field_config')->create([
-      'field_name' => $field_name,
-      'entity_type' => 'taxonomy_term',
-      'bundle' => 'event_categories',
-      'label' => $label,
-      'description' => $description,
-      'required' => TRUE,
-      'default_value' => [['value' => $default_value]],
-    ])->save();
-  }
 }
