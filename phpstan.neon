@@ -1,12 +1,47 @@
 parameters:
-  level: 1
-  paths:
-    - web/modules/custom
-    - web/themes/custom
-  excludePaths:
-    - */tests/*
-    - */node_modules/*
-    - */vendor/*
-  scanDirectories:
-    - web/core
-    - web/modules/contrib
+
+    # Level 6: good balance between strictness and Drupal compatibility
+    level: 6
+
+    paths:
+        - web/modules/custom
+
+    tmpDir: var/phpstan
+
+    # ---------------------------------------------------------------
+    # Ignored errors — structural incompatibilities with Drupal 11
+    # ---------------------------------------------------------------
+    ignoreErrors:
+
+        # Drupal core does not type iterable values in its array<> signatures
+        - identifier: missingType.iterableValue
+
+        # new static() is the standard pattern in Drupal plugins
+        -
+            identifier: new.static
+            path: web/modules/custom/*
+
+        # EntityStorageInterface does not declare methods specific
+        # to concrete entity storages (getQuery, loadByProperties, etc.)
+        - '#Call to an undefined method Drupal\\Core\\Entity\\EntityStorageInterface::#'
+
+        # Entity field properties are accessed via __get() magic
+        - '#Access to an undefined property Drupal\\Core\\Field\\FieldItemListInterface::#'
+
+        # ContainerInterface::get() returns mixed
+        - '#Cannot call method .+ on mixed#'
+
+        # Hooks and .install files use \Drupal:: (no dependency injection available)
+        -
+            identifier: globalDrupalDependencyInjection.useDependencyInjection
+            paths:
+                - web/modules/custom/*.install
+                - web/modules/custom/*.module
+
+        # Internal classes extended by Drupal convention
+        - '#^Class .+ extends @internal class#'
+
+        # accessCheck() and PHPUnit assertions — PHPDoc declares return as narrowed
+        - identifier: method.alreadyNarrowedType
+
+    reportUnmatchedIgnoredErrors: false

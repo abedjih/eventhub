@@ -15,7 +15,7 @@ use Drupal\eventhub_core\Service\RegistrationManager;
 /**
  * Registration form with #states, validation and AJAX concepts.
  */
-class RegistrationForm extends FormBase {
+final class RegistrationForm extends FormBase {
 
   use AutowireTrait;
 
@@ -107,7 +107,7 @@ class RegistrationForm extends FormBase {
     ];
     $form['actions']['submit'] = [
       '#type' => 'submit',
-      '#value' => $this->t('S\'inscrire'),
+      '#value' => $this->t("S'inscrire"),
     ];
 
     return $form;
@@ -126,13 +126,13 @@ class RegistrationForm extends FormBase {
 
     // Check if the event is full.
     if ($this->eventManager->isEventFull($eventId)) {
-      $form_state->setErrorByName('event_id', $this->t('Cet événement est complet, il n\'y a plus de places disponibles.'));
+      $form_state->setErrorByName('event_id', $this->t("Cet événement est complet, il n'y a plus de places disponibles."));
     }
 
     // Check if already registered.
     $email = (string) $form_state->getValue('email');
     if ($this->registrationManager->isAlreadyRegistered($eventId, $email)) {
-      $form_state->setErrorByName('email', $this->t('L\'adresse email @email est déjà inscrite à cet événement.', [
+      $form_state->setErrorByName('email', $this->t("L'adresse email @email est déjà inscrite à cet événement.", [
         '@email' => $email,
       ]));
     }

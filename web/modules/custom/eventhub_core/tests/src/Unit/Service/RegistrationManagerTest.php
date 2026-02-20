@@ -6,7 +6,6 @@ namespace Drupal\Tests\eventhub_core\Unit\Service;
 
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\Entity\Query\QueryInterface;
 use Drupal\eventhub_core\Entity\Registration;
 use Drupal\eventhub_core\Service\RegistrationManager;
 use Drupal\Tests\UnitTestCase;
@@ -19,8 +18,19 @@ use Drupal\Tests\UnitTestCase;
  */
 class RegistrationManagerTest extends UnitTestCase {
 
+  /**
+   * The registration manager under test.
+   */
   private RegistrationManager $registrationManager;
+
+  /**
+   * The mocked entity type manager.
+   */
   private EntityTypeManagerInterface $entityTypeManager;
+
+  /**
+   * The mocked entity storage.
+   */
   private EntityStorageInterface $storage;
 
   /**

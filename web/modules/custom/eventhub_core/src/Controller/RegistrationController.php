@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Drupal\eventhub_core\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\Core\Datetime\DateFormatterInterface;
 use Drupal\Core\DependencyInjection\AutowireTrait;
 use Drupal\Core\Url;
 use Drupal\eventhub_core\Entity\Event;
@@ -21,6 +22,7 @@ class RegistrationController extends ControllerBase {
 
   public function __construct(
     private readonly RegistrationManager $registrationManager,
+    private readonly DateFormatterInterface $dateFormatter,
   ) {}
 
   /**
@@ -35,7 +37,7 @@ class RegistrationController extends ControllerBase {
         $registration->getParticipantName(),
         $registration->getEmail(),
         $registration->getRegistrationStatus(),
-        \Drupal::service('date.formatter')->format(
+        $this->dateFormatter->format(
           (int) $registration->get('created')->value,
           'short',
         ),
@@ -71,14 +73,14 @@ class RegistrationController extends ControllerBase {
 
     if ($this->registrationManager->cancelRegistration((int) $registration->id())) {
       $this->messenger()->addStatus(
-        $this->t('L\'inscription de @name a été annulée.', [
+        $this->t("L'inscription de @name a été annulée.", [
           '@name' => $registration->getParticipantName(),
         ])
       );
     }
     else {
       $this->messenger()->addWarning(
-        $this->t('Impossible d\'annuler cette inscription.')
+        $this->t("Impossible d'annuler cette inscription.")
       );
     }
 

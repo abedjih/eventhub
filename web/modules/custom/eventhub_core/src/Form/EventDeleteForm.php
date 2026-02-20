@@ -6,6 +6,7 @@ namespace Drupal\eventhub_core\Form;
 
 use Drupal\Core\Form\ConfirmFormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\Url;
 use Drupal\eventhub_core\Entity\Event;
 use Drupal\eventhub_core\Service\RegistrationManager;
@@ -14,7 +15,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 /**
  * Event delete confirmation form.
  */
-class EventDeleteForm extends ConfirmFormBase {
+final class EventDeleteForm extends ConfirmFormBase {
 
   public function __construct(
     protected RegistrationManager $registrationManager,
@@ -46,9 +47,9 @@ class EventDeleteForm extends ConfirmFormBase {
   /**
    * {@inheritdoc}
    */
-  public function getQuestion(): string {
+  public function getQuestion(): TranslatableMarkup {
     $event = $this->getEvent();
-    return (string) $this->t('Voulez-vous vraiment supprimer l\'événement « @name » ?', [
+    return $this->t("Voulez-vous vraiment supprimer l'événement « @name » ?", [
       '@name' => $event->getName(),
     ]);
   }
@@ -56,15 +57,15 @@ class EventDeleteForm extends ConfirmFormBase {
   /**
    * {@inheritdoc}
    */
-  public function getDescription(): string {
-    return (string) $this->t('Cette action est irréversible. Toutes les inscriptions associées seront également supprimées.');
+  public function getDescription(): TranslatableMarkup {
+    return $this->t('Cette action est irréversible. Toutes les inscriptions associées seront également supprimées.');
   }
 
   /**
    * {@inheritdoc}
    */
-  public function getConfirmText(): string {
-    return (string) $this->t('Supprimer');
+  public function getConfirmText(): TranslatableMarkup {
+    return $this->t('Supprimer');
   }
 
   /**
@@ -89,7 +90,7 @@ class EventDeleteForm extends ConfirmFormBase {
     $event->delete();
 
     $this->messenger()->addStatus(
-      $this->t('L\'événement « @name » a été supprimé.', [
+      $this->t("L'événement « @name » a été supprimé.", [
         '@name' => $name,
       ])
     );

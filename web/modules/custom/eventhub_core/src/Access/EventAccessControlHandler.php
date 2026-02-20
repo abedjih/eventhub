@@ -9,6 +9,7 @@ use Drupal\Core\Access\AccessResultInterface;
 use Drupal\Core\Entity\EntityAccessControlHandler;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Session\AccountInterface;
+use Drupal\eventhub_core\Entity\Event;
 
 /**
  * Access control handler for Event entities.
@@ -27,7 +28,7 @@ class EventAccessControlHandler extends EntityAccessControlHandler {
         if ($account->hasPermission('edit any event')) {
           return AccessResult::allowed()->cachePerPermissions();
         }
-        if ($account->hasPermission('edit own event') && $entity->getOwnerId() === (int) $account->id()) {
+        if ($account->hasPermission('edit own event') && $entity instanceof Event && $entity->getOwnerId() === (int) $account->id()) {
           return AccessResult::allowed()->cachePerPermissions()->cachePerUser();
         }
         return AccessResult::forbidden()->cachePerPermissions();

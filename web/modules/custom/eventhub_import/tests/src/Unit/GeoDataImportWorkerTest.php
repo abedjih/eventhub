@@ -26,16 +26,22 @@ class GeoDataImportWorkerTest extends UnitTestCase {
 
   /**
    * The mocked geodata repository.
+   *
+   * @var \Drupal\eventhub_core\Service\GeoDataRepository|\PHPUnit\Framework\MockObject\MockObject
    */
   private GeoDataRepository $geoDataRepository;
 
   /**
    * The mocked HTTP client.
+   *
+   * @var \GuzzleHttp\ClientInterface|\PHPUnit\Framework\MockObject\MockObject
    */
   private ClientInterface $httpClient;
 
   /**
    * The mocked logger.
+   *
+   * @var \Psr\Log\LoggerInterface|\PHPUnit\Framework\MockObject\MockObject
    */
   private LoggerInterface $logger;
 
@@ -86,18 +92,23 @@ class GeoDataImportWorkerTest extends UnitTestCase {
       ->expects($this->once())
       ->method('request')
       ->with('GET', $this->stringContains('/departements/75/communes'))
-      ->willReturn(new Response(200, [], json_encode($apiResponse)));
+      ->willReturn(new Response(200, [], (string) json_encode($apiResponse)));
 
     $this->geoDataRepository
       ->expects($this->once())
       ->method('insertBatch')
-      ->with($this->callback(function ($records) {
+      ->with($this->callback(function (array $records): bool {
+        $first = $records[0] ?? NULL;
+        $second = $records[1] ?? NULL;
+        if (!is_array($first) || !is_array($second)) {
+          return FALSE;
+        }
         return count($records) === 2
-          && $records[0]['code_commune'] === '75056'
-          && $records[0]['nom'] === 'Paris'
-          && $records[0]['population'] === 2133111
-          && $records[0]['departement'] === '75'
-          && $records[1]['code_commune'] === '75101';
+          && $first['code_commune'] === '75056'
+          && $first['nom'] === 'Paris'
+          && $first['population'] === 2133111
+          && $first['departement'] === '75'
+          && $second['code_commune'] === '75101';
       }))
       ->willReturn(2);
 
@@ -133,7 +144,7 @@ class GeoDataImportWorkerTest extends UnitTestCase {
   public function testProcessItemHandlesEmptyResponse(): void {
     $this->httpClient
       ->method('request')
-      ->willReturn(new Response(200, [], json_encode([])));
+      ->willReturn(new Response(200, [], (string) json_encode([])));
 
     $this->geoDataRepository
       ->expects($this->never())
@@ -151,18 +162,29 @@ class GeoDataImportWorkerTest extends UnitTestCase {
     $apiResponse = [
       ['code' => '', 'nom' => 'No Code'],
       ['code' => '01001', 'nom' => ''],
-      ['code' => '01002', 'nom' => 'Valid', 'population' => 500, 'codeDepartement' => '01', 'codeRegion' => '84'],
+      [
+        'code' => '01002',
+        'nom' => 'Valid',
+        'population' => 500,
+        'codeDepartement' => '01',
+        'codeRegion' => '84',
+      ],
     ];
 
     $this->httpClient
       ->method('request')
-      ->willReturn(new Response(200, [], json_encode($apiResponse)));
+      ->willReturn(new Response(200, [], (string) json_encode($apiResponse)));
 
     $this->geoDataRepository
       ->expects($this->once())
       ->method('insertBatch')
-      ->with($this->callback(function ($records) {
-        return count($records) === 1 && $records[0]['code_commune'] === '01002';
+      ->with($this->callback(function (array $records): bool {
+        $first = $records[0] ?? NULL;
+        if (!is_array($first)) {
+          return FALSE;
+        }
+        return count($records) === 1
+          && $first['code_commune'] === '01002';
       }))
       ->willReturn(1);
 

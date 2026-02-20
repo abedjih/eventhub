@@ -15,7 +15,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 /**
  * Event edit form.
  */
-class EventEditForm extends FormBase {
+final class EventEditForm extends FormBase {
 
   public function __construct(
     protected EntityTypeManagerInterface $entityTypeManager,
@@ -52,7 +52,7 @@ class EventEditForm extends FormBase {
 
     $form['name'] = [
       '#type' => 'textfield',
-      '#title' => $this->t('Titre de l\'événement'),
+      '#title' => $this->t("Titre de l'événement"),
       '#required' => TRUE,
       '#maxlength' => 255,
       '#default_value' => $event->getName(),
@@ -142,7 +142,7 @@ class EventEditForm extends FormBase {
   public function validateForm(array &$form, FormStateInterface $form_state): void {
     $capacity = (int) $form_state->getValue('capacity');
     if ($capacity < 1) {
-      $form_state->setErrorByName('capacity', $this->t('La capacité doit être d\'au moins 1 participant.'));
+      $form_state->setErrorByName('capacity', $this->t("La capacité doit être d'au moins 1 participant."));
     }
   }
 
@@ -154,7 +154,10 @@ class EventEditForm extends FormBase {
     $description = $form_state->getValue('description');
 
     $event->set('name', $form_state->getValue('name'));
-    $event->set('description', is_array($description) ? $description : ['value' => $description, 'format' => 'basic_html']);
+    $descriptionValue = is_array($description)
+      ? $description
+      : ['value' => $description, 'format' => 'basic_html'];
+    $event->set('description', $descriptionValue);
     $event->set('event_date', $form_state->getValue('event_date')?->format('Y-m-d\TH:i:s'));
     $event->set('location', $form_state->getValue('location'));
     $event->set('category', $form_state->getValue('category'));
@@ -163,7 +166,7 @@ class EventEditForm extends FormBase {
     $event->save();
 
     $this->messenger()->addStatus(
-      $this->t('L\'événement « @name » a été modifié.', [
+      $this->t("L'événement « @name » a été modifié.", [
         '@name' => $event->getName(),
       ])
     );

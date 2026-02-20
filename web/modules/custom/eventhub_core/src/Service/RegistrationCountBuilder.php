@@ -34,11 +34,11 @@ class RegistrationCountBuilder implements TrustedCallbackInterface {
 
     return [
       '#markup' => '<span class="registration-count">'
-        . $this->t('@count inscrit(s) – @remaining place(s) restante(s)', [
-          '@count' => $count,
-          '@remaining' => $remaining,
-        ])
-        . '</span>',
+      . $this->t('@count inscrit(s) – @remaining place(s) restante(s)', [
+        '@count' => $count,
+        '@remaining' => $remaining,
+      ])
+      . '</span>',
       '#cache' => [
         'max-age' => 0,
       ],

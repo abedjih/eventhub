@@ -151,7 +151,7 @@ class EventController extends ControllerBase {
 
     $build['register_link'] = [
       '#type' => 'link',
-      '#title' => $this->t('S\'inscrire à cet événement'),
+      '#title' => $this->t("S'inscrire à cet événement"),
       '#url' => Url::fromRoute('eventhub.registration_create', [
         'event' => $event->id(),
       ]),

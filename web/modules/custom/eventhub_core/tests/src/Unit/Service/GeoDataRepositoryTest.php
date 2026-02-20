@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\eventhub_core\Unit\Service;
 
+use Drupal\Component\Datetime\TimeInterface;
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Database\Query\Select;
-use Drupal\Core\Database\Query\Insert;
-use Drupal\Core\Database\Query\Update;
 use Drupal\Core\Database\StatementInterface;
 use Drupal\eventhub_core\Service\GeoDataRepository;
 use Drupal\Tests\UnitTestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Tests the GeoDataRepository service.
@@ -20,8 +20,17 @@ use Drupal\Tests\UnitTestCase;
  */
 class GeoDataRepositoryTest extends UnitTestCase {
 
+  /**
+   * The repository under test.
+   */
   private GeoDataRepository $repository;
-  private Connection $database;
+
+  /**
+   * The mocked database connection.
+   *
+   * @var \Drupal\Core\Database\Connection|\PHPUnit\Framework\MockObject\MockObject
+   */
+  private Connection|MockObject $database;
 
   /**
    * {@inheritdoc}
@@ -29,7 +38,8 @@ class GeoDataRepositoryTest extends UnitTestCase {
   protected function setUp(): void {
     parent::setUp();
     $this->database = $this->createMock(Connection::class);
-    $this->repository = new GeoDataRepository($this->database);
+    $time = $this->createMock(TimeInterface::class);
+    $this->repository = new GeoDataRepository($this->database, $time);
   }
 
   /**
@@ -39,7 +49,13 @@ class GeoDataRepositoryTest extends UnitTestCase {
    */
   public function testFindByNameReturnsResults(): void {
     $expectedResults = [
-      (object) ['id' => 1, 'code_commune' => '75056', 'nom' => 'Paris', 'departement' => '75', 'region' => 'Île-de-France'],
+      (object) [
+        'id' => 1,
+        'code_commune' => '75056',
+        'nom' => 'Paris',
+        'departement' => '75',
+        'region' => 'Île-de-France',
+      ],
     ];
 
     $statement = $this->createMock(StatementInterface::class);
@@ -64,7 +80,6 @@ class GeoDataRepositoryTest extends UnitTestCase {
 
     $results = $this->repository->findByName('Paris');
 
-    $this->assertIsArray($results);
     $this->assertCount(1, $results);
     $this->assertEquals('Paris', $results[0]->nom);
   }

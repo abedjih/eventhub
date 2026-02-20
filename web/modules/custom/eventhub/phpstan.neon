@@ -1,9 +1,0 @@
-parameters:
-  level: 6
-  paths:
-    - web/modules/custom/eventhub_core/src
-    - web/modules/custom/eventhub_import/src
-  drupal:
-    drupal_root: web
-  ignoreErrors:
-    - '#Call to an undefined method Drupal\\Core\\Entity\\EntityStorageInterface#'

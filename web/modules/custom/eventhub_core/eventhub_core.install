@@ -55,7 +55,7 @@ function eventhub_core_schema(): array {
       'imported_at' => [
         'type' => 'int',
         'not null' => TRUE,
-        'description' => 'Timestamp de l\'import.',
+        'description' => "Timestamp de l'import.",
       ],
     ],
     'primary key' => ['id'],
@@ -156,7 +156,7 @@ function eventhub_core_update_10002(): string {
   $new_field = BaseFieldDefinition::create('entity_reference')
     ->setName('category')
     ->setLabel(new TranslatableMarkup('Catégorie'))
-    ->setDescription(new TranslatableMarkup('Catégorie de l\'événement.'))
+    ->setDescription(new TranslatableMarkup("Catégorie de l'événement."))
     ->setRequired(TRUE)
     ->setSetting('target_type', 'taxonomy_term')
     ->setSetting('handler', 'default:taxonomy_term')

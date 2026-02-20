@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Drupal\eventhub_core\Service;
 
+use Drupal\Component\Datetime\TimeInterface;
 use Drupal\Core\Database\Connection;
 
 /**
@@ -13,6 +14,7 @@ class GeoDataRepository {
 
   public function __construct(
     private readonly Connection $database,
+    private readonly TimeInterface $time,
   ) {}
 
   /**
@@ -40,7 +42,7 @@ class GeoDataRepository {
           'population' => $data['population'] ?? 0,
           'departement' => $data['departement'],
           'region' => $data['region'] ?? '',
-          'imported_at' => \Drupal::time()->getRequestTime(),
+          'imported_at' => $this->time->getRequestTime(),
         ])
         ->condition('id', $existing)
         ->execute();
@@ -55,7 +57,7 @@ class GeoDataRepository {
         'population' => $data['population'] ?? 0,
         'departement' => $data['departement'],
         'region' => $data['region'] ?? '',
-        'imported_at' => \Drupal::time()->getRequestTime(),
+        'imported_at' => $this->time->getRequestTime(),
       ])
       ->execute();
   }

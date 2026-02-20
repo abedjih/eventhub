@@ -10,7 +10,7 @@ use Drupal\Core\Form\FormStateInterface;
 /**
  * Configuration form for EventHub settings.
  */
-class EventHubSettingsForm extends ConfigFormBase {
+final class EventHubSettingsForm extends ConfigFormBase {
 
   /**
    * {@inheritdoc}
@@ -35,15 +35,15 @@ class EventHubSettingsForm extends ConfigFormBase {
     $form['api_endpoint'] = [
       '#type' => 'url',
       '#title' => $this->t('Endpoint API géographique'),
-      '#description' => $this->t('URL de base de l\'API pour l\'import des données de communes.'),
+      '#description' => $this->t("URL de base de l'API pour l'import des données de communes."),
       '#default_value' => $config->get('api_endpoint'),
       '#required' => TRUE,
     ];
 
     $form['import_batch_size'] = [
       '#type' => 'number',
-      '#title' => $this->t('Taille de batch d\'import'),
-      '#description' => $this->t('Nombre de communes à importer par exécution de la queue.'),
+      '#title' => $this->t("Taille de batch d'import"),
+      '#description' => $this->t("Nombre de communes à importer par exécution de la queue."),
       '#default_value' => $config->get('import_batch_size'),
       '#min' => 10,
       '#max' => 500,
@@ -53,7 +53,7 @@ class EventHubSettingsForm extends ConfigFormBase {
     $form['notification_email'] = [
       '#type' => 'email',
       '#title' => $this->t('Email de notification'),
-      '#description' => $this->t('Adresse email pour recevoir les notifications d\'import et d\'inscriptions.'),
+      '#description' => $this->t("Adresse email pour recevoir les notifications d'import et d'inscriptions."),
       '#default_value' => $config->get('notification_email'),
       '#required' => TRUE,
     ];

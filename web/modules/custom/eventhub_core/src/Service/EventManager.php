@@ -6,7 +6,6 @@ namespace Drupal\eventhub_core\Service;
 
 use Drupal\Core\Datetime\DrupalDateTime;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\eventhub_core\Entity\Event;
 
 /**
  * Service for managing Event entities.

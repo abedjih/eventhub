@@ -28,6 +28,22 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 )]
 final class GeoDataImportWorker extends QueueWorkerBase implements ContainerFactoryPluginInterface {
 
+  /**
+   * Constructs a GeoDataImportWorker object.
+   *
+   * @param array<string, mixed> $configuration
+   *   A configuration array containing information about the plugin instance.
+   * @param string $plugin_id
+   *   The plugin ID for the plugin instance.
+   * @param mixed $plugin_definition
+   *   The plugin implementation definition.
+   * @param \Drupal\eventhub_core\Service\GeoDataRepository $geoDataRepository
+   *   The geodata repository.
+   * @param \GuzzleHttp\ClientInterface $httpClient
+   *   The HTTP client.
+   * @param \Psr\Log\LoggerInterface $logger
+   *   The logger.
+   */
   public function __construct(
     array $configuration,
     $plugin_id,
@@ -58,13 +74,13 @@ final class GeoDataImportWorker extends QueueWorkerBase implements ContainerFact
    * {@inheritdoc}
    */
   public function processItem($data): void {
-    if (empty($data['code'])) {
+    if (!is_array($data) || empty($data['code'])) {
       $this->logger->warning('EventHub Import: Skipping queue item with missing department code.');
       return;
     }
 
-    $deptCode = $data['code'];
-    $deptNom = $data['nom'] ?? $deptCode;
+    $deptCode = (string) $data['code'];
+    $deptNom = (string) ($data['nom'] ?? $deptCode);
 
     try {
       $url = GeoApiConstants::API_BASE . sprintf(GeoApiConstants::COMMUNES_ENDPOINT, $deptCode);
@@ -86,16 +102,16 @@ final class GeoDataImportWorker extends QueueWorkerBase implements ContainerFact
 
       $records = [];
       foreach ($communes as $commune) {
-        if (empty($commune['code']) || empty($commune['nom'])) {
+        if (!is_array($commune) || empty($commune['code']) || empty($commune['nom'])) {
           continue;
         }
 
         $records[] = [
-          'code_commune' => $commune['code'],
-          'nom' => $commune['nom'],
+          'code_commune' => (string) $commune['code'],
+          'nom' => (string) $commune['nom'],
           'population' => (int) ($commune['population'] ?? 0),
-          'departement' => $commune['codeDepartement'] ?? $deptCode,
-          'region' => $commune['codeRegion'] ?? '',
+          'departement' => (string) ($commune['codeDepartement'] ?? $deptCode),
+          'region' => (string) ($commune['codeRegion'] ?? ''),
         ];
       }
 

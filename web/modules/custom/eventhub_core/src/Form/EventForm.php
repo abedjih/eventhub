@@ -13,7 +13,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 /**
  * Event creation form with AJAX-powered category selection.
  */
-class EventForm extends FormBase {
+final class EventForm extends FormBase {
 
   public function __construct(
     protected EntityTypeManagerInterface $entityTypeManager,
@@ -41,7 +41,7 @@ class EventForm extends FormBase {
   public function buildForm(array $form, FormStateInterface $form_state): array {
     $form['name'] = [
       '#type' => 'textfield',
-      '#title' => $this->t('Titre de l\'événement'),
+      '#title' => $this->t("Titre de l'événement"),
       '#required' => TRUE,
       '#maxlength' => 255,
     ];
@@ -105,7 +105,7 @@ class EventForm extends FormBase {
     ];
     $form['actions']['submit'] = [
       '#type' => 'submit',
-      '#value' => $this->t('Créer l\'événement'),
+      '#value' => $this->t("Créer l'événement"),
     ];
 
     return $form;
@@ -127,7 +127,7 @@ class EventForm extends FormBase {
   public function validateForm(array &$form, FormStateInterface $form_state): void {
     $capacity = (int) $form_state->getValue('capacity');
     if ($capacity < 1) {
-      $form_state->setErrorByName('capacity', $this->t('La capacité doit être d\'au moins 1 participant.'));
+      $form_state->setErrorByName('capacity', $this->t("La capacité doit être d'au moins 1 participant."));
     }
   }
 
@@ -155,7 +155,7 @@ class EventForm extends FormBase {
     $event->save();
 
     $this->messenger()->addStatus(
-      $this->t('L\'événement « @name » a été créé avec succès.', [
+      $this->t("L'événement « @name » a été créé avec succès.", [
         '@name' => $event->getName(),
       ])
     );

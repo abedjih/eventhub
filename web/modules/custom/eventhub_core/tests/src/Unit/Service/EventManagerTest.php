@@ -6,11 +6,11 @@ namespace Drupal\Tests\eventhub_core\Unit\Service;
 
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\Entity\Query\QueryInterface;
 use Drupal\eventhub_core\Entity\Event;
 use Drupal\eventhub_core\Service\EventManager;
 use Drupal\eventhub_core\Service\RegistrationManager;
 use Drupal\Tests\UnitTestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Tests the EventManager service.
@@ -20,9 +20,26 @@ use Drupal\Tests\UnitTestCase;
  */
 class EventManagerTest extends UnitTestCase {
 
+  /**
+   * The event manager under test.
+   */
   private EventManager $eventManager;
+
+  /**
+   * The mocked entity type manager.
+   */
   private EntityTypeManagerInterface $entityTypeManager;
-  private RegistrationManager $registrationManager;
+
+  /**
+   * The mocked registration manager.
+   *
+   * @var \Drupal\eventhub_core\Service\RegistrationManager|\PHPUnit\Framework\MockObject\MockObject
+   */
+  private RegistrationManager|MockObject $registrationManager;
+
+  /**
+   * The mocked entity storage.
+   */
   private EntityStorageInterface $storage;
 
   /**

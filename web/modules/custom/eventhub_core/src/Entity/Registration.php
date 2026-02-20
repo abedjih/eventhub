@@ -36,7 +36,7 @@ class Registration extends ContentEntityBase {
 
     $fields['event'] = BaseFieldDefinition::create('entity_reference')
       ->setLabel(new TranslatableMarkup('Événement'))
-      ->setDescription(new TranslatableMarkup('L\'événement auquel le participant s\'inscrit.'))
+      ->setDescription(new TranslatableMarkup("L'événement auquel le participant s'inscrit."))
       ->setRequired(TRUE)
       ->setSetting('target_type', 'event')
       ->setDisplayOptions('form', [
@@ -94,7 +94,7 @@ class Registration extends ContentEntityBase {
       ]);
 
     $fields['created'] = BaseFieldDefinition::create('created')
-      ->setLabel(new TranslatableMarkup('Date d\'inscription'));
+      ->setLabel(new TranslatableMarkup("Date d'inscription"));
 
     return $fields;
   }

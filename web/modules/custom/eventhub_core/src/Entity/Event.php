@@ -51,7 +51,7 @@ class Event extends ContentEntityBase implements EntityChangedInterface, EntityO
 
     $fields['name'] = BaseFieldDefinition::create('string')
       ->setLabel(new TranslatableMarkup('Titre'))
-      ->setDescription(new TranslatableMarkup('Le titre de l\'événement.'))
+      ->setDescription(new TranslatableMarkup("Le titre de l'événement."))
       ->setRequired(TRUE)
       ->setSetting('max_length', 255)
       ->setDisplayOptions('form', [
@@ -61,15 +61,15 @@ class Event extends ContentEntityBase implements EntityChangedInterface, EntityO
 
     $fields['description'] = BaseFieldDefinition::create('text_long')
       ->setLabel(new TranslatableMarkup('Description'))
-      ->setDescription(new TranslatableMarkup('Description complète de l\'événement.'))
+      ->setDescription(new TranslatableMarkup("Description complète de l'événement."))
       ->setDisplayOptions('form', [
         'type' => 'text_textarea',
         'weight' => 5,
       ]);
 
     $fields['event_date'] = BaseFieldDefinition::create('datetime')
-      ->setLabel(new TranslatableMarkup('Date de l\'événement'))
-      ->setDescription(new TranslatableMarkup('Date et heure de l\'événement.'))
+      ->setLabel(new TranslatableMarkup("Date de l'événement"))
+      ->setDescription(new TranslatableMarkup("Date et heure de l'événement."))
       ->setRequired(TRUE)
       ->setSetting('datetime_type', 'datetime')
       ->addConstraint('FutureDate')
@@ -101,7 +101,7 @@ class Event extends ContentEntityBase implements EntityChangedInterface, EntityO
 
     $fields['category'] = BaseFieldDefinition::create('entity_reference')
       ->setLabel(new TranslatableMarkup('Catégorie'))
-      ->setDescription(new TranslatableMarkup('Catégorie de l\'événement.'))
+      ->setDescription(new TranslatableMarkup("Catégorie de l'événement."))
       ->setRequired(TRUE)
       ->setSetting('target_type', 'taxonomy_term')
       ->setSetting('handler', 'default:taxonomy_term')
@@ -177,7 +177,7 @@ class Event extends ContentEntityBase implements EntityChangedInterface, EntityO
    */
   public function getCategoryId(): ?int {
     $target_id = $this->get('category')->target_id;
-    return $target_id !== NULL ? (int) $target_id : NULL;
+    return $target_id ? (int) $target_id : NULL;
   }
 
   /**

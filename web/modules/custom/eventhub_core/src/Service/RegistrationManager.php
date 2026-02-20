@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Drupal\eventhub_core\Service;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\eventhub_core\Entity\Registration;
 
 /**
  * Service for managing Registration entities.

@@ -8,10 +8,8 @@ use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Access\AccessResultInterface;
 use Drupal\Core\Cache\Cache;
 use Drupal\Core\Entity\EntityInterface;
-use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Hook\Attribute\Hook;
 use Drupal\Core\Messenger\MessengerInterface;
-use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Component\Utility\Html;
 use Drupal\eventhub_core\Entity\Event;
@@ -28,9 +26,7 @@ class EntityHooks {
 
   public function __construct(
     private readonly RegistrationManager $registrationManager,
-    private readonly EntityTypeManagerInterface $entityTypeManager,
     private readonly MessengerInterface $messenger,
-    private readonly AccountProxyInterface $currentUser,
   ) {}
 
   /**
@@ -44,9 +40,8 @@ class EntityHooks {
 
     // Generate a clean slug from the title if this is a new event.
     if ($entity->isNew()) {
-      $name = $entity->getName();
-      $slug = Html::cleanCssIdentifier(mb_strtolower($name));
-      // Store slug as a computed value (could be used for URL alias).
+      // Generate a clean slug from the title (could be used for URL alias).
+      Html::cleanCssIdentifier(mb_strtolower($entity->getName()));
     }
 
     // Validate that capacity is not reduced below current registrations.
@@ -55,7 +50,7 @@ class EntityHooks {
       if ($entity->getCapacity() < $count) {
         $entity->set('capacity', $count);
         $this->messenger->addWarning(
-          $this->t('La capacité a été ajustée à @count (nombre d\'inscrits actuel).', [
+          $this->t("La capacité a été ajustée à @count (nombre d'inscrits actuel).", [
             '@count' => $count,
           ])
         );
@@ -78,7 +73,7 @@ class EntityHooks {
     }
 
     $this->messenger->addStatus(
-      $this->t('Inscription de @name à l\'événement « @event » confirmée.', [
+      $this->t("Inscription de @name à l'événement « @event » confirmée.", [
         '@name' => $entity->getParticipantName(),
         '@event' => $event->getName(),
       ])
