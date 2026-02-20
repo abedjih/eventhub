@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Formation Backend Drupal 11 – Avancé</title>
+<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+<style>:root{--blue:#0678BE;--blue-light:#3A9FDB;--dk:#254E6E;--navy:#0F1729;--teal:#0DA5B2;--green:#77B259;--orange:#E8601C;--yellow:#FDCB04;--light:#EDF5FA;--white:#FFF;--text:#232B2E;--muted:#8899AA;--code-bg:#0D1B2A;--card-bg:rgba(255,255,255,.06);--card-bd:rgba(255,255,255,.08)}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden;background:var(--navy)}
+body{font-family:'Plus Jakarta Sans',sans-serif;color:var(--white);-webkit-font-smoothing:antialiased}
+.deck{position:relative;width:100vw;height:100vh}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;opacity:0;visibility:hidden;transition:opacity .4s,transform .4s;transform:translateX(30px);padding:3.2rem 4.2rem 2.8rem;overflow-y:auto}
+.slide.active{opacity:1;visibility:visible;transform:translateX(0)}
+.slide.prev{opacity:0;transform:translateX(-30px)}
+.slide.light{background:var(--light);color:var(--text)}
+.slide.light .card{background:var(--white);border:1px solid #D4E2ED}
+.slide.light .card h4{color:var(--dk)}
+.slide.light .card li{color:#4A5E6F}
+.slide.light .subtitle{color:#6B8299}
+.slide.light h2{color:var(--dk)}
+.slide.dark{background:var(--navy)}
+.slide.dark .card{background:var(--card-bg);border:1px solid var(--card-bd)}
+.slide-tag{display:inline-block;font-size:.65rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--orange);margin-bottom:.5rem}
+.slide h1{font-size:2.7rem;font-weight:800;line-height:1.15;margin-bottom:.4rem}
+.slide h2{font-size:1.8rem;font-weight:800;line-height:1.2;margin-bottom:.3rem}
+.slide .subtitle{font-size:.92rem;color:var(--muted);margin-bottom:1.3rem;font-weight:400}
+.content{flex:1;display:flex;flex-direction:column;gap:.85rem;min-height:0}
+.row{display:flex;gap:.85rem}.row.fill{flex:1;min-height:0}
+.col{flex:1;display:flex;flex-direction:column;gap:.65rem;min-width:0}
+.col-60{flex:0 0 58%}.three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.85rem}
+.card{border-radius:10px;padding:.85rem 1rem;position:relative;overflow:hidden}
+.card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--blue);border-radius:10px 0 0 10px}
+.card.accent-orange::before{background:var(--orange)}.card.accent-teal::before{background:var(--teal)}.card.accent-green::before{background:var(--green)}.card.accent-yellow::before{background:var(--yellow)}
+.card h4{font-size:.8rem;font-weight:700;margin-bottom:.4rem;color:var(--blue-light)}
+.card ul{list-style:none;padding:0}
+.card li{font-size:.76rem;line-height:1.55;padding-left:.9rem;position:relative;color:rgba(255,255,255,.75)}
+.slide.light .card li{color:#4A5E6F}
+.card li::before{content:'›';position:absolute;left:0;font-weight:700;color:var(--blue);font-size:.85rem}
+.card.accent-orange li::before{color:var(--orange)}.card.accent-teal li::before{color:var(--teal)}.card.accent-green li::before{color:var(--green)}
+.code-block{background:var(--code-bg);border-radius:10px;overflow:hidden;border:1px solid rgba(255,255,255,.06);display:flex;flex-direction:column;min-height:0}
+.slide.light .code-block{border:1px solid #C8D8E8}
+.code-header{display:flex;align-items:center;padding:.35rem .8rem;background:rgba(255,255,255,.04);border-bottom:1px solid rgba(255,255,255,.06);gap:.4rem;flex-shrink:0}
+.code-dot{width:7px;height:7px;border-radius:50%}.code-dot:nth-child(1){background:#FF5F57}.code-dot:nth-child(2){background:#FEBC2E}.code-dot:nth-child(3){background:#28C840}
+.code-lang{margin-left:auto;font-size:.58rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.code-block pre{margin:0;padding:.6rem .9rem;overflow:auto;flex:1;min-height:0}
+.code-block code{font-family:'Fira Code',monospace!important;font-size:.7rem!important;line-height:1.6!important;background:transparent!important}
+.flow{display:flex;align-items:center;gap:.5rem;margin-bottom:.7rem}
+.flow-step{padding:.4rem 1rem;border-radius:8px;font-family:'Fira Code',monospace;font-size:.76rem;font-weight:600;background:var(--white);border:1px solid #C8D8E8;color:var(--dk)}
+.flow-step.active{background:var(--blue);border-color:var(--blue);color:#fff}
+.flow-arrow{color:var(--orange);font-size:1.2rem;font-weight:700}
+.table-wrap{overflow:auto;border-radius:10px;border:1px solid #C8D8E8}
+.slide.light table{width:100%;border-collapse:collapse;font-size:.76rem}
+.slide.light th{background:var(--dk);color:#fff;text-align:left;padding:.5rem .7rem;font-weight:600}
+.slide.light td{padding:.45rem .7rem;border-bottom:1px solid #E2ECF4}
+.slide.light td code{font-family:'Fira Code',monospace;font-size:.7rem;color:var(--blue);background:#EDF5FA;padding:.1rem .3rem;border-radius:4px}
+.section-slide{justify-content:center;align-items:flex-start;position:relative}
+.section-slide .day-badge{display:inline-block;background:var(--orange);color:#fff;font-size:.7rem;font-weight:700;padding:.3rem .9rem;border-radius:4px;margin-bottom:.7rem;letter-spacing:.05em}
+.section-slide h1{font-size:2.5rem;margin-bottom:.5rem}
+.section-slide .subtitle{font-size:1rem}
+.section-slide::after{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--blue),var(--teal),var(--orange))}
+.title-slide{justify-content:center;position:relative}
+.title-slide::before{content:'';position:absolute;top:-200px;right:-150px;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(6,120,190,.12) 0%,transparent 70%)}
+.title-slide::after{content:'';position:absolute;bottom:-100px;left:-100px;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(232,96,28,.08) 0%,transparent 70%)}
+.title-slide .meta{display:flex;gap:1.5rem;color:var(--muted);font-size:.82rem;margin-top:2rem;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,.08)}
+.recap-slide{justify-content:center}
+.recap-item{margin-bottom:.7rem}.recap-item strong{color:var(--orange)}.recap-item span{color:rgba(255,255,255,.75);font-size:.9rem}
+.nav-bar{position:fixed;bottom:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:center;gap:.7rem;padding:.55rem 1.5rem;background:rgba(15,23,41,.92);backdrop-filter:blur(12px);border-top:1px solid rgba(255,255,255,.08)}
+.nav-btn{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);color:#fff;padding:.32rem .7rem;border-radius:6px;cursor:pointer;font-size:.72rem;font-family:inherit;font-weight:600;transition:all .2s}
+.nav-btn:hover{background:var(--blue);border-color:var(--blue)}
+.nav-btn:disabled{opacity:.3;cursor:default}.nav-btn:disabled:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.1)}
+.nav-counter{font-size:.68rem;color:var(--muted);font-weight:600;min-width:4.5rem;text-align:center}
+.nav-progress{position:fixed;top:0;left:0;height:3px;z-index:101;background:linear-gradient(90deg,var(--blue),var(--teal));transition:width .4s ease}
+.sidebar-toggle{position:fixed;top:.7rem;left:.7rem;z-index:200;background:rgba(15,23,41,.85);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.1);color:#fff;width:34px;height:34px;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.95rem;transition:all .2s}
+.sidebar-toggle:hover{background:var(--blue)}
+.sidebar{position:fixed;top:0;left:0;bottom:0;width:290px;z-index:150;background:rgba(15,23,41,.97);backdrop-filter:blur(16px);border-right:1px solid rgba(255,255,255,.08);transform:translateX(-100%);transition:transform .3s ease;overflow-y:auto;padding:3rem 1rem 1rem}
+.sidebar.open{transform:translateX(0)}
+.sidebar-overlay{position:fixed;inset:0;z-index:140;background:rgba(0,0,0,.5);opacity:0;visibility:hidden;transition:all .3s}
+.sidebar-overlay.open{opacity:1;visibility:visible}
+.sidebar h3{font-size:.68rem;color:var(--orange);letter-spacing:.1em;text-transform:uppercase;margin:1rem 0 .4rem .5rem}
+.sidebar h3:first-child{margin-top:0}
+.sidebar a{display:block;padding:.38rem .7rem;border-radius:6px;font-size:.7rem;color:rgba(255,255,255,.65);text-decoration:none;transition:all .15s;cursor:pointer}
+.sidebar a:hover{background:rgba(255,255,255,.06);color:#fff}
+.sidebar a.active{background:rgba(6,120,190,.2);color:var(--blue-light)}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:4px}
+@media(max-width:900px){.slide{padding:1.5rem 1.2rem 2.5rem}.slide h1{font-size:1.7rem}.slide h2{font-size:1.25rem}.row{flex-direction:column}.three-col{grid-template-columns:1fr}.col-60{flex:1}}
+
+.body-text{font-size:.82rem;line-height:1.7;color:#4A5E6F;margin-bottom:.4rem}
+.body-text strong{color:var(--dk);font-weight:600}
+.body-text code{font-family:'Fira Code',monospace;font-size:.72rem;background:#E8F0F7;padding:.1rem .3rem;border-radius:3px;color:var(--blue)}
+.body-text em{font-style:italic;color:#5A7A90}
+.slide.dark .body-text{color:rgba(255,255,255,.7)}
+.slide.dark .body-text strong{color:#fff}
+.slide.dark .body-text code{background:rgba(255,255,255,.08);color:var(--blue-light)}
+.tip{display:flex;gap:.6rem;align-items:flex-start;background:rgba(6,120,190,.06);border:1px solid rgba(6,120,190,.15);border-radius:8px;padding:.55rem .75rem;margin-top:.25rem}
+.tip-icon{font-size:.9rem;flex-shrink:0;margin-top:.05rem}
+.tip-text{font-size:.73rem;line-height:1.55;color:#4A5E6F}
+.tip-text strong{color:var(--dk)}
+.tip-text code{font-family:'Fira Code',monospace;font-size:.68rem;background:#E8F0F7;padding:.1rem .25rem;border-radius:3px;color:var(--blue)}
+.card li strong{font-weight:600}
+.card li code{font-family:'Fira Code',monospace;font-size:.68rem;background:rgba(6,120,190,.08);padding:.05rem .2rem;border-radius:3px;color:var(--blue)}
+.slide.light td code{white-space:nowrap}
+.exo-slide{background:linear-gradient(135deg,#FFF9F0 0%,#FFF3E0 100%)}
+.exo-slide .card{background:#fff;border:1px solid #F0D9B5}
+.exo-header{display:flex;align-items:center;gap:.8rem;margin-bottom:.2rem}
+.exo-badge{background:linear-gradient(135deg,var(--orange),#F4845F);color:#fff;font-size:.7rem;font-weight:700;padding:.3rem .8rem;border-radius:6px;white-space:nowrap}
+.exo-slide h2{color:var(--dk);margin-bottom:0}
+.exo-slide .subtitle{color:#7A6A55;margin-top:.2rem}
+.exo-slide .card.accent-yellow::before{background:var(--yellow)}
+.exo-slide .card.accent-green::before{background:var(--green)}
+.exo-slide .code-block{border:1px solid #D4C4A8}
+.exo-slide .tip{background:rgba(232,96,28,.06);border-color:rgba(232,96,28,.15)}
+</style></head><body>
+<div class="nav-progress" id="progress"></div>
+<button class="sidebar-toggle" id="sidebarBtn" title="Sommaire">☰</button>
+<div class="sidebar-overlay" id="overlay"></div>
+<nav class="sidebar" id="sidebar"></nav>
+<div class="deck" id="deck"><section class="slide dark title-slide" data-title="Accueil">
+
+<span class="slide-tag">Formation avancée – 3 jours – Projet fil rouge EventHub</span>
+<h1>Développeur Backend<br>Drupal 11</h1>
+<p class="subtitle" style="font-size:1.05rem;max-width:620px">Développer des fonctionnalités sur-mesure, performantes, sécurisées et maintenables selon les standards Drupal. Apprentissage par la pratique avec le projet EventHub.</p>
+<div class="meta"><span>⏱ 3 jours</span><span>👤 Développeurs PHP / Drupal</span><span>✓ PHP OOP + bases Drupal requis</span></div>
+</section>
+<section class="slide light" data-title="Programme">
+
+<h2>Programme de la formation</h2>
+<p class="subtitle">Formation en mode projet. Chaque concept est immédiatement mis en pratique dans EventHub, une plateforme de gestion d'événements professionnels.</p>
+<div class="three-col content">
+<div class="card accent-orange"><h4>Jour 1 – Qualité, Routing &amp; Forms</h4><ul><li>Qualité de code (PHPCS, PHPStan)</li><li>Routing &amp; paramètres d'entité</li><li>Form API avancé, #states &amp; AJAX</li><li>ConfigFormBase (paramètres module)</li><li>Validation &amp; contraintes custom</li></ul></div>
+<div class="card"><h4>Jour 2 – Data &amp; Performance</h4><ul><li>Schema API &amp; Database API</li><li>Content Entities &amp; Taxonomie</li><li>Entity Query &amp; Services métier</li><li>Controllers &amp; réponses</li><li>Hooks entités (attributs PHP 8)</li><li>Cache metadata &amp; lazy builders</li></ul></div>
+<div class="card accent-teal"><h4>Jour 3 – Async, Sécu &amp; Tests</h4><ul><li>Queue Workers &amp; Cron</li><li>Sécurité (XSS, CSRF, SQLi)</li><li>Permissions &amp; contrôle d'accès</li><li>Config Split &amp; Config Ignore</li><li>Tests unitaires &amp; mocking</li></ul></div>
+</div>
+</section>
+<section class="slide dark" data-title="Projet EventHub">
+
+<span class="slide-tag">Projet fil rouge</span>
+<h2 style="color:#fff;font-size:2rem">EventHub – Gestion d'événements</h2>
+<p class="body-text">EventHub est une plateforme Drupal 11 de gestion d'événements professionnels. Les organisateurs créent des événements (avec autocomplétion du lieu via les données géographiques), les participants s'inscrivent, et un import asynchrone enrichit la base avec les communes françaises depuis <code>geo.api.gouv.fr</code>.</p>
+<div class="three-col" style="margin-top:.8rem">
+<div class="card"><h4>2 Content Entities</h4><ul>
+<li><strong>Event</strong> – titre, date, lieu, capacité, catégorie, organisateur</li>
+<li><strong>Registration</strong> – participant, email, événement, statut</li></ul></div>
+<div class="card accent-orange"><h4>1 Vocabulaire Taxonomie + 1 Table</h4><ul>
+<li><strong>event_categories</strong> – vocabulaire avec field_max_capacity (conférence, meetup, formation, workshop)</li>
+<li><strong>eventhub_geodata</strong> – communes françaises (Schema API)</li></ul></div>
+<div class="card accent-teal"><h4>2 Modules</h4><ul>
+<li><strong>eventhub_core</strong> – entités, forms, controllers, services, hooks, cache</li>
+<li><strong>eventhub_import</strong> – QueueWorker, cron, HttpClient, constantes</li></ul></div>
+</div>
+<div class="tip"><span class="tip-icon">💡</span><div class="tip-text">Chaque exercice construit une brique du projet. À la fin des 3 jours, vous aurez une application complète et fonctionnelle.</div></div>
+</section>
+<section class="slide dark section-slide" data-title="— Jour 1" data-day="1">
+<div class="day-badge">JOUR 1</div><h1>Qualité de Code, Routing,<br>Form API &amp; Validation</h1><p class="subtitle">Standards, routing, formulaires avancés et contraintes custom</p>
+</section>
+<section class="slide light" data-title="PHPCS">
+
+<h2>PHP CodeSniffer (PHPCS)</h2><p class="subtitle">Vérification automatisée du respect des Drupal Coding Standards</p>
+<div class="content"><div class="row fill">
+<div class="col col-60" style="gap:.65rem">
+<p class="body-text">PHPCS est l'outil de référence pour vérifier que votre code PHP respecte les <strong>Drupal Coding Standards</strong>. Il est inclus dans le package <code>drupal/core-dev</code> qui regroupe tous les outils de développement : PHPCS, PHPStan, PHPUnit, etc. Une seule commande pour tout installer.</p>
+<div class="code-block"><div class="code-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang">bash</span></div><pre><code class="language-bash"># Installation (inclut PHPCS, PHPStan, PHPUnit, etc.)
+ddev composer require --dev drupal/core-dev:^11 -W
+
+# Vérification
+ddev exec vendor/bin/phpcs --standard=Drupal,DrupalPractice \
+  --extensions=php,module,install web/modules/custom/
+
+# Correction automatique
+ddev exec vendor/bin/phpcbf --standard=Drupal web/modules/custom/</code></pre></div>
+<p class="body-text">Le fichier <code>phpcs.xml</code> centralise la configuration pour que tous les développeurs et la CI utilisent les mêmes règles.</p>
+<div class="code-block"><div class="code-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang">xml</span></div><pre><code class="language-xml">&lt;?xml version="1.0"?&gt;
+&lt;ruleset name="Project"&gt;
+  &lt;rule ref="Drupal"/&gt;
+  &lt;rule ref="DrupalPractice"/&gt;
+
+  &lt;file&gt;web/modules/custom&lt;/file&gt;
+  &lt;file&gt;web/themes/custom&lt;/file&gt;
+
+  &lt;exclude-pattern&gt;*/vendor/*&lt;/exclude-pattern&gt;
+  &lt;exclude-pattern&gt;*/web/core/*&lt;/exclude-pattern&gt;
+  &lt;exclude-pattern&gt;*/node_modules/*&lt;/exclude-pattern&gt;
+  &lt;exclude-pattern&gt;*/sites/*/files/*&lt;/exclude-pattern&gt;
+
+  &lt;arg name="extensions" value="php,module,inc,install,test,profile,theme,css,info,txt,md,yml"/&gt;
+&lt;/ruleset&gt;</code></pre></div>
+</div><div class="col">
+<div class="card"><h4>Standards inclus</h4><ul><li><strong>Drupal</strong> – conventions de base : nommage, indentation, docblocks</li><li><strong>DrupalPractice</strong> – bonnes pratiques, APIs recommandées</li><li>Détection des APIs dépréciées</li></ul></div>
+<div class="card accent-orange"><h4>Intégration CI/CD</h4><ul><li><code>drupal/core-dev</code> inclut : PHPCS, Coder, PHPStan, phpstan-drupal, PHPUnit</li><li>Ajouter dans la pipeline GitLab CI ou GitHub Actions</li><li>Bloquer les MR/PR non conformes</li><li><code>phpcbf</code> corrige automatiquement les erreurs simples</li></ul></div>
+<div class="tip"><span class="tip-icon">💡</span><div class="tip-text">Ajoutez un hook pre-commit Git qui lance PHPCS et PHPStan automatiquement avant chaque commit. Fichier <code>.git/hooks/pre-commit</code> (chmod +x) :</div></div>
+<div class="code-block"><div class="code-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang">bash</span></div><pre><code class="language-bash">#!/bin/bash
+# .git/hooks/pre-commit — PHPCS + PHPStan on staged files
+FILES=$(git diff --cached --name-only --diff-filter=ACM \
+  | grep -E '\.(php|module|install)$' \
+  | grep -E '^web/(modules|themes)/custom')
+
+if [ -z "$FILES" ]; then
+    echo "✅ No custom PHP files to check"; exit 0
+fi
+echo "Files to analyse:"; echo "$FILES"; echo ""
+
+# --- PHPCS ---
+echo "🔍  PHPCS Verification..."
+ddev exec vendor/bin/phpcs \
+  --standard=Drupal,DrupalPractice \
+  --extensions=php,module,install $FILES
+if [ $? -ne 0 ]; then
+    echo "❌ PHPCS found errors!"
+    echo "Fix or use: git commit --no-verify"; exit 1
+fi
+echo "✅ PHPCS : OK"; echo ""
+
+# --- PHPStan ---
+echo "🔍 PHPStan verification..."
+ddev exec vendor/bin/phpstan analyse $FILES --no-progress
+if [ $? -ne 0 ]; then
+    echo "❌ PHPStan found errors!"
+    echo "Fix or use: git commit --no-verify"; exit 1
+fi
+echo "✅ PHPStan : OK"; exit 0</code></pre></div>
+</div></div></div>
+</section>
+<section class="slide light" data-title="PHPStan">
+
+<h2>PHPStan – Analyse statique</h2><p class="subtitle">Détecter les bugs sans exécuter le code</p>
+<div class="content"><div class="row fill">
+<div class="col col-60" style="gap:.65rem">
+<p class="body-text">Contrairement à PHPCS qui vérifie le <em>style</em>, PHPStan vérifie la <strong>logique</strong> : types incompatibles, méthodes inexistantes, variables indéfinies. L'extension <code>mglaman/phpstan-drupal</code> (incluse dans <code>drupal/core-dev</code>) ajoute la compréhension des spécificités Drupal.</p>
+<div class="code-block"><div class="code-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang">bash</span></div><pre><code class="language-bash"># Déjà installé via drupal/core-dev (inclut phpstan + phpstan-drupal)
+# Exécution
+ddev exec vendor/bin/phpstan analyse web/modules/custom --level=6</code></pre></div>
+<div class="code-block"><div class="code-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang">yaml</span></div><pre><code class="language-yaml"># phpstan.neon
+parameters:
+    level: 6
+    paths:
+        - web/modules/custom
+    tmpDir: var/phpstan
+
+    # Ignored errors — structural incompatibilities with Drupal 11
+    ignoreErrors:
+        - identifier: missingType.iterableValue
+        - { identifier: new.static, path: web/modules/custom/* }
+        - '#Call to an undefined method Drupal\\Core\\Entity\\EntityStorageInterface::#'
+        - '#Access to an undefined property Drupal\\Core\\Field\\FieldItemListInterface::#'
+        - '#Cannot call method .+ on mixed#'
+        - { identifier: globalDrupalDependencyInjection.useDependencyInjection,
+            paths: [web/modules/custom/*.install, web/modules/custom/*.module] }
+        - '#^Class .+ extends @internal class#'
+        - identifier: method.alreadyNarrowedType
+    reportUnmatchedIgnoredErrors: false</code></pre></div>
+</div><div class="col">
+<div class="card"><h4>Niveaux d'analyse (0 à 9)</h4><ul><li><strong>0-1</strong> : Erreurs basiques (classes manquantes)</li><li><strong>2-4</strong> : Types de retour, appels incorrects</li><li><strong>5-6</strong> : Analyse stricte des type-hints (recommandé)</li><li><strong>7-9</strong> : Rigueur maximale, generics</li></ul></div>
+<div class="card accent-green"><h4>ignoreErrors – Pourquoi ?</h4><ul><li>Drupal utilise des patterns (new static(), __get()) que PHPStan signale comme erreurs</li><li>Les <code>ignoreErrors</code> filtrent ces faux positifs structurels</li><li><code>tmpDir: var/phpstan</code> → cache hors du dossier web</li><li><code>reportUnmatchedIgnoredErrors: false</code> évite les warnings inutiles</li></ul></div>
+<div class="tip"><span class="tip-icon">⚠️</span><div class="tip-text">Ne pas démarrer au niveau 9 sur un legacy – progressez graduellement. Le niveau 6 est un bon équilibre pour Drupal 11.</div></div>
+</div></div></div>
+</section>
+<section class="slide light exo-slide" data-title="✏️ Exo 1.1 – Setup">
+<div class="exo-header"><span class="exo-badge">✏️ Exercice 1.1</span><h2>Setup du projet &amp; outils qualité</h2></div><p class="subtitle">Créer la structure du projet EventHub avec les outils de qualité de code</p><div class="content"><div class="row fill"><div class="col col-60" style="gap:.65rem"><div class="card accent-yellow"><h4>📋 Tâches à réaliser</h4><ul><li>Créer un dépôt GitHub <strong>eventhub</strong></li><li>Installer Drupal 11 avec DDEV</li><li>Créer le module <strong>eventhub_core</strong> (.info.yml, .module, .services.yml) — dépendances : datetime, options, taxonomy, user</li><li>Créer le module <strong>eventhub_import</strong> (.info.yml, .services.yml) — dépendance sur eventhub_core</li><li>Installer les outils dev : <code>ddev composer require --dev drupal/core-dev:^11 -W</code> (inclut PHPCS, PHPStan, phpstan-drupal, PHPUnit)</li><li>Configurer <strong>phpcs.xml</strong> et <strong>phpstan.neon</strong> à la racine</li><li>Intégrer les fichiers entités (Event.php, Registration.php) fournis comme <strong>starter code</strong> dans src/Entity/</li>
+<li>Lancer les deux outils → 0 erreur</li></ul></div><div class="code-block"><div class="code-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang">bash</span></div><pre><code class="language-bash"># Structure attendue
+web/modules/custom/
+├── eventhub_core/
+│   ├── eventhub_core.info.yml
+│   ├── eventhub_core.module
+│   ├── eventhub_core.permissions.yml
+│   ├── eventhub_core.routing.yml
+│   ├── eventhub_core.services.yml
+│   ├── eventhub_core.install
+│   └── src/
+│       ├── Entity/
+│       ├── Form/
+│       ├── Service/
+│       ├── Hook/
+│       └── Plugin/Validation/Constraint/
+└── eventhub_import/
+    ├── eventhub_import.info.yml
+    ├── eventhub_import.services.yml
+    └── src/
+        ├── Hook/
+        └── Plugin/QueueWorker/</code></pre></div></div><div class="col"><div class="card accent-green"><h4>✓ Critères de réussite</h4><ul><li>Structure de fichiers complète (voir arbre)</li><li><code>phpcs</code> et <code>phpstan</code> passent à 0 erreur</li><li>Modules activables (<code>drush en eventhub_core eventhub_import</code>)</li><li>Entités Event &amp; Registration détectées par Drupal</li><li>Code versionné sur GitHub</li></ul></div><div class="tip"><span class="tip-icon">💡</span><div class="tip-text">Utilisez <code>ddev drush generate module</code> pour scaffolder rapidement la structure de base.</div></div></div></div></div>
+</section>
+<section class="slide light" data-title="Routing">
+
+<h2>Routing Drupal 11</h2><p class="subtitle">Déclarer les URLs, associer controllers/formulaires, protéger par permissions</p>
+<div class="content"><div class="row fill">
+<div class="col col-60" style="gap:.65rem">
+<p class="body-text">Le fichier <code>routing.yml</code> mappe chaque URL à un controller ou formulaire. Les <strong>paramètres d'entité</strong> (ex: <code>{event}</code>) sont automatiquement convertis en objets par Drupal (param converter).</p>
+<div class="code-block"><div class="code-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang">yaml</span></div><pre><code class="language-yaml"># eventhub_core.routing.yml
+eventhub.event_list:
+  path: '/events'
+  defaults:
+    _controller: '\Drupal\eventhub_core\Controller\EventController::list'
+    _title: 'Événements'
+  requirements:
+    _permission: 'access content'
+
+eventhub.event_view:
+  path: '/event/{event}'
+  defaults:
+    _controller: '\Drupal\eventhub_core\Controller\EventController::view'
+  requirements:
+    _permission: 'access content'
+  options:
+    parameters:
+      event:
+        type: entity:event
+
+eventhub.event_create:
+  path: '/event/create'
+  defaults:
+    _form: '\Drupal\eventhub_core\Form\EventForm'
+    _title: 'Créer un événement'
+  requirements:
+    _permission: 'create event'
+
+eventhub.registration_cancel:
+  path: '/registration/{registration}/cancel'
+  defaults:
+    _controller: '\Drupal\eventhub_core\Controller\RegistrationController::cancel'
+  requirements:
+    _permission: 'register to event'
+    _csrf_token: 'TRUE'</code></pre></div>
+</div><div class="col">
+<div class="card"><h4>Clés de routing</h4><ul><li><code>_controller</code> → méthode d'un Controller</li><li><code>_form</code> → classe de formulaire</li><li><code>_permission</code> → permission requise</li><li><code>_csrf_token</code> → protection CSRF</li></ul></div>
+<div class="card accent-orange"><h4>Paramètres d'entité</h4><ul><li><code>{event}</code> dans le path → objet Event injecté</li><li>Déclaration dans <code>options.parameters</code></li><li><code>type: entity:event</code> → param converter auto</li><li>404 automatique si l'entité n'existe pas</li></ul></div>
+<div class="card accent-teal"><h4>Routes EventHub</h4><ul><li>11 routes au total (CRUD + dashboard + API)</li><li>Protection par permission sur chaque route</li><li>CSRF sur les actions sensibles (cancel)</li><li>Route JSON pour l'autocomplétion geodata</li></ul></div>
+</div></div></div>
+</section>
+<section class="slide light" data-title="Form API">
+
+<h2>Form API – Architecture</h2><p class="subtitle">Le cycle de vie d'un formulaire Drupal : construction, validation, soumission</p>
+<div class="flow"><span class="flow-step active">buildForm()</span><span class="flow-arrow">→</span><span class="flow-step">validateForm()</span><span class="flow-arrow">→</span><span class="flow-step">submitForm()</span></div>
+<div class="content"><div class="row fill">
+<div class="col col-60">
+<p class="body-text">La Form API est le système central de Drupal pour les formulaires. Drupal gère le rendu HTML, la protection CSRF, et le cycle requête/réponse. Depuis Drupal 11, l'<code>AutowireTrait</code> simplifie l'injection de dépendances.</p>
+<div class="code-block"><div class="code-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang">php</span></div><pre><code class="language-php">// RegistrationForm – extrait (projet EventHub)
+class RegistrationForm extends FormBase {
+  use AutowireTrait;
+
+  public function __construct(
+    private readonly EventManager $eventManager,
+    private readonly RegistrationManager $regManager,
+    private readonly EntityTypeManagerInterface $entityTypeManager,
+  ) {}
+
+  public function buildForm(array $form,
+      FormStateInterface $form_state): array {
+    $form['participant_name'] = [
+      '#type' =&gt; 'textfield',
+      '#title' =&gt; $this-&gt;t('Nom complet'),
+      '#required' =&gt; TRUE,
+      '#maxlength' =&gt; 255,
+    ];
+    $form['email'] = [
+      '#type' =&gt; 'email',
+      '#title' =&gt; $this-&gt;t('Email'),
+      '#required' =&gt; TRUE,
+    ];
+    $form['add_phone'] = [
+      '#type' =&gt; 'checkbox',
+      '#title' =&gt; $this-&gt;t('Ajouter mon téléphone'),
+    ];
+    $form['phone'] = [
+      '#type' =&gt; 'tel',
+      '#title' =&gt; $this-&gt;t('Téléphone'),
+      '#states' =&gt; [
+        'visible' =&gt; [':input[name="add_phone"]'
+          =&gt; ['checked' =&gt; TRUE]],
+      ],
+    ];
+    return $form;
+  }
+}</code></pre></div>
+</div><div class="col">
+<div class="card"><h4>Les 3 interfaces de formulaire</h4><ul><li><strong>FormBase</strong> – formulaire standard</li><li><strong>ConfigFormBase</strong> – config sauvegardée en YAML</li><li><strong>ConfirmFormBase</strong> – confirmation avant action</li></ul></div>
+<div class="card accent-orange"><h4>AutowireTrait (Drupal 11)</h4><ul><li>Rend <code>create()</code> obsolète</li><li>Le constructeur suffit pour l'injection</li><li>Type-hints résolus automatiquement</li></ul></div>
+<div class="card accent-teal"><h4>#states (côté client)</h4><ul><li><code>visible / invisible</code> selon un autre champ</li><li><code>required / optional</code> dynamiquement</li><li>Entièrement JavaScript, pas de requête serveur</li></ul></div>
+</div></div></div>
+</section>
+<section class="slide light" data-title="AJAX">
+
+<h2>Formulaires AJAX</h2><p class="subtitle">Mise à jour dynamique d'un formulaire sans rechargement de page</p>
+<div class="content"><div class="row fill">
+<div class="col col-60" style="gap:.65rem">
+<p class="body-text">AJAX permet d'<strong>interroger le serveur</strong> pour recalculer un morceau du formulaire. Dans EventHub, la sélection d'une catégorie met à jour la <strong>capacité par défaut</strong> via le champ <code>field_max_capacity</code> du terme de taxonomie.</p>
+<div class="code-block"><div class="code-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang">php</span></div><pre><code class="language-php">// EventForm – AJAX catégorie → capacité (EventHub)
+$form['category'] = [
+  '#type' =&gt; 'select',
+  '#title' =&gt; $this-&gt;t('Catégorie'),
+  '#options' =&gt; $categories,
+  '#required' =&gt; TRUE,
+  '#ajax' =&gt; [
+    'callback' =&gt; '::updateCapacity',
+    'wrapper' =&gt; 'capacity-wrapper',
+    'event' =&gt; 'change',
+  ],
+];
+$form['capacity'] = [
+  '#type' =&gt; 'number',
+  '#title' =&gt; $this-&gt;t('Capacité'),
+  '#required' =&gt; TRUE, '#min' =&gt; 1,
+  '#default_value' =&gt; $defaultCapacity,
+  '#prefix' =&gt; '&lt;div id="capacity-wrapper"&gt;',
+  '#suffix' =&gt; '&lt;/div&gt;',
+];
+
+public function updateCapacity(array &amp;$form,
+    FormStateInterface $form_state): array {
+  return $form['capacity']; // retourne l'élément mis à jour
+}</code></pre></div>
+</div><div class="col">
+<div class="card"><h4>Mécanisme AJAX</h4><ul><li><strong>1.</strong> L'utilisateur change un champ (#ajax event)</li><li><strong>2.</strong> Drupal envoie une requête POST au serveur</li><li><strong>3.</strong> <code>buildForm()</code> est re-exécuté avec le nouveau form_state</li><li><strong>4.</strong> Le callback retourne l'élément à remplacer dans le DOM</li><li>Le <code>#prefix/#suffix</code> avec l'ID du wrapper est <strong>indispensable</strong></li></ul></div>
+<div class="card accent-orange"><h4>Clés AJAX importantes</h4><ul><li><code>callback</code> → <code>'::methodName'</code> (même classe)</li><li><code>wrapper</code> → ID de la div à remplacer</li><li><code>event</code> → événement JS (change, click…)</li><li><code>effect</code> → animation (fade, slide)</li></ul></div>
+<div class="tip"><span class="tip-icon">💡</span><div class="tip-text">La valeur par défaut de <code>capacity</code> est recalculée dans <code>buildForm()</code> en lisant <code>field_max_capacity</code> du terme de taxonomie sélectionné. Le callback ne fait que retourner l'élément mis à jour.</div></div>
+</div></div></div>
+</section>
+<section class="slide light" data-title="ConfigFormBase">
+
+<h2>ConfigFormBase – Formulaire de configuration</h2><p class="subtitle">Stocker les paramètres du module en YAML, exportable et versionnable</p>
+<div class="content"><div class="row fill">
+<div class="col col-60" style="gap:.65rem">
+<p class="body-text"><code>ConfigFormBase</code> crée un formulaire dont les valeurs sont stockées dans la <strong>Config API</strong> de Drupal (fichier YAML). Les valeurs sont exportables via <code>drush cex</code> et versionnables. Dans EventHub, <code>EventHubSettingsForm</code> gère les paramètres d'import et de notification.</p>
+<div class="code-block"><div class="code-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang">php</span></div><pre><code class="language-php">// src/Form/EventHubSettingsForm.php
+final class EventHubSettingsForm extends ConfigFormBase {
+
+  protected function getEditableConfigNames(): array {
+    return ['eventhub_core.settings'];
+  }
+
+  public function getFormId(): string {
+    return 'eventhub_settings_form';
+  }
+
+  public function buildForm(array $form,
+      FormStateInterface $form_state): array {
+    $config = $this-&gt;config('eventhub_core.settings');
+
+    $form['api_endpoint'] = [
+      '#type' =&gt; 'url',
+      '#title' =&gt; $this-&gt;t('Endpoint API géographique'),
+      '#default_value' =&gt; $config-&gt;get('api_endpoint'),
+      '#required' =&gt; TRUE,
+    ];
+    $form['import_batch_size'] = [
+      '#type' =&gt; 'number',
+      '#title' =&gt; $this-&gt;t("Taille de batch d'import"),
+      '#default_value' =&gt; $config-&gt;get('import_batch_size'),
+      '#min' =&gt; 10, '#max' =&gt; 500,
+      '#required' =&gt; TRUE,
+    ];
+    $form['notification_email'] = [
+      '#type' =&gt; 'email',
+      '#title' =&gt; $this-&gt;t('Email de notification'),
+      '#default_value' =&gt; $config-&gt;get('notification_email'),
+      '#required' =&gt; TRUE,
+    ];
+    return parent::buildForm($form, $form_state);
+  }
+
+  public function submitForm(array &amp;$form,
+      FormStateInterface $form_state): void {
+    $this-&gt;config('eventhub_core.settings')
+      -&gt;set('api_endpoint', $form_state-&gt;getValue('api_endpoint'))
+      -&gt;set('import_batch_size',
+        (int) $form_state-&gt;getValue('import_batch_size'))
+      -&gt;set('notification_email',
+        $form_state-&gt;getValue('notification_email'))
+      -&gt;save();
+    parent::submitForm($form, $form_state);
+  }
+}</code></pre></div>
+</div><div class="col">
+<div class="card"><h4>Les 3 méthodes clés</h4><ul><li><code>getEditableConfigNames()</code> → liste des configs modifiables par ce formulaire</li><li><code>parent::buildForm()</code> → ajoute le bouton « Save configuration » automatiquement</li><li><code>parent::submitForm()</code> → affiche le message « The configuration options have been saved »</li></ul></div>
+<div class="card accent-orange"><h4>Config par défaut</h4><ul><li>Fichier <code>config/install/eventhub_core.settings.yml</code></li><li>Valeurs initiales à l'activation du module</li><li>Exportable via <code>drush cex</code>, importable via <code>drush cim</code></li></ul></div>
+<div class="code-block"><div class="code-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang">yaml</span></div><pre><code class="language-yaml"># config/install/eventhub_core.settings.yml
+api_endpoint: 'https://geo.api.gouv.fr'
+import_batch_size: 50
+notification_email: 'admin@example.com'</code></pre></div>
+<div class="tip"><span class="tip-icon">💡</span><div class="tip-text">Pour les secrets (clés API, mots de passe), utilisez <code>$settings</code> dans <code>settings.php</code> plutôt que ConfigFormBase — les secrets ne doivent pas être versionnés dans les YAML.</div></div>
+</div></div></div>
+</section>
+<section class="slide light exo-slide" data-title="✏️ Exo 1.2 – Formulaires">
+<div class="exo-header"><span class="exo-badge">✏️ Exercice 1.2</span><h2>Formulaires, routes &amp; configuration</h2></div><p class="subtitle">Créer les formulaires EventHub avec routing, Form API avancé, #states, AJAX et ConfigFormBase</p><div class="content"><div class="row fill"><div class="col col-60" style="gap:.65rem"><div class="card accent-yellow"><h4>📋 Tâches à réaliser</h4><ul><li><strong>eventhub_core.routing.yml</strong> : déclarer les routes pour chaque formulaire avec permissions</li><li><strong>RegistrationForm</strong> (FormBase) : event conditionnel (hidden si route param, sinon entity_autocomplete), participant_name, email, phone (visible via #states si checkbox), notes (dans un container details repliable). Validation : événement non complet (isEventFull), email non déjà inscrit (isAlreadyRegistered)</li><li><strong>EventForm</strong> avec AJAX : location avec <code>autocomplete_route_name</code> vers geodata, sélection catégorie (taxonomie event_categories) → callback <code>::updateCapacity</code> lit <code>field_max_capacity</code> du terme</li><li><strong>EventEditForm</strong> : même structure que EventForm, pré-rempli depuis l'entité Event existante</li><li><strong>EventDeleteForm</strong> (ConfirmFormBase) : confirmation avec warning sur la suppression en cascade des inscriptions</li><li><strong>EventHubSettingsForm</strong> (ConfigFormBase) : api_endpoint (url), import_batch_size (number 10-500), notification_email. Config : <code>eventhub_core.settings</code></li></ul></div><div class="code-block"><div class="code-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang">php</span></div><pre><code class="language-php">// EventForm – autocomplétion du lieu via geodata
+$form['location'] = [
+  '#type' =&gt; 'textfield',
+  '#title' =&gt; $this-&gt;t('Lieu'),
+  '#required' =&gt; TRUE,
+  '#autocomplete_route_name' =&gt; 'eventhub.geodata_autocomplete',
+];
+
+// EventForm – AJAX catégorie → capacité
+$form['category'] = [
+  '#type' =&gt; 'select',
+  '#options' =&gt; $categories, // termes du vocabulaire
+  '#ajax' =&gt; ['callback' =&gt; '::updateCapacity',
+    'wrapper' =&gt; 'capacity-wrapper', 'event' =&gt; 'change'],
+];
+
+// RegistrationForm – #states téléphone
+$form['phone'] = [
+  '#type' =&gt; 'tel',
+  '#states' =&gt; ['visible' =&gt; [
+    ':input[name="add_phone"]' =&gt; ['checked' =&gt; TRUE]]],
+];</code></pre></div></div><div class="col"><div class="card accent-green"><h4>✓ Critères de réussite</h4><ul><li>5 formulaires fonctionnels (create, edit, delete, register, settings)</li><li>Routes avec permissions dans routing.yml</li><li>#states masque/affiche le téléphone</li><li>AJAX met à jour la capacité depuis field_max_capacity</li><li>Autocomplétion du lieu connectée à geodata</li><li>ConfigFormBase sauvegarde en YAML exportable</li><li>ConfirmFormBase pour la suppression</li></ul></div><div class="tip"><span class="tip-icon">⚠️</span><div class="tip-text">#states est <strong>client-side uniquement</strong>. Ajoutez toujours une validation serveur dans <code>validateForm()</code>. Les entités Event et Registration sont fournies comme code de démarrage pour le Jour 1 — elles seront étudiées en détail le Jour 2.</div></div>
+<div class="tip"><span class="tip-icon">💡</span><div class="tip-text">Utilisez <code>ddev drush generate form</code> pour scaffolder rapidement vos formulaires. La commande génère la classe, le routing et les permissions. Variantes : <code>drush generate form:simple</code>, <code>drush generate form:config</code>, <code>drush generate form:confirm</code>.</div></div></div></div></div>
+</section>
+<section class="slide light" data-title="Contraintes">
+
+<h2>Contraintes de validation</h2><p class="subtitle">Valider les données au niveau du modèle, pas uniquement dans les formulaires</p>
+<div class="content">
+<p class="body-text">Les contraintes valident les entités <strong>quel que soit le canal</strong> (formulaire, API REST, migration, code). Basées sur Symfony Validator, elles garantissent l'intégrité des données. Chaque contrainte se compose de 2 classes : la Constraint (règle) et le Validator (logique).</p>
+<div class="row">
+<div class="col"><div class="code-block"><div class="code-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang">php – Constraint</span></div><pre><code class="language-php">#[Constraint(
+  id: 'UniqueRegistration',
+  label: new TranslatableMarkup('Unique registration'),
+)]
+class UniqueRegistrationConstraint
+    extends SymfonyConstraint {
+  public string $message =
+    "L'adresse email %value est déjà inscrite
+     à cet événement.";
+}</code></pre></div></div>
+<div class="col"><div class="code-block"><div class="code-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang">php – Validator</span></div><pre><code class="language-php">class UniqueRegistrationConstraintValidator
+    extends ConstraintValidator
+    implements ContainerInjectionInterface {
+  use AutowireTrait;
+
+  public function __construct(
+    private readonly RegistrationManager $regMgr,
+  ) {}
+
+  public function validate(mixed $value,
+      Constraint $constraint): void {
+    $entity = $this-&gt;context-&gt;getRoot()-&gt;getEntity();
+    $eventId = $entity-&gt;get('event')-&gt;target_id;
+    $excludeId = $entity-&gt;isNew() ? NULL : (int) $entity-&gt;id();
+
+    if ($this-&gt;regMgr-&gt;isAlreadyRegistered(
+        (int) $eventId, $value, $excludeId)) {
+      $this-&gt;context-&gt;addViolation(
+        $constraint-&gt;message,
+        ['%value' =&gt; $value]);
+    }
+  }
+}</code></pre></div></div></div>
+<div class="row">
+<div class="card"><h4>Application dans EventHub</h4><ul><li><code>Registration::baseFieldDefinitions()</code> : <code>-&gt;addConstraint('UniqueRegistration')</code> sur email</li><li><code>Event::baseFieldDefinitions()</code> : <code>-&gt;addConstraint('FutureDate')</code> sur event_date</li><li>Les violations sont affichées automatiquement dans les formulaires</li></ul></div>
+<div class="card accent-orange"><h4>Contraintes Drupal intégrées</h4><ul><li>NotNull, NotBlank, Length, Range, Regex</li><li>UniqueField – unicité sur un champ</li></ul></div>
+<div class="card accent-green"><h4>Convention de nommage</h4><ul><li>Validator = même nom + suffixe <em>Validator</em></li><li>Drupal les associe automatiquement</li></ul></div>
+</div></div>
+</section>
+<section class="slide light exo-slide" data-title="✏️ Exo 1.3 – Contraintes">
+<div class="exo-header"><span class="exo-badge">✏️ Exercice 1.3</span><h2>Contraintes de validation EventHub</h2></div><p class="subtitle">Créer 2 contraintes personnalisées pour garantir l'intégrité des données</p><div class="content"><div class="row fill"><div class="col col-60" style="gap:.65rem"><div class="card accent-yellow"><h4>📋 Tâches à réaliser</h4><ul><li><strong>UniqueRegistrationConstraint</strong> : un email ne peut s'inscrire qu'une fois par événement. Utilise Entity Query pour chercher les inscriptions existantes avec le même email ET le même event_id.</li><li><strong>FutureDateConstraint</strong> : la date de l'événement doit être dans le futur. Compare avec <code>new \DateTime()</code>.</li><li>Appliquer UniqueRegistration sur le champ <code>email</code> de Registration</li><li>Appliquer FutureDate sur le champ <code>event_date</code> de Event</li><li>Tester : essayer d'inscrire le même email 2 fois, créer un événement dans le passé</li></ul></div><div class="code-block"><div class="code-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang">php</span></div><pre><code class="language-php">// Dans Registration::baseFieldDefinitions()
+$fields['email'] = BaseFieldDefinition::create('email')
+  -&gt;setLabel(t('Email'))
+  -&gt;setRequired(TRUE)
+  -&gt;addConstraint('UniqueRegistration');
+
+// Dans Event::baseFieldDefinitions()
+$fields['event_date'] = BaseFieldDefinition::create('datetime')
+  -&gt;setLabel(t('Date'))
+  -&gt;setRequired(TRUE)
+  -&gt;addConstraint('FutureDate');</code></pre></div></div><div class="col"><div class="card accent-green"><h4>✓ Critères de réussite</h4><ul><li>2 Constraints + 2 Validators créés</li><li>Messages d'erreur clairs et contextualisés</li><li>Double inscription rejetée avec message explicite</li><li>Événement passé rejeté à la création</li><li>PHPCS + PHPStan passent toujours à 0 erreur</li></ul></div><div class="card"><h4>Livrables Jour 1</h4><ul><li>Module eventhub_core avec 5 formulaires + routing</li><li>2 contraintes de validation custom</li><li>phpcs.xml + phpstan.neon configurés</li><li>Entités Event &amp; Registration (starter code)</li><li>Code 100% conforme aux standards</li></ul></div></div></div></div>
+</section>
+<section class="slide dark section-slide" data-title="— Jour 2" data-day="2">
+<div class="day-badge">JOUR 2</div><h1>Données, Entités,<br>Controllers &amp; Cache</h1><p class="subtitle">Base de données, entités, services, controllers, hooks PHP 8 et performance</p>
+</section>
+<section class="slide light" data-title="Schema &amp; Database API">
+
+<h2>Schema API &amp; Database API</h2><p class="subtitle">Créer des tables custom et interagir avec la base de données de manière sécurisée</p>
+<div class="content"><div class="row fill">
+<div class="col col-60" style="gap:.65rem">
+<p class="body-text">La <strong>Schema API</strong> déclare la structure de tables dans le fichier <code>.install</code>. La <strong>Database API</strong> fournit une couche d'abstraction pour les requêtes SQL, avec protection automatique contre les injections.</p>
+<div class="code-block"><div class="code-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang">php</span></div><pre><code class="language-php">// eventhub_core.install – table eventhub_geodata
+function eventhub_core_schema(): array {
+  $schema['eventhub_geodata'] = [
+    'fields' =&gt; [
+      'id' =&gt; ['type'=&gt;'serial','unsigned'=&gt;TRUE,'not null'=&gt;TRUE],
+      'code_commune' =&gt; ['type'=&gt;'varchar','length'=&gt;10,'not null'=&gt;TRUE],
+      'nom' =&gt; ['type'=&gt;'varchar','length'=&gt;255,'not null'=&gt;TRUE],
+      'population' =&gt; ['type'=&gt;'int','unsigned'=&gt;TRUE,'default'=&gt;0],
+      'departement' =&gt; ['type'=&gt;'varchar','length'=&gt;5,'not null'=&gt;TRUE],
+      'region' =&gt; ['type'=&gt;'varchar','length'=&gt;255,'default'=&gt;''],
+      'imported_at' =&gt; ['type'=&gt;'int','not null'=&gt;TRUE],
+    ],
+    'primary key' =&gt; ['id'],
+    'unique keys' =&gt; ['code_commune' =&gt; ['code_commune']],
+    'indexes' =&gt; ['nom' =&gt; ['nom'], 'departement' =&gt; ['departement']],
+  ];
+  return $schema;
+}</code></pre></div>
+<div class="code-block"><div class="code-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang">php</span></div><pre><code class="language-php">// GeoDataRepository – SELECT avec LIKE
+public function findByName(string $search, int $limit = 10): array {
+  return $this-&gt;database-&gt;select('eventhub_geodata', 'g')
+    -&gt;fields('g', ['code_commune', 'nom', 'departement'])
+    -&gt;condition('nom', '%' . $this-&gt;database
+      -&gt;escapeLike($search) . '%', 'LIKE')
+    -&gt;range(0, $limit)-&gt;execute()-&gt;fetchAll();
+}
+
+// UPSERT – insert ou update par code_commune
+public function upsert(array $data): void {
+  $this-&gt;database-&gt;merge('eventhub_geodata')
+    -&gt;key('code_commune', $data['code_commune'])
+    -&gt;fields($data + ['imported_at' =&gt; time()])
+    -&gt;execute();
+}</code></pre></div>
+</div><div class="col">
+<div class="card"><h4>Types de colonnes</h4><ul><li><strong>serial</strong> – auto-increment</li><li><strong>int, float</strong> – numériques</li><li><strong>varchar(length)</strong> – texte court</li><li><strong>text</strong> – texte long</li><li><strong>blob</strong> – données binaires</li></ul></div>
+<div class="card accent-orange"><h4>Database API</h4><ul><li><code>insert()</code>, <code>select()</code>, <code>update()</code>, <code>delete()</code></li><li>Requêtes préparées = anti SQLi</li><li><code>fetchAll()</code>, <code>fetchAssoc()</code>, <code>fetchField()</code></li><li>Transactions pour cohérence des données</li></ul></div>
+<div class="tip"><span class="tip-icon">⚠️</span><div class="tip-text">Database API = <strong>tables custom</strong> uniquement. Pour les entités, utilisez Entity Query.</div></div>
+</div></div></div>
+</section>
+<section class="slide light" data-title="Entités">
+
+<h2>Content Entity &amp; Taxonomie</h2><p class="subtitle">Entités en base de données et vocabulaires de taxonomie pour structurer les données</p>
+<div class="content"><div class="row fill">
+<div class="col col-60">
+<p class="body-text">Les entités sont le modèle de données principal. En Drupal 11, la déclaration utilise les <strong>attributs PHP 8</strong> directement sur la classe. <code>baseFieldDefinitions()</code> définit les colonnes de la table. Pour les catégories, on utilise un <strong>vocabulaire de taxonomie</strong> avec un champ personnalisé.</p>
+<div class="code-block"><div class="code-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang">php</span></div><pre><code class="language-php">#[ContentEntityType(
+  id: 'event',
+  label: new TranslatableMarkup('Event'),
+  base_table: 'eventhub_event',
+  entity_keys: [
+    'id' =&gt; 'id', 'uuid' =&gt; 'uuid',
+    'label' =&gt; 'name', 'owner' =&gt; 'uid',
+    'published' =&gt; 'status',
+  ],
+  handlers: [
+    'access' =&gt; EventAccessControlHandler::class,
+  ],
+)]
+class Event extends ContentEntityBase
+    implements EntityChangedInterface, EntityOwnerInterface {
+  use EntityChangedTrait;
+  use EntityOwnerTrait;
+
+  public static function baseFieldDefinitions(
+      EntityTypeInterface $entity_type): array {
+    $fields = parent::baseFieldDefinitions($entity_type);
+    $fields += static::ownerBaseFieldDefinitions($entity_type);
+    $fields['name'] = BaseFieldDefinition::create('string')
+      -&gt;setLabel(t('Title'))-&gt;setRequired(TRUE)
+      -&gt;setSetting('max_length', 255);
+    $fields['event_date'] = BaseFieldDefinition::create('datetime')
+      -&gt;setLabel(t('Date'))-&gt;setRequired(TRUE)
+      -&gt;addConstraint('FutureDate');
+    $fields['location'] = BaseFieldDefinition::create('string')
+      -&gt;setLabel(t('Lieu'))-&gt;setRequired(TRUE);
+    $fields['capacity'] = BaseFieldDefinition::create('integer')
+      -&gt;setLabel(t('Capacité'))-&gt;setRequired(TRUE)
+      -&gt;setSetting('min', 1)-&gt;setDefaultValue(50);
+    $fields['category'] = BaseFieldDefinition::create('entity_reference')
+      -&gt;setLabel(t('Catégorie'))-&gt;setRequired(TRUE)
+      -&gt;setSetting('target_type', 'taxonomy_term')
+      -&gt;setSetting('handler_settings',
+        ['target_bundles' =&gt; ['event_categories' =&gt; 'event_categories']]);
+    return $fields;
+  }
+}</code></pre></div>
+</div><div class="col">
+<div class="card"><h4>Content Entity</h4><ul><li>Stockée en <strong>base de données</strong> (table custom)</li><li>Déclaration via <code>#[ContentEntityType]</code> PHP 8</li><li><code>baseFieldDefinitions()</code> = schéma de la table</li><li>Traits : EntityOwnerTrait, EntityChangedTrait</li><li>Access handler pour le contrôle d'accès</li></ul></div>
+<div class="card accent-orange"><h4>Taxonomie pour les catégories</h4><ul><li>Vocabulaire <code>event_categories</code></li><li>Champ custom <code>field_max_capacity</code> (entier)</li><li>Termes par défaut : conference, meetup, formation, workshop</li><li>Référencé via <code>entity_reference</code> dans Event</li><li>Config exportable via <code>drush cex</code></li></ul></div>
+<div class="tip"><span class="tip-icon">💡</span><div class="tip-text"><strong>Content Entity</strong> = données volumineuses (événements, inscriptions). <strong>Taxonomie</strong> = catégorisation avec champs personnalisés. Drupal propose aussi les <strong>Config Entities</strong> pour les structures YAML, mais la taxonomie est plus flexible ici.</div></div>
+</div></div></div>
+</section>
+<section class="slide light exo-slide" data-title="✏️ Exo 2.1 – Entités &amp; Schema">
+<div class="exo-header"><span class="exo-badge">✏️ Exercice 2.1</span><h2>Entités EventHub, taxonomie &amp; table geodata</h2></div><p class="subtitle">Créer les 2 Content Entities, le vocabulaire de taxonomie et la table custom</p><div class="content"><div class="row fill"><div class="col col-60" style="gap:.65rem"><div class="card accent-yellow"><h4>📋 Tâches à réaliser</h4><ul><li><strong>Event</strong> (Content Entity, table <code>eventhub_event</code>) : name, description (text_long), event_date (datetime + FutureDate), location (string), capacity (integer, min 1, défaut 50), category (entity_reference → taxonomy_term, bundle event_categories), status (boolean), uid, created, changed</li><li><strong>Registration</strong> (Content Entity, table <code>eventhub_registration</code>) : event (entity_reference → Event), participant_name, email (+ UniqueRegistration), phone, registration_status (list_string: confirmed/pending/cancelled), notes, created</li><li><strong>Vocabulaire event_categories</strong> : créer le vocabulaire via config/install, ajouter <code>field_max_capacity</code> (entier) sur les termes, créer 4 termes par défaut dans <code>hook_install</code> : conference (200), meetup (50), formation (20), workshop (15)</li><li>Table <strong>eventhub_geodata</strong> (Schema API) : id, code_commune (unique), nom, population, departement, region, imported_at. Index sur nom, departement, imported_at.</li><li><strong>GeoDataRepository</strong> (service) : upsert(), insertBatch(), findByName(), findByDepartement(), getCount(), deleteAll()</li></ul></div></div><div class="col"><div class="card accent-green"><h4>✓ Critères de réussite</h4><ul><li><code>drush entity:updates</code> crée les tables eventhub_event et eventhub_registration</li><li>4 termes de taxonomie créés à l'activation du module</li><li>Chaque terme a un <code>field_max_capacity</code> avec la bonne valeur</li><li>Table eventhub_geodata créée via hook_schema()</li><li>GeoDataRepository injectable et fonctionnel</li></ul></div><div class="card"><h4>Fichiers à créer</h4><ul><li><code>src/Entity/Event.php</code></li><li><code>src/Entity/Registration.php</code></li><li><code>eventhub_core.install</code> (schema + install)</li><li><code>src/Service/GeoDataRepository.php</code></li><li><code>config/install/taxonomy.vocabulary.event_categories.yml</code></li><li><code>config/install/field.storage.taxonomy_term.field_max_capacity.yml</code></li></ul></div></div></div></div>
+</section>
+<section class="slide light" data-title="Entity Query">
+
+<h2>Entity Query &amp; Services métier</h2><p class="subtitle">Requêter les entités et encapsuler la logique métier dans des services</p>
+<div class="content"><div class="row fill">
+<div class="col col-60" style="gap:.65rem">
+<p class="body-text">L'Entity Query API est la méthode recommandée pour chercher des entités. Elle intègre automatiquement le contrôle d'accès et fonctionne avec tous les types d'entités.</p>
+<div class="code-block"><div class="code-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang">php</span></div><pre><code class="language-php">// EventManager – événements à venir publiés
+public function getUpcomingEvents(int $limit = 10): array {
+  $ids = $this-&gt;entityTypeManager
+    -&gt;getStorage('event')-&gt;getQuery()
+    -&gt;accessCheck(TRUE)
+    -&gt;condition('status', 1)
+    -&gt;condition('event_date', date('Y-m-d\TH:i:s'), '&gt;=')
+    -&gt;sort('event_date', 'ASC')
+    -&gt;range(0, $limit)-&gt;execute();
+  return $this-&gt;entityTypeManager
+    -&gt;getStorage('event')-&gt;loadMultiple($ids);
+}</code></pre></div>
+<p class="body-text">Les services métier encapsulent la logique dans des classes réutilisables, injectables dans controllers, forms, hooks et contraintes.</p>
+<div class="code-block"><div class="code-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang">php</span></div><pre><code class="language-php">// EventManager – capacité restante
+public function getRemainingCapacity(int $eventId): int {
+  $event = $this-&gt;entityTypeManager
+    -&gt;getStorage('event')-&gt;load($eventId);
+  if (!$event) return 0;
+  $count = $this-&gt;registrationManager
+    -&gt;getRegistrationCount($eventId);
+  return max(0, (int) $event-&gt;get('capacity')-&gt;value - $count);
+}
+
+// RegistrationManager – inscriptions non annulées
+public function getRegistrationCount(int $eventId): int {
+  return (int) $this-&gt;entityTypeManager
+    -&gt;getStorage('registration')-&gt;getQuery()
+    -&gt;accessCheck(FALSE)
+    -&gt;condition('event', $eventId)
+    -&gt;condition('registration_status', 'cancelled', '&lt;&gt;')
+    -&gt;count()-&gt;execute();
+}</code></pre></div>
+</div><div class="col">
+<div class="card"><h4>Entity Query – Avantages</h4><ul><li>Abstraction complète de la BDD</li><li><code>accessCheck(TRUE)</code> obligatoire depuis D10</li><li>Conditions : =, &lt;&gt;, IN, BETWEEN, LIKE</li><li><code>exists()</code> / <code>notExists()</code></li><li><code>count()-&gt;execute()</code> pour le comptage</li></ul></div>
+<div class="card accent-orange"><h4>Bons patterns de services</h4><ul><li>Un service = une responsabilité</li><li>Injection via constructeur + autowire</li><li>Méthodes typées (return types)</li><li>Réutilisable dans forms, hooks, controllers</li><li>Testable unitairement (mock des deps)</li></ul></div>
+</div></div></div>
+</section>
+<section class="slide light" data-title="Controllers">
+
+<h2>Controllers &amp; Réponses</h2><p class="subtitle">Afficher les données, retourner du JSON, gérer les redirections</p>
+<div class="content"><div class="row fill">
+<div class="col col-60" style="gap:.65rem">
+<p class="body-text">Les controllers sont les points d'entrée des routes <code>_controller</code>. Ils utilisent les services pour récupérer les données et retournent des <strong>render arrays</strong>, des <code>JsonResponse</code> ou des <code>RedirectResponse</code>.</p>
+<div class="code-block"><div class="code-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang">php</span></div><pre><code class="language-php">class EventController extends ControllerBase {
+  use AutowireTrait;
+
+  public function __construct(
+    private readonly EventManager $eventManager,
+    private readonly RegistrationManager $regManager,
+  ) {}
+
+  public function list(): array {
+    $events = $this-&gt;eventManager-&gt;getUpcomingEvents(20);
+    // ... construction du tableau
+    return [
+      '#theme' =&gt; 'table',
+      '#header' =&gt; $header,
+      '#rows' =&gt; $rows,
+      '#cache' =&gt; [
+        'contexts' =&gt; ['url', 'user.permissions'],
+        'tags' =&gt; ['event_list'],
+      ],
+    ];
+  }
+
+  public function view(Event $event): array {
+    $build['count'] = [
+      '#lazy_builder' =&gt; [
+        RegistrationCountBuilder::class . ':build',
+        [$event-&gt;id()],
+      ],
+      '#create_placeholder' =&gt; TRUE,
+    ];
+    return $build;
+  }
+}</code></pre></div>
+<div class="code-block"><div class="code-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang">php</span></div><pre><code class="language-php">// Autocomplétion JSON pour le champ Lieu
+class GeoDataController extends ControllerBase {
+  public function autocomplete(Request $request): JsonResponse {
+    $q = $request-&gt;query-&gt;get('q', '');
+    $matches = [];
+    if (strlen($q) &gt;= 2) {
+      $results = $this-&gt;geoRepo-&gt;findByName($q, 10);
+      foreach ($results as $r) {
+        $matches[] = [
+          'value' =&gt; $r-&gt;nom,
+          'label' =&gt; "{$r-&gt;nom} ({$r-&gt;departement})",
+        ];
+      }
+    }
+    return new JsonResponse($matches);
+  }
+}</code></pre></div>
+</div><div class="col">
+<div class="card"><h4>Types de réponse</h4><ul><li><strong>Render array</strong> → HTML (pages, tableaux)</li><li><strong>JsonResponse</strong> → API, autocomplétion</li><li><strong>RedirectResponse</strong> → après action (cancel)</li><li>Le paramètre <code>{event}</code> est auto-converti en objet</li></ul></div>
+<div class="card accent-orange"><h4>Controllers EventHub</h4><ul><li><strong>EventController</strong> : list, view, dashboard</li><li><strong>RegistrationController</strong> : listForEvent, cancel</li><li><strong>GeoDataController</strong> : autocomplete (JSON)</li></ul></div>
+<div class="card accent-teal"><h4>Bonnes pratiques</h4><ul><li>Logique métier dans les <strong>services</strong>, pas les controllers</li><li>Controllers = orchestration uniquement</li><li>Cache metadata sur chaque render array</li><li>AutowireTrait pour l'injection</li></ul></div>
+</div></div></div>
+</section>
+<section class="slide light exo-slide" data-title="✏️ Exo 2.2 – Services &amp; Controllers">
+<div class="exo-header"><span class="exo-badge">✏️ Exercice 2.2</span><h2>Services métier, Controllers &amp; autocomplétion</h2></div><p class="subtitle">Créer les services, controllers et l'endpoint d'autocomplétion géographique</p><div class="content"><div class="row fill"><div class="col col-60" style="gap:.65rem"><div class="card accent-yellow"><h4>📋 Services à créer</h4><ul><li><strong>EventManager</strong> : getUpcomingEvents($limit), getEventsByCategory($termId), getEventsByOrganizer($uid), getRemainingCapacity($eventId), isEventFull($eventId), getTotalEventCount()</li><li><strong>RegistrationManager</strong> : getRegistrationsForEvent($eventId), getRegistrationCount($eventId), isAlreadyRegistered($eventId, $email), cancelRegistration($registrationId) (soft delete → statut cancelled), deleteRegistrationsForEvent($eventId) (hard delete en cascade)</li></ul></div><div class="card accent-yellow"><h4>📋 Controllers à créer</h4><ul><li><strong>EventController</strong> : list() → tableau des événements à venir, view(Event $event) → détail avec lazy builder, dashboard() → stats admin</li><li><strong>RegistrationController</strong> : listForEvent(Event $event) → inscriptions d'un événement, cancel(Registration $registration) → annulation CSRF</li><li><strong>GeoDataController</strong> : autocomplete(Request $request) → JsonResponse pour autocomplétion du lieu (min 2 chars, max 10 résultats, format « nom (département) »)</li></ul></div><div class="code-block"><div class="code-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang">yaml</span></div><pre><code class="language-yaml"># eventhub_core.services.yml
+services:
+  Drupal\eventhub_core\Service\EventManager:
+    autowire: true
+  Drupal\eventhub_core\Service\RegistrationManager:
+    autowire: true
+  Drupal\eventhub_core\Service\GeoDataRepository:
+    autowire: true
+  Drupal\eventhub_core\Service\RegistrationCountBuilder:
+    autowire: true
+  Drupal\eventhub_core\Hook\EntityHooks:
+    autowire: true</code></pre></div></div><div class="col"><div class="card accent-green"><h4>✓ Critères de réussite</h4><ul><li>EventManager retourne les événements à venir publiés</li><li>getRemainingCapacity() = capacity - registrations non-cancelled</li><li>cancelRegistration() = soft delete (statut → cancelled)</li><li>Liste des événements accessible sur <code>/events</code></li><li>Vue événement avec compteur d'inscriptions</li><li>Dashboard admin avec statistiques</li><li>Autocomplétion du lieu fonctionne (JSON)</li><li>Services injectés dans formulaires et controllers</li></ul></div><div class="tip"><span class="tip-icon">💡</span><div class="tip-text">Utilisez <code>AutowireTrait</code> dans les controllers. L'injection de dépendances dans le constructeur est résolue automatiquement.</div></div></div></div></div>
+</section>
+<section class="slide light" data-title="Hooks Entités">
+
+<h2>Hooks Entités – Attributs PHP 8</h2><p class="subtitle">Réagir aux événements du cycle de vie des entités</p>
+<div class="content">
+<p class="body-text">En Drupal 11, les hooks se déclarent dans des <strong>classes PHP</strong> avec <code>#[Hook]</code>. Cela permet l'injection de dépendances et une meilleure organisation.</p>
+<div class="table-wrap"><table><thead><tr><th>Hook</th><th>Moment</th><th>Usage typique</th></tr></thead><tbody>
+<tr><td><code>entity_presave</code></td><td>Avant écriture</td><td>Modifier, calculer, valider</td></tr>
+<tr><td><code>entity_insert</code></td><td>Après 1ère insertion</td><td>Notifier, créer des données liées</td></tr>
+<tr><td><code>entity_update</code></td><td>Après MAJ</td><td>Synchroniser, invalider cache</td></tr>
+<tr><td><code>entity_delete</code></td><td>Après suppression</td><td>Nettoyer en cascade</td></tr>
+<tr><td><code>entity_access</code></td><td>Vérification accès</td><td>Logique d'accès custom</td></tr>
+</tbody></table></div>
+<div class="row">
+<div class="col col-60"><div class="code-block"><div class="code-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang">php</span></div><pre><code class="language-php">// src/Hook/EntityHooks.php (EventHub)
+class EntityHooks {
+  public function __construct(
+    private readonly EventManager $eventManager,
+    private readonly RegistrationManager $regManager,
+    private readonly MessengerInterface $messenger,
+  ) {}
+
+  #[Hook('entity_presave')]
+  public function presave(EntityInterface $entity): void {
+    if (!$entity instanceof Event) return;
+    // Générer slug, empêcher réduction capacité
+    // sous le nombre d'inscrits actuels
+  }
+
+  #[Hook('entity_insert')]
+  public function onInsert(EntityInterface $entity): void {
+    if (!$entity instanceof Registration) return;
+    $this-&gt;messenger-&gt;addMessage(t('Inscription confirmée.'));
+    Cache::invalidateTags(['event:' . $entity-&gt;getEventId(),
+      'event_list']);
+  }
+
+  #[Hook('entity_delete')]
+  public function onDelete(EntityInterface $entity): void {
+    if (!$entity instanceof Event) return;
+    $this-&gt;regManager-&gt;deleteRegistrationsForEvent(
+      (int) $entity-&gt;id());
+    Cache::invalidateTags(['event_list']);
+  }
+}</code></pre></div></div>
+<div class="col">
+<div class="card"><h4>Points clés</h4><ul><li><code>#[Hook('...')]</code> remplace <code>function hook_*()</code></li><li>Classe déclarée comme <strong>service</strong> (autowire: true)</li><li>Injection de dépendances dans le constructeur</li><li>Filtrer par <code>instanceof</code> dans chaque méthode</li></ul></div>
+<div class="tip"><span class="tip-icon">💡</span><div class="tip-text">Les hooks typés existent aussi : <code>#[Hook('node_presave')]</code> ne se déclenche que pour les nodes.</div></div>
+</div></div></div>
+</section>
+<section class="slide light exo-slide" data-title="✏️ Exo 2.3 – Hooks">
+<div class="exo-header"><span class="exo-badge">✏️ Exercice 2.3</span><h2>Hooks entités EventHub</h2></div><p class="subtitle">Implémenter les 5 hooks entités du projet dans une classe PHP avec attributs</p><div class="content"><div class="row fill"><div class="col col-60" style="gap:.65rem"><div class="card accent-yellow"><h4>📋 Tâches à réaliser</h4><ul><li><strong>#[Hook('entity_presave')]</strong> sur Event : générer un slug à partir du titre + empêcher la réduction de capacité sous le nombre d'inscrits (warning + ajustement auto)</li><li><strong>#[Hook('entity_insert')]</strong> sur Registration : message de confirmation via MessengerInterface + invalidation cache tags <code>event:{id}</code> et <code>event_list</code></li><li><strong>#[Hook('entity_update')]</strong> sur Event : invalider les tags de cache <code>event:{id}</code> et <code>event_list</code> via Cache::invalidateTags()</li><li><strong>#[Hook('entity_delete')]</strong> sur Event : supprimer toutes les inscriptions liées via <code>RegistrationManager::deleteRegistrationsForEvent()</code> + invalider <code>event_list</code></li><li><strong>#[Hook('entity_access')]</strong> sur Registration : opération « view » → permission <code>view event registrations</code> + vérification que l'utilisateur est l'organisateur de l'événement lié, ou <code>administer eventhub</code> pour les admins</li></ul></div><div class="code-block"><div class="code-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang">php</span></div><pre><code class="language-php">// src/Hook/EntityHooks.php – structure attendue
+class EntityHooks {
+  public function __construct(
+    private readonly EventManager $eventManager,
+    private readonly RegistrationManager $regManager,
+    private readonly MessengerInterface $messenger,
+  ) {}
+
+  #[Hook('entity_presave')]
+  public function presave(EntityInterface $e): void { ... }
+
+  #[Hook('entity_insert')]
+  public function onInsert(EntityInterface $e): void { ... }
+
+  #[Hook('entity_update')]
+  public function onUpdate(EntityInterface $e): void { ... }
+
+  #[Hook('entity_delete')]
+  public function onDelete(EntityInterface $e): void { ... }
+
+  #[Hook('entity_access')]
+  public function access(EntityInterface $e, string $op,
+      AccountInterface $account): AccessResultInterface { ... }
+}</code></pre></div></div><div class="col"><div class="card accent-green"><h4>✓ Critères de réussite</h4><ul><li>Slug auto-généré à la sauvegarde d'un Event</li><li>Message affiché à l'organisateur après inscription</li><li>Cache invalidé à la modification d'un événement</li><li>Inscriptions supprimées quand un événement est supprimé</li><li>Accès Registration restreint à l'organisateur/admin</li></ul></div></div></div></div>
+</section>
+<section class="slide light" data-title="Cache API">
+
+<h2>Cache API &amp; Lazy Builders</h2><p class="subtitle">Les 3 piliers du cache Drupal et l'isolation du contenu dynamique</p>
+<div class="content">
+<div class="three-col">
+<div class="card"><h4>Cache Contexts</h4><ul><li><strong>Quand varier</strong> le cache :</li><li><code>url</code>, <code>user</code>, <code>user.roles</code></li><li><code>languages</code>, <code>url.query_args</code></li></ul></div>
+<div class="card accent-orange"><h4>Cache Tags</h4><ul><li><strong>Quand invalider</strong> :</li><li><code>node:42</code>, <code>event_list</code></li><li><code>config:system.site</code></li></ul></div>
+<div class="card accent-teal"><h4>Max-Age</h4><ul><li><strong>Combien de temps</strong> :</li><li><code>0</code> = jamais caché</li><li><code>-1</code> = permanent</li></ul></div>
+</div>
+<p class="body-text">Le <strong>bubbling</strong> fait remonter les métadonnées de cache vers le parent. Un <code>max-age: 0</code> dans un bloc contamine <strong>toute la page</strong>. Solution : les <strong>lazy builders</strong> isolent le contenu dynamique.</p>
+<div class="row">
+<div class="col col-60"><div class="code-block"><div class="code-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang">php</span></div><pre><code class="language-php">// EventController::view() – lazy builder pour le compteur
+$build['count'] = [
+  '#lazy_builder' =&gt; [
+    RegistrationCountBuilder::class . ':build',
+    [$event-&gt;id()],
+  ],
+  '#create_placeholder' =&gt; TRUE,
+];
+
+// RegistrationCountBuilder (TrustedCallbackInterface)
+public function build(int $eventId): array {
+  $count = $this-&gt;regManager-&gt;getRegistrationCount($eventId);
+  $remaining = $this-&gt;eventManager-&gt;getRemainingCapacity($eventId);
+  return [
+    '#markup' =&gt; $this-&gt;t('@count inscrit(s) – @remaining place(s)
+      restante(s)', ['@count' =&gt; $count, '@remaining' =&gt; $remaining]),
+    '#cache' =&gt; ['max-age' =&gt; 0],
+  ];
+}</code></pre></div></div>
+<div class="col">
+<div class="card accent-green"><h4>BigPipe</h4><ul><li>Page envoyée avec placeholder</li><li>Contenu dynamique injecté après via <strong>streaming</strong></li><li>L'utilisateur voit la page immédiatement</li><li>Activé automatiquement dans Drupal</li></ul></div>
+<div class="tip"><span class="tip-icon">💡</span><div class="tip-text">Le lazy builder est un <strong>service</strong> déclaré dans services.yml. Ses arguments doivent être des scalaires.</div></div>
+</div></div></div>
+</section>
+<section class="slide light exo-slide" data-title="✏️ Exo 2.4 – Cache">
+<div class="exo-header"><span class="exo-badge">✏️ Exercice 2.4</span><h2>Stratégie de cache EventHub &amp; Lazy Builder</h2></div><p class="subtitle">Implémenter le cache metadata sur toutes les pages et le lazy builder pour le compteur d'inscriptions</p><div class="content"><div class="row fill"><div class="col col-60" style="gap:.65rem"><div class="card accent-yellow"><h4>📋 Tâches à réaliser</h4><ul><li><strong>Liste événements</strong> : contexts [url], tags [event_list], max-age -1</li><li><strong>Page événement</strong> : contexts [url], tags [event:{id}], max-age 3600</li><li><strong>Dashboard organisateur</strong> : contexts [user], tags [event_list], max-age -1</li><li><strong>RegistrationCountBuilder</strong> (lazy builder) : affiche "X / Y places" en temps réel, max-age 0, isolé via BigPipe</li><li>Invalider <code>event_list</code> dans le hook entity_insert de Registration</li><li>Invalider <code>event:{id}</code> dans le hook entity_update de Event</li></ul></div></div><div class="col"><div class="card accent-green"><h4>✓ Critères de réussite</h4><ul><li>Les pages sont cachées correctement (vérifier avec les headers HTTP)</li><li>Le compteur se met à jour en temps réel sans invalider la page</li><li>Le dashboard varie par utilisateur</li><li>L'ajout d'un événement invalide la liste</li></ul></div><div class="card"><h4>Livrables Jour 2</h4><ul><li>Entités Event, Registration + taxonomie event_categories</li><li>Table eventhub_geodata + GeoDataRepository</li><li>Services EventManager + RegistrationManager</li><li>3 Controllers (Event, Registration, GeoData)</li><li>5 hooks entités avec attributs PHP 8</li><li>Cache avec lazy builder RegistrationCountBuilder</li></ul></div></div></div></div>
+</section>
+<section class="slide dark section-slide" data-title="— Jour 3" data-day="3">
+<div class="day-badge">JOUR 3</div><h1>Async, Sécurité,<br>Config &amp; Tests</h1><p class="subtitle">Queue Workers, sécurisation, configuration et qualité</p>
+</section>
+<section class="slide light" data-title="Queue Workers">
+
+<h2>Queue Workers &amp; Cron</h2><p class="subtitle">Traiter des tâches lourdes de manière asynchrone</p>
+<div class="content"><div class="row fill">
+<div class="col col-60" style="gap:.65rem">
+<p class="body-text">Les Queue Workers permettent de <strong>différer le traitement</strong> d'opérations longues. Le principe : un processus alimente la queue (<code>createItem</code>), le cron consomme les items (<code>processItem</code>).</p>
+<div class="code-block"><div class="code-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang">php</span></div><pre><code class="language-php">#[QueueWorker(
+  id: 'eventhub_geodata_import',
+  title: new TranslatableMarkup('EventHub Geodata Import'),
+  cron: ['time' =&gt; 60],
+)]
+class GeoDataImportWorker extends QueueWorkerBase
+    implements ContainerFactoryPluginInterface {
+  public function processItem(mixed $data): void {
+    if (empty($data['code'])) return;
+    $url = sprintf(GeoApiConstants::COMMUNES_ENDPOINT, $data['code']);
+    $response = $this-&gt;httpClient-&gt;request('GET',
+      GeoApiConstants::API_BASE . $url,
+      ['query' =&gt; ['fields' =&gt; GeoApiConstants::COMMUNES_FIELDS]]);
+    $communes = json_decode($response-&gt;getBody(), TRUE);
+    $this-&gt;geoRepo-&gt;insertBatch(array_filter($communes,
+      fn($c) =&gt; !empty($c['code']) &amp;&amp; !empty($c['nom'])));
+  }
+}</code></pre></div>
+<div class="code-block"><div class="code-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang">php</span></div><pre><code class="language-php">// CronHooks.php – alimenter la queue par département
+#[Hook('cron')]
+public function cron(): void {
+  $queue = $this-&gt;queueFactory-&gt;get(GeoApiConstants::QUEUE_NAME);
+  if ($queue-&gt;numberOfItems() &gt; 0) return; // skip si déjà en cours
+  $response = $this-&gt;httpClient-&gt;request('GET',
+    GeoApiConstants::API_BASE . GeoApiConstants::DEPARTMENTS_ENDPOINT);
+  $depts = json_decode($response-&gt;getBody(), TRUE);
+  foreach ($depts as $dept) {
+    $queue-&gt;createItem(['code' =&gt; $dept['code'], 'nom' =&gt; $dept['nom']]);
+  }
+}</code></pre></div>
+</div><div class="col">
+<div class="card"><h4>Cycle de vie</h4><ul><li><strong>1.</strong> Le cron appelle <code>createItem()</code></li><li><strong>2.</strong> Le cron Drupal lance les workers</li><li><strong>3.</strong> <code>processItem()</code> traite un item</li><li><strong>4.</strong> Exception → item remis en queue</li><li><strong>5.</strong> <code>cron.time</code> = temps max par run</li></ul></div>
+<div class="card accent-orange"><h4>HttpClient &amp; Constantes</h4><ul><li>Injecter <code>GuzzleHttp\ClientInterface</code></li><li>Centraliser les URLs dans <code>GeoApiConstants</code></li><li>API : <code>geo.api.gouv.fr/departements/{code}/communes</code></li><li>Toujours try/catch + logging</li></ul></div>
+</div></div></div>
+</section>
+<section class="slide light exo-slide" data-title="✏️ Exo 3.1 – Import async">
+<div class="exo-header"><span class="exo-badge">✏️ Exercice 3.1</span><h2>Import des communes depuis data.gouv.fr</h2></div><p class="subtitle">Module eventhub_import : import asynchrone des données géographiques via Queue Worker</p><div class="content"><div class="row fill"><div class="col col-60" style="gap:.65rem"><div class="card accent-yellow"><h4>📋 Tâches à réaliser</h4><ul><li><strong>GeoApiConstants</strong> : constantes API_BASE, DEPARTMENTS_ENDPOINT (<code>/departements</code>), COMMUNES_ENDPOINT (<code>/departements/%s/communes</code>), COMMUNES_FIELDS, REQUEST_TIMEOUT, QUEUE_NAME</li><li><strong>Hook cron</strong> dans CronHooks.php : vérifier que la queue est vide (skip si items en attente), appeler <code>/departements</code> pour récupérer tous les départements, créer un item par département (code + nom)</li><li><strong>GeoDataImportWorker</strong> (#[QueueWorker], cron time 60s) : processItem() reçoit un département, appelle <code>/departements/{code}/communes?fields=nom,code,population,codeDepartement,codeRegion</code>, filtre les communes valides, insère en batch via GeoDataRepository::insertBatch()</li><li>Gestion des erreurs : try/catch, logging via logger channel <code>eventhub_import</code>, re-throw pour retry automatique</li><li>Les données servent à l'<strong>autocomplétion du champ Lieu</strong> via GeoDataController::autocomplete()</li></ul></div><div class="code-block"><div class="code-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang">php</span></div><pre><code class="language-php">// Données de l'API geo.api.gouv.fr
+// GET /departements/75/communes?fields=nom,code,population
+[
+  {
+    "nom": "Paris",
+    "code": "75056",
+    "population": 2133111,
+    "departement": {"code": "75", "nom": "Paris"},
+    "region": {"code": "11", "nom": "Île-de-France"}
+  }
+]</code></pre></div></div><div class="col"><div class="card accent-green"><h4>✓ Critères de réussite</h4><ul><li>Le cron alimente la queue avec les communes</li><li>Le worker insère les données dans eventhub_geodata</li><li>L'autocomplétion du lieu fonctionne</li><li>Les erreurs réseau sont loggées</li><li><code>drush cron</code> et <code>drush queue:run</code> fonctionnent</li></ul></div></div></div></div>
+</section>
+<section class="slide light" data-title="Sécurité">
+
+<h2>Sécurité &amp; Permissions</h2><p class="subtitle">Protéger l'application : XSS, CSRF, SQLi et contrôle d'accès</p>
+<div class="content">
+<p class="body-text">Drupal intègre des protections robustes, mais elles ne fonctionnent que si vous <strong>utilisez les bonnes APIs</strong>.</p>
+<div class="three-col">
+<div class="card accent-orange"><h4>XSS</h4><ul><li>Twig <strong>auto-escape</strong> avec {{ }}</li><li><code>t()</code> avec placeholders <code>@name</code></li><li><code>Xss::filter()</code> pour HTML limité</li><li>JAMAIS <code>|raw</code> dans Twig</li></ul></div>
+<div class="card"><h4>CSRF</h4><ul><li>Form API gère les tokens automatiquement</li><li>Route non-form : <code>_csrf_token: 'TRUE'</code></li><li>Token vérifié côté serveur</li></ul></div>
+<div class="card accent-teal"><h4>SQLi</h4><ul><li>Database API = requêtes préparées</li><li>Entity Query = entièrement sécurisé</li><li>JAMAIS de concaténation SQL</li></ul></div>
+</div>
+<div class="row">
+<div class="col col-60"><div class="code-block"><div class="code-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang">yaml</span></div><pre><code class="language-yaml"># eventhub_core.permissions.yml – 7 permissions
+create event:
+  title: 'Créer un événement'
+edit own event:
+  title: 'Modifier ses propres événements'
+edit any event:
+  title: 'Modifier tout événement'
+delete any event:
+  title: 'Supprimer des événements'
+  restrict access: true
+register to event:
+  title: "S'inscrire à un événement"
+view event registrations:
+  title: 'Voir les inscriptions'
+administer eventhub:
+  title: 'Administrer EventHub'
+  restrict access: true</code></pre></div></div>
+<div class="col">
+<div class="card accent-green"><h4>EventAccessControlHandler</h4><ul><li><strong>view</strong> : <code>accessCheck('access content')</code></li><li><strong>update</strong> : 'edit any event' OU 'edit own event' + propriétaire</li><li><strong>delete</strong> : 'delete any event'</li><li><strong>create</strong> : 'create event'</li><li><code>AccessResult::allowedIfHasPermission()</code></li></ul></div>
+</div></div></div>
+</section>
+<section class="slide light exo-slide" data-title="✏️ Exo 3.2 – Sécurité">
+<div class="exo-header"><span class="exo-badge">✏️ Exercice 3.2</span><h2>Sécurisation complète d'EventHub</h2></div><p class="subtitle">Appliquer les bonnes pratiques de sécurité sur l'ensemble du projet</p><div class="content"><div class="row fill"><div class="col col-60" style="gap:.65rem"><div class="card accent-yellow"><h4>📋 Tâches à réaliser</h4><ul><li><strong>XSS</strong> : vérifier que tous les messages utilisent <code>t()</code> avec @placeholder, appliquer <code>Xss::filter()</code> sur les descriptions d'événements</li><li><strong>CSRF</strong> : ajouter <code>_csrf_token: 'TRUE'</code> sur la route d'annulation d'inscription</li><li><strong>7 permissions</strong> dans eventhub_core.permissions.yml : create event, edit own event, edit any event, delete any event (restrict access), register to event, view event registrations, administer eventhub (restrict access)</li><li><strong>11 routes sécurisées</strong> : chaque route avec <code>_permission</code>, route cancel avec <code>_csrf_token: 'TRUE'</code>, routes edit/delete utilisant le contrôle d'accès de l'entité</li><li><strong>EventAccessControlHandler</strong> : checkAccess() → view='access content', update='edit own/any event' (+ ownership check), delete='delete any event'. checkCreateAccess() → 'create event'</li></ul></div><div class="code-block"><div class="code-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang">yaml</span></div><pre><code class="language-yaml"># eventhub_core.routing.yml – extraits
+eventhub.event_create:
+  path: '/event/create'
+  defaults:
+    _form: '\Drupal\eventhub_core\Form\EventForm'
+  requirements:
+    _permission: 'create event'
+
+eventhub.registration_cancel:
+  path: '/registration/{registration}/cancel'
+  defaults:
+    _controller: '...\RegistrationController::cancel'
+  requirements:
+    _permission: 'register to event'
+    _csrf_token: 'TRUE'</code></pre></div></div><div class="col"><div class="card accent-green"><h4>✓ Critères de réussite</h4><ul><li>Aucun appel HTML sans échappement</li><li>Route d'annulation protégée par CSRF token</li><li>Toutes les routes ont une permission</li><li>Un utilisateur sans permission est bloqué (403)</li><li>accessCheck(TRUE) dans tous les Entity Query</li></ul></div></div></div></div>
+</section>
+<section class="slide light" data-title="Config &amp; Tests">
+
+<h2>Config Split, Config Ignore &amp; Tests unitaires</h2><p class="subtitle">Gestion par environnement et validation du code</p>
+<div class="content"><div class="row fill">
+<div class="col" style="gap:.65rem">
+<p class="body-text"><strong>Config Split</strong> sépare la configuration par environnement. <strong>Config Ignore</strong> exclut certaines configs de l'import.</p>
+<div class="code-block"><div class="code-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang">php</span></div><pre><code class="language-php">// settings.php
+$config['config_split.config_split.dev']['status'] = TRUE;
+$config['config_split.config_split.prod']['status'] = FALSE;</code></pre></div>
+<p class="body-text">Les <strong>tests unitaires</strong> valident la logique métier sans base de données. On mocke les dépendances avec PHPUnit.</p>
+<div class="code-block"><div class="code-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang">php</span></div><pre><code class="language-php">class EventManagerTest extends UnitTestCase {
+  protected function setUp(): void {
+    parent::setUp();
+    $this-&gt;storage = $this-&gt;createMock(EntityStorageInterface::class);
+    $this-&gt;entityTypeMgr = $this-&gt;createMock(EntityTypeManagerInterface::class);
+    $this-&gt;entityTypeMgr-&gt;method('getStorage')-&gt;willReturn($this-&gt;storage);
+    $this-&gt;regManager = $this-&gt;createMock(RegistrationManager::class);
+    $this-&gt;manager = new EventManager($this-&gt;entityTypeMgr, $this-&gt;regManager);
+  }
+
+  public function testGetRemainingCapacityWithAvailableSpots(): void {
+    // Mock event avec capacity=100, 30 inscriptions → 70 restantes
+    $event = $this-&gt;createMock(Event::class);
+    $event-&gt;method('get')-&gt;willReturn((object)['value' =&gt; 100]);
+    $this-&gt;storage-&gt;method('load')-&gt;willReturn($event);
+    $this-&gt;regManager-&gt;method('getRegistrationCount')-&gt;willReturn(30);
+    $this-&gt;assertEquals(70, $this-&gt;manager-&gt;getRemainingCapacity(1));
+  }
+
+  public function testGetRemainingCapacityNeverNegative(): void { ... }
+  public function testIsEventFullReturnsTrue(): void { ... }
+}</code></pre></div>
+</div><div class="col">
+<div class="card"><h4>Config Split</h4><ul><li><strong>Dev</strong> : devel, kint, verbose errors</li><li><strong>Prod</strong> : cache agressif, syslog</li><li>Activation via <code>settings.php</code></li></ul></div>
+<div class="card accent-orange"><h4>Config Ignore</h4><ul><li><code>system.site</code> – nom/slogan par env</li><li><code>eventhub_core.settings</code> – clé API</li><li><code>system.mail</code> – transport mail</li></ul></div>
+<div class="card accent-teal"><h4>Tests : 4 niveaux</h4><ul><li><strong>Unit</strong> : rapide, mocks, pas de Drupal</li><li><strong>Kernel</strong> : DB + container réels</li><li><strong>Functional</strong> : navigateur simulé</li><li><strong>FunctionalJS</strong> : WebDriver</li></ul></div>
+</div></div></div>
+</section>
+<section class="slide light exo-slide" data-title="✏️ Exo 3.3 – Config &amp; Tests">
+<div class="exo-header"><span class="exo-badge">✏️ Exercice 3.3</span><h2>Config Split, Config Ignore &amp; Tests unitaires</h2></div><p class="subtitle">Finaliser le projet avec la gestion de configuration par environnement et les tests</p><div class="content"><div class="row fill"><div class="col col-60" style="gap:.65rem"><div class="card accent-yellow"><h4>📋 Tâches à réaliser</h4><ul><li><strong>Config Split</strong> : créer 2 splits (dev, prod), activer dans settings.php</li><li><strong>Config Ignore</strong> : ignorer system.site, eventhub_core.settings, system.mail</li><li><strong>EventManagerTest</strong> (6 tests) : getRemainingCapacity() avec places dispo, quand plein, event inexistant, jamais négatif. isEventFull() true/false</li><li><strong>RegistrationManagerTest</strong> (3 tests) : cancelRegistration() succès (statut → cancelled), not found (retour false), déjà annulé (retour false)</li><li><strong>GeoDataRepositoryTest</strong> (3 tests) : findByName() résultats avec label formaté, résultat vide. getCount() retour int</li><li><strong>GeoDataImportWorkerTest</strong> (5 tests) : processItem() département valide, code vide skip, réponse vide, communes invalides filtrées, exception HTTP re-thrown</li></ul></div><div class="code-block"><div class="code-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang">bash</span></div><pre><code class="language-bash"># Structure des tests (4 classes, 15+ tests)
+eventhub_core/tests/src/Unit/Service/
+├── EventManagerTest.php          # 6 tests
+├── RegistrationManagerTest.php   # 3 tests
+└── GeoDataRepositoryTest.php     # 3 tests
+eventhub_import/tests/src/Unit/
+└── GeoDataImportWorkerTest.php   # 5 tests
+
+# Lancer les tests
+ddev exec vendor/bin/phpunit -c web/core \
+  web/modules/custom/eventhub_core/tests/
+ddev exec vendor/bin/phpunit -c web/core \
+  web/modules/custom/eventhub_import/tests/</code></pre></div></div><div class="col"><div class="card accent-green"><h4>✓ Critères de réussite</h4><ul><li>Config Split dev/prod fonctionnel</li><li>Config Ignore correctement configuré</li><li>Tous les tests passent à 100%</li><li>0 erreur PHPCS + PHPStan</li><li>Code committé sur GitHub</li></ul></div><div class="card"><h4>Livrables Jour 3 &amp; Projet final</h4><ul><li>Import asynchrone opérationnel</li><li>Sécurité complète (XSS, CSRF, SQLi, permissions)</li><li>Config Split + Config Ignore</li><li>Suite de tests unitaires</li><li>Projet EventHub complet et fonctionnel</li></ul></div></div></div></div>
+</section>
+<section class="slide dark recap-slide" data-title="Récapitulatif">
+
+<h1 style="margin-bottom:1.5rem">Récapitulatif</h1>
+<div class="recap-item"><strong>Jour 1 : </strong><span>PHPCS, PHPStan, Routing, Form API (#states, AJAX, autocomplétion), ConfigFormBase, ConfirmFormBase, Contraintes (UniqueRegistration, FutureDate)</span></div>
+<div class="recap-item"><strong>Jour 2 : </strong><span>Schema API (eventhub_geodata), Database API (GeoDataRepository), Content Entities (Event, Registration), Taxonomie (event_categories + field_max_capacity), Entity Query, Services (EventManager, RegistrationManager), Controllers (3 controllers, 11 routes), Hooks PHP 8 (5 hooks entité), Cache &amp; Lazy Builder (RegistrationCountBuilder)</span></div>
+<div class="recap-item"><strong>Jour 3 : </strong><span>Queue Worker (GeoDataImportWorker), Cron (CronHooks + GeoApiConstants), Sécurité (XSS, CSRF, SQLi), 7 permissions, EventAccessControlHandler, Config Split/Ignore, Tests unitaires (4 classes, 17 tests)</span></div>
+<p style="margin-top:1.2rem;font-size:.85rem;color:rgba(255,255,255,.5)">Chaque concept a été mis en pratique dans le projet EventHub – une application complète avec 2 modules, 2 content entities, 1 vocabulaire taxonomie, 3 controllers, 5 services, 7 permissions, import asynchrone et 17 tests unitaires.</p>
+<p style="margin-top:1.5rem;font-size:1.15rem;font-weight:700;color:var(--blue-light)">Merci &amp; bonnes pratiques Drupal !</p>
+</section></div>
+<div class="nav-bar">
+<button class="nav-btn" id="prevBtn" onclick="go(-1)">← Précédent</button>
+<span class="nav-counter" id="counter"></span>
+<button class="nav-btn" id="nextBtn" onclick="go(1)">Suivant →</button>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/php.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/yaml.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/bash.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/xml.min.js"></script>
+<script>
+hljs.highlightAll();const sl=document.querySelectorAll('.slide'),N=sl.length;let cur=0;
+function show(n){sl.forEach((s,i)=>{s.classList.remove('active','prev');if(i===n)s.classList.add('active');else if(i<n)s.classList.add('prev')});cur=n;document.getElementById('counter').textContent=(n+1)+' / '+N;document.getElementById('prevBtn').disabled=n===0;document.getElementById('nextBtn').disabled=n===N-1;document.getElementById('progress').style.width=((n+1)/N*100)+'%';document.querySelectorAll('.sidebar a').forEach((a,i)=>a.classList.toggle('active',i===n))}
+function go(d){const n=cur+d;if(n>=0&&n<N)show(n)}
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();go(1)}if(e.key==='ArrowLeft'){e.preventDefault();go(-1)}if(e.key==='Home'){e.preventDefault();show(0)}if(e.key==='End'){e.preventDefault();show(N-1)}if(e.key==='Escape')closeSidebar()});
+let tx=0;document.addEventListener('touchstart',e=>{tx=e.touches[0].clientX});document.addEventListener('touchend',e=>{const d=e.changedTouches[0].clientX-tx;if(Math.abs(d)>60)go(d<0?1:-1)});
+const sb=document.getElementById('sidebar'),ov=document.getElementById('overlay');
+function buildSidebar(){let h='';sl.forEach((s,i)=>{const t=s.dataset.title;if(t.startsWith('—'))h+='<h3>'+t.replace('— ','')+'</h3>';else h+='<a data-i="'+i+'">'+t+'</a>'});sb.innerHTML=h;sb.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{show(+a.dataset.i);closeSidebar()}))}
+function toggleSidebar(){sb.classList.toggle('open');ov.classList.toggle('open')}
+function closeSidebar(){sb.classList.remove('open');ov.classList.remove('open')}
+document.getElementById('sidebarBtn').addEventListener('click',toggleSidebar);
+ov.addEventListener('click',closeSidebar);buildSidebar();show(0);
+</script></body></html>

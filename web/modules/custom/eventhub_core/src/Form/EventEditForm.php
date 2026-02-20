@@ -5,30 +5,23 @@ declare(strict_types=1);
 namespace Drupal\eventhub_core\Form;
 
 use Drupal\Core\Datetime\DrupalDateTime;
+use Drupal\Core\DependencyInjection\AutowireTrait;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\eventhub_core\Entity\Event;
 use Drupal\taxonomy\TermInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Event edit form.
  */
 final class EventEditForm extends FormBase {
 
-  public function __construct(
-    protected EntityTypeManagerInterface $entityTypeManager,
-  ) {}
+  use AutowireTrait;
 
-  /**
-   * {@inheritdoc}
-   */
-  public static function create(ContainerInterface $container): static {
-    return new static(
-      $container->get('entity_type.manager'),
-    );
-  }
+  public function __construct(
+    private readonly EntityTypeManagerInterface $entityTypeManager,
+  ) {}
 
   /**
    * {@inheritdoc}

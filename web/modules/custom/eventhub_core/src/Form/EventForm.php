@@ -4,29 +4,22 @@ declare(strict_types=1);
 
 namespace Drupal\eventhub_core\Form;
 
+use Drupal\Core\DependencyInjection\AutowireTrait;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\taxonomy\TermInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Event creation form with AJAX-powered category selection.
  */
 final class EventForm extends FormBase {
 
-  public function __construct(
-    protected EntityTypeManagerInterface $entityTypeManager,
-  ) {}
+  use AutowireTrait;
 
-  /**
-   * {@inheritdoc}
-   */
-  public static function create(ContainerInterface $container): static {
-    return new static(
-      $container->get('entity_type.manager'),
-    );
-  }
+  public function __construct(
+    private readonly EntityTypeManagerInterface $entityTypeManager,
+  ) {}
 
   /**
    * {@inheritdoc}

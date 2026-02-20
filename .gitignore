@@ -102,4 +102,5 @@
 # Ignore sonar scan
 /web/.scannerwork
 
-
+#phpstan cache
+/var

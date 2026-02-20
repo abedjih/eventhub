@@ -82,7 +82,7 @@ class EventController extends ControllerBase {
       ];
     }
 
-       $build['table'] = [
+    $build['table'] = [
       '#theme' => 'table',
       '#header' => [
         $this->t('Événement'),

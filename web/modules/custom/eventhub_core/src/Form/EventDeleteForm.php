@@ -4,31 +4,24 @@ declare(strict_types=1);
 
 namespace Drupal\eventhub_core\Form;
 
+use Drupal\Core\DependencyInjection\AutowireTrait;
 use Drupal\Core\Form\ConfirmFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\Url;
 use Drupal\eventhub_core\Entity\Event;
 use Drupal\eventhub_core\Service\RegistrationManager;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Event delete confirmation form.
  */
 final class EventDeleteForm extends ConfirmFormBase {
 
-  public function __construct(
-    protected RegistrationManager $registrationManager,
-  ) {}
+  use AutowireTrait;
 
-  /**
-   * {@inheritdoc}
-   */
-  public static function create(ContainerInterface $container): static {
-    return new static(
-      $container->get(RegistrationManager::class),
-    );
-  }
+  public function __construct(
+    private readonly RegistrationManager $registrationManager,
+  ) {}
 
   /**
    * {@inheritdoc}
