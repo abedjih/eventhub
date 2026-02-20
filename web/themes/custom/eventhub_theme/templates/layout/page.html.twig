@@ -2,20 +2,42 @@
 /**
  * @file
  * EventHub - Page layout template.
+ *
+ * Available variables:
+ * - page: The render array of page regions:
+ *   - page.header
+ *   - page.nav_branding
+ *   - page.nav_main
+ *   - page.nav_additional
+ *   - page.breadcrumb
+ *   - page.content
+ *   - page.sidebar_first
+ *   - page.sidebar_second
+ *   - page.footer
+ * - b5_top_container: Container class (container or container-fluid).
+ * - b5_navbar_schema: Navbar color scheme (light/dark).
+ * - b5_navbar_bg_schema: Navbar background color scheme.
+ * - b5_footer_schema: Footer color scheme.
+ * - b5_footer_bg_schema: Footer background color scheme.
  */
 #}
+
 {%
-set nav_classes = 'navbar navbar-expand-lg' ~
-  (b5_navbar_schema != 'none' ? " navbar-#{b5_navbar_schema}" : ' ') ~
-  (b5_navbar_schema != 'none' ? (b5_navbar_schema == 'dark' ? ' text-light' : ' text-dark' ) : ' ') ~
-  (b5_navbar_bg_schema != 'none' ? " bg-#{b5_navbar_bg_schema}" : ' ')
+  set b5_top_container = b5_top_container|default('container')
 %}
 
 {%
-set footer_classes = ' ' ~
-  (b5_footer_schema != 'none' ? " footer-#{b5_footer_schema}" : ' ') ~
-  (b5_footer_schema != 'none' ? (b5_footer_schema == 'dark' ? ' text-light' : ' text-dark' ) : ' ') ~
-  (b5_footer_bg_schema != 'none' ? " bg-#{b5_footer_bg_schema}" : ' ')
+  set nav_classes = 'navbar navbar-expand-lg' ~
+    (b5_navbar_schema is defined and b5_navbar_schema != 'none' ? ' navbar-' ~ b5_navbar_schema : ' navbar-dark') ~
+    (b5_navbar_schema is defined and b5_navbar_schema != 'none' ? (b5_navbar_schema == 'dark' ? ' text-light' : ' text-dark') : ' text-light') ~
+    (b5_navbar_bg_schema is defined and b5_navbar_bg_schema != 'none' ? ' bg-' ~ b5_navbar_bg_schema : '')
+%}
+
+{%
+  set footer_classes =
+    (b5_footer_schema is defined and b5_footer_schema != 'none' ? ' footer-' ~ b5_footer_schema : '') ~
+    (b5_footer_schema is defined and b5_footer_schema != 'none' ? (b5_footer_schema == 'dark' ? ' text-light' : ' text-dark') : ' text-light') ~
+    (b5_footer_bg_schema is defined and b5_footer_bg_schema != 'none' ? ' bg-' ~ b5_footer_bg_schema : '')
 %}
 
 <header role="banner">
@@ -33,7 +55,7 @@ set footer_classes = ' ' ~
           <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div class="collapse navbar-collapse justify-content-md-end" id="navbarSupportedContent">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
           {{ page.nav_main }}
           {{ page.nav_additional }}
         </div>
@@ -47,16 +69,16 @@ set footer_classes = ' ' ~
   <a id="main-content" tabindex="-1"></a>
 
   {%
-  set sidebar_first_classes = (page.sidebar_first and page.sidebar_second) ? 'col-12 col-sm-6 col-lg-3' : 'col-12 col-lg-3'
+    set sidebar_first_classes = (page.sidebar_first and page.sidebar_second) ? 'col-12 col-sm-6 col-lg-3' : 'col-12 col-lg-3'
   %}
 
   {%
-  set sidebar_second_classes = (page.sidebar_first and page.sidebar_second) ? 'col-12 col-sm-6 col-lg-3' : 'col-12 col-lg-3'
+    set sidebar_second_classes = (page.sidebar_first and page.sidebar_second) ? 'col-12 col-sm-6 col-lg-3' : 'col-12 col-lg-3'
   %}
 
   {%
-  set content_classes = (page.sidebar_first and page.sidebar_second) ? 'col-12 col-lg-6' : ((page.sidebar_first or page.sidebar_second) ? 'col-12 col-lg-9' : 'col-12' )
-   %}
+    set content_classes = (page.sidebar_first and page.sidebar_second) ? 'col-12 col-lg-6' : ((page.sidebar_first or page.sidebar_second) ? 'col-12 col-lg-9' : 'col-12')
+  %}
 
   <div class="{{ b5_top_container }}">
     {% if page.breadcrumb %}
@@ -84,7 +106,7 @@ set footer_classes = ' ' ~
 </main>
 
 {% if page.footer %}
-<footer role="contentinfo" class="mt-auto {{ footer_classes }}">
+<footer role="contentinfo" class="mt-auto{{ footer_classes }}">
   <div class="{{ b5_top_container }}">
     {{ page.footer }}
   </div>

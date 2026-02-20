@@ -145,6 +145,13 @@ class Event extends ContentEntityBase implements EntityChangedInterface, EntityO
   }
 
   /**
+   * Gets the event description.
+   */
+  public function getDescription(): ?string {
+    return $this->get('description')->value;
+  }
+
+  /**
    * Gets the event date.
    */
   public function getEventDate(): ?string {

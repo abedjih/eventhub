@@ -1,3 +1,0 @@
-services:
-  Drupal\eventhub_import\Hook\CronHooks:
-    autowire: true

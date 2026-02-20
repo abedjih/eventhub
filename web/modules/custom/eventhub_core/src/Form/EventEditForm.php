@@ -63,7 +63,8 @@ class EventEditForm extends FormBase {
       '#type' => 'text_format',
       '#title' => $this->t('Description'),
       '#default_value' => $description->value ?? '',
-      '#format' => $description->format ?? 'basic_html',
+      '#format' => $description->format ?? 'full_html',
+      '#allowed_formats' => ['full_html'],
     ];
 
     $form['event_date'] = [

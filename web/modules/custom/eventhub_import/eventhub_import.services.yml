@@ -1,0 +1,7 @@
+services:
+  logger.channel.eventhub_import:
+    parent: logger.channel_base
+    arguments: ['eventhub_import']
+
+  Drupal\eventhub_import\Hook\CronHooks:
+    autowire: true

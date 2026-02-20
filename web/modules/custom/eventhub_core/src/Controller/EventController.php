@@ -71,7 +71,18 @@ class EventController extends ControllerBase {
       ];
     }
 
-    return [
+    $build = [];
+
+    if ($this->currentUser()->hasPermission('create event')) {
+      $build['add_event'] = [
+        '#type' => 'link',
+        '#title' => $this->t('Créer un événement'),
+        '#url' => Url::fromRoute('eventhub.event_create'),
+        '#attributes' => ['class' => ['button', 'button--primary', 'mb-3']],
+      ];
+    }
+
+    $build['table'] = [
       '#theme' => 'table',
       '#header' => [
         $this->t('Événement'),
@@ -83,12 +94,15 @@ class EventController extends ControllerBase {
       ],
       '#rows' => $rows,
       '#empty' => $this->t('Aucun événement à venir.'),
-      '#cache' => [
-        'contexts' => ['url', 'user.permissions'],
-        'tags' => ['event_list'],
-        'max-age' => -1,
-      ],
     ];
+
+    $build['#cache'] = [
+      'contexts' => ['url', 'user.permissions'],
+      'tags' => ['event_list'],
+      'max-age' => -1,
+    ];
+
+    return $build;
   }
 
   /**
@@ -110,6 +124,22 @@ class EventController extends ControllerBase {
       ],
     ];
 
+    $description = $event->getDescription();
+    if ($description) {
+      $build['description'] = [
+        '#type' => 'container',
+        '#attributes' => ['class' => ['event-description']],
+        'label' => [
+          '#markup' => '<h3>' . $this->t('Description') . '</h3>',
+        ],
+        'text' => [
+          '#type' => 'processed_text',
+          '#text' => $description,
+          '#format' => $event->get('description')->format ?? 'basic_html',
+        ],
+      ];
+    }
+
     // Lazy builder for dynamic registration count.
     $build['registration_count'] = [
       '#lazy_builder' => [
@@ -125,7 +155,7 @@ class EventController extends ControllerBase {
       '#url' => Url::fromRoute('eventhub.registration_create', [
         'event' => $event->id(),
       ]),
-      '#attributes' => ['class' => ['btn', 'btn-primary', 'me-2']],
+      '#attributes' => ['class' => ['btn', 'btn-primary', 'me-2', 'mt-3']],
     ];
 
     $build['actions'] = [
