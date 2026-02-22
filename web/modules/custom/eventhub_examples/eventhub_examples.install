@@ -1,0 +1,25 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the eventhub examples module.
+ */
+
+// eventhub_core.install – table eventhub_geodata
+function eventhub_examples_schema(): array {
+  $schema['eventhub_example_table1'] = [
+    'fields' => [
+      'id' => ['type'=>'serial','unsigned'=>TRUE,'not null'=>TRUE],
+      'code_commune' => ['type'=>'varchar','length'=>10,'not null'=>TRUE],
+      'nom' => ['type'=>'varchar','length'=>255,'not null'=>TRUE],
+      'population' => ['type'=>'int','unsigned'=>TRUE,'default'=>0],
+      'departement' => ['type'=>'varchar','length'=>5,'not null'=>TRUE],
+      'region' => ['type'=>'varchar','length'=>255,'default'=>''],
+      'imported_at' => ['type'=>'int','not null'=>TRUE],
+    ],
+    'primary key' => ['id'],
+    'unique keys' => ['code_commune' => ['code_commune']],
+    'indexes' => ['nom' => ['nom'], 'departement' => ['departement']],
+  ];
+  return $schema;
+}

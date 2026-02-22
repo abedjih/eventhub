@@ -1,0 +1,3 @@
+administer event_example:
+  title: 'Administer eventexamples'
+  restrict access: true

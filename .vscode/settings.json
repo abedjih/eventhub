@@ -71,11 +71,10 @@
     "libxml",
     "mbstring",
     "mysqli",
-    "mysqlnd",
     "openssl",
     "pcre",
     "PDO",
-    "pdo_mysql",
+    "mysql",
     "Phar",
     "SimpleXML",
     "sodium",
@@ -88,8 +87,10 @@
     "zlib"
   ],
   "intelephense.environment.includePaths": [
-    "vendor",
-    "web/core"
+    "vendor/",
+    "web/core/",
+    "web/modules/contrib/",
+    "web/modules/custom/"
   ],
 
   // =========================
@@ -101,7 +102,8 @@
     "*.inc": "php",
     "*.profile": "php",
     "*.theme": "php",
-    "*.engine": "php"
+    "*.engine": "php",
+    "*.test": "php"
   },
 
   // =========================

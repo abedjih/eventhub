@@ -1,0 +1,16 @@
+{
+  "recommendations": [
+    "bmewburn.vscode-intelephense-client",
+    "xdebug.php-debug",
+    "mblode.twig-language-2",
+    "ValeryanM.vscode-phpsab",
+    "redhat.vscode-yaml",
+    "dbaeumer.vscode-eslint",
+    "eamodio.gitlens",
+    "biati.ddev-manager",
+    "github.copilot-chat",
+    "ms-ceintl.vscode-language-pack-fr",
+    "EditorConfig.EditorConfig",
+    "mikestead.dotenv"
+  ]
+}

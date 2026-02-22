@@ -57,10 +57,6 @@ eventhub.registration_create:
     _title: 'Inscription'
   requirements:
     _permission: 'register to event'
-  options:
-    parameters:
-      event:
-        type: entity:event
 
 eventhub.event_registrations:
   path: '/event/{event}/registrations'

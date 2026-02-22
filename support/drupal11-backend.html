@@ -7,7 +7,7 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%;overflow:hidden;background:var(--navy)}
 body{font-family:'Plus Jakarta Sans',sans-serif;color:var(--white);-webkit-font-smoothing:antialiased}
-.deck{position:relative;width:100vw;height:100vh}
+.deck{position:relative;width:100vw;height:100vh;overflow:hidden}
 .slide{position:absolute;inset:0;display:flex;flex-direction:column;opacity:0;visibility:hidden;transition:opacity .4s,transform .4s;transform:translateX(30px);padding:3.2rem 4.2rem 4.5rem;overflow-y:auto}
 .slide.active{opacity:1;visibility:visible;transform:translateX(0)}
 .slide.prev{opacity:0;transform:translateX(-30px)}
@@ -25,9 +25,9 @@ body{font-family:'Plus Jakarta Sans',sans-serif;color:var(--white);-webkit-font-
 .slide .subtitle{font-size:.92rem;color:var(--muted);margin-bottom:1.3rem;font-weight:400}
 .content{flex:1;display:flex;flex-direction:column;gap:.85rem;min-height:0}
 .row{display:flex;gap:.85rem}.row.fill{flex:1;min-height:0}
-.col{flex:1;display:flex;flex-direction:column;gap:.65rem;min-width:0}
+.col{flex:1;display:flex;flex-direction:column;gap:.65rem;min-width:0;overflow:visible}
 .col-60{flex:0 0 58%}.three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.85rem}
-.card{border-radius:10px;padding:.85rem 1rem;position:relative;overflow:hidden}
+.card{border-radius:10px;padding:.85rem 1rem;position:relative;overflow:visible}
 .card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--blue);border-radius:10px 0 0 10px}
 .card.accent-orange::before{background:var(--orange)}.card.accent-teal::before{background:var(--teal)}.card.accent-green::before{background:var(--green)}.card.accent-yellow::before{background:var(--yellow)}
 .card h4{font-size:.8rem;font-weight:700;margin-bottom:.4rem;color:var(--blue-light)}
@@ -36,11 +36,15 @@ body{font-family:'Plus Jakarta Sans',sans-serif;color:var(--white);-webkit-font-
 .slide.light .card li{color:#4A5E6F}
 .card li::before{content:'›';position:absolute;left:0;font-weight:700;color:var(--blue);font-size:.85rem}
 .card.accent-orange li::before{color:var(--orange)}.card.accent-teal li::before{color:var(--teal)}.card.accent-green li::before{color:var(--green)}
-.code-block{background:var(--code-bg);border-radius:10px;overflow:hidden;border:1px solid rgba(255,255,255,.06);display:flex;flex-direction:column;min-height:0}
+.code-block{background:var(--code-bg);border-radius:10px;overflow:auto;border:1px solid rgba(255,255,255,.06);display:flex;flex-direction:column;min-height:0;resize:vertical}
 .slide.light .code-block{border:1px solid #C8D8E8}
 .code-header{display:flex;align-items:center;padding:.35rem .8rem;background:rgba(255,255,255,.04);border-bottom:1px solid rgba(255,255,255,.06);gap:.4rem;flex-shrink:0}
 .code-dot{width:7px;height:7px;border-radius:50%}.code-dot:nth-child(1){background:#FF5F57}.code-dot:nth-child(2){background:#FEBC2E}.code-dot:nth-child(3){background:#28C840}
 .code-lang{margin-left:auto;font-size:.58rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.code-copy{background:none;border:none;color:var(--muted);cursor:pointer;padding:2px 6px;font-size:.7rem;line-height:1;border-radius:4px;transition:color .2s,background .2s;display:flex;align-items:center;gap:3px}
+.code-copy:hover{color:var(--accent);background:rgba(255,255,255,.08)}
+.slide.light .code-copy:hover{background:rgba(0,0,0,.06);color:var(--accent)}
+.code-copy.copied{color:#28C840}
 .code-block pre{margin:0;padding:.6rem .9rem;overflow:auto;flex:1;min-height:0}
 .code-block code{font-family:'Fira Code',monospace!important;font-size:.7rem!important;line-height:1.6!important;background:transparent!important}
 .flow{display:flex;align-items:center;gap:.5rem;margin-bottom:.7rem}
@@ -52,7 +56,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;color:var(--white);-webkit-font-
 .slide.light th{background:var(--dk);color:#fff;text-align:left;padding:.5rem .7rem;font-weight:600}
 .slide.light td{padding:.45rem .7rem;border-bottom:1px solid #E2ECF4}
 .slide.light td code{font-family:'Fira Code',monospace;font-size:.7rem;color:var(--blue);background:#EDF5FA;padding:.1rem .3rem;border-radius:4px}
-.section-slide{justify-content:center;align-items:flex-start;position:relative}
+.section-slide{justify-content:center;align-items:center;text-align:center}
 .section-slide .day-badge{display:inline-block;background:var(--orange);color:#fff;font-size:.7rem;font-weight:700;padding:.3rem .9rem;border-radius:4px;margin-bottom:.7rem;letter-spacing:.05em}
 .section-slide h1{font-size:2.5rem;margin-bottom:.5rem}
 .section-slide .subtitle{font-size:1rem}
@@ -381,7 +385,7 @@ function eventhub_theme_preprocess_page(&amp;$variables): void {
 </div></div></div>
 </section>
 <section class="slide light exo-slide" data-title="✏️ Exo 1.2 – Theming">
-<div class="exo-header"><span class="exo-badge">✏️ Exercice 1.2</span><h2>Thème custom EventHub</h2></div><p class="subtitle">Créer le thème EventHub, surcharger des templates et ajouter des preprocessors</p><div class="content"><div class="row fill"><div class="col col-60" style="gap:.65rem"><div class="card accent-yellow"><h4>📋 Tâches à réaliser</h4><ul><li>Générer un thème starter avec <code>ddev drush generate theme</code> ou <code>php web/core/scripts/drupal generate-theme</code></li><li>Configurer <code>eventhub_theme.info.yml</code> : régions (header, content, sidebar, footer), librairie CSS globale</li><li>Créer <code>eventhub_theme.libraries.yml</code> avec une librairie <code>global-styling</code> (fichier <code>css/style.css</code>)</li><li>Activer le <strong>debug Twig</strong> dans <code>services.yml</code></li><li>Surcharger <code>page.html.twig</code> : structure HTML avec régions, logo, navigation</li><li>Créer un preprocessor <code>eventhub_theme_preprocess_page()</code> pour ajouter le nom du site en variable</li><li>Activer le thème : <code>drush theme:enable eventhub_theme</code> puis <code>drush config:set system.theme default eventhub_theme</code></li></ul></div><div class="code-block"><div class="code-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang">yaml</span></div><pre><code class="language-yaml"># eventhub_theme.libraries.yml
+<div class="exo-header"><span class="exo-badge">✏️ Exercice 1.2</span><h2>Thème custom EventHub</h2></div><p class="subtitle">Créer le thème EventHub, surcharger des templates et ajouter des preprocessors</p><div class="content"><div class="row fill"><div class="col col-60" style="gap:.65rem"><div class="card accent-yellow"><h4>📋 Tâches à réaliser</h4><ul><li>Générer un thème starter avec <code>ddev drush generate theme</code> ou <code>php web/core/scripts/drupal generate-theme</code></li><li>Configurer <code>eventhub_theme.info.yml</code> : régions (header, content, sidebar, footer), librairie CSS globale</li><li>Créer <code>eventhub_theme.libraries.yml</code> avec une librairie <code>global-styling</code> (fichier <code>css/style.css</code>)</li><li>Activer le <strong>debug Twig</strong> dans <code>services.yml</code></li><li>Surcharger <code>page.html.twig</code> : structure HTML avec régions, logo, navigation</li><li>Créer un preprocessor <code>eventhub_theme_preprocess_page()</code> pour ajouter le nom du site en variable</li><li>Activer le thème : <code>drush theme:enable eventhub_theme</code> puis <code>drush config:set system.theme default eventhub_theme</code></li><li>Surcharger le template <code>node--article--teaser.html.twig</code> pour personnaliser l'affichage teaser des actualités (image, titre, résumé tronqué, lien « Lire la suite »)</li><li>Implémenter <code>eventhub_theme_preprocess_node()</code> : ajouter des variables custom selon le <strong>view mode</strong></li></ul></div><div class="code-block"><div class="code-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang">yaml</span></div><pre><code class="language-yaml"># eventhub_theme.libraries.yml
 global-styling:
   version: 1.0
   css:
@@ -390,7 +394,7 @@ global-styling:
   js:
     js/scripts.js: {}
   dependencies:
-    - core/drupal</code></pre></div></div><div class="col"><div class="card accent-green"><h4>✓ Critères de réussite</h4><ul><li>Thème généré et activé sans erreur</li><li>CSS custom chargé sur toutes les pages</li><li>Debug Twig activé (commentaires HTML visibles)</li><li>Template <code>page.html.twig</code> surchargé</li><li>Preprocessor fonctionnel (variable accessible dans Twig)</li><li>PHPCS passe sur le fichier <code>.theme</code></li></ul></div><div class="tip"><span class="tip-icon">💡</span><div class="tip-text">Utilisez l'inspecteur du navigateur pour repérer les commentaires <code>&lt;!-- THEME DEBUG --&gt;</code>. Ils indiquent le template utilisé et les suggestions de noms pour le surcharger.</div></div></div></div></div>
+    - core/drupal</code></pre></div></div><div class="col"><div class="card accent-green"><h4>✓ Critères de réussite</h4><ul><li>Thème généré et activé sans erreur</li><li>CSS custom chargé sur toutes les pages</li><li>Debug Twig activé (commentaires HTML visibles)</li><li>Template <code>page.html.twig</code> surchargé</li><li>Preprocessor fonctionnel (variable accessible dans Twig)</li><li>Template teaser des actualités surchargé et fonctionnel</li><li><code>preprocess_node()</code> ajoute des variables différentes selon le view mode (<code>full</code> / <code>teaser</code>)</li><li>PHPCS passe sur le fichier <code>.theme</code></li></ul></div><div class="tip"><span class="tip-icon">💡</span><div class="tip-text">Utilisez l'inspecteur du navigateur pour repérer les commentaires <code>&lt;!-- THEME DEBUG --&gt;</code>. Ils indiquent le template utilisé et les suggestions de noms pour le surcharger.</div></div></div></div></div>
 </section>
 <section class="slide light" data-title="Routing">
 
@@ -488,6 +492,7 @@ class RegistrationForm extends FormBase {
 <div class="card"><h4>Les 3 interfaces de formulaire</h4><ul><li><strong>FormBase</strong> – formulaire standard</li><li><strong>ConfigFormBase</strong> – config sauvegardée en YAML</li><li><strong>ConfirmFormBase</strong> – confirmation avant action</li></ul></div>
 <div class="card accent-orange"><h4>AutowireTrait (Drupal 11)</h4><ul><li>Rend <code>create()</code> obsolète</li><li>Le constructeur suffit pour l'injection</li><li>Type-hints résolus automatiquement</li></ul></div>
 <div class="card accent-teal"><h4>#states (côté client)</h4><ul><li><code>visible / invisible</code> selon un autre champ</li><li><code>required / optional</code> dynamiquement</li><li>Entièrement JavaScript, pas de requête serveur</li></ul></div>
+<div class="card accent-green"><h4>📚 Documentation Drupal</h4><ul><li><a href="https://www.drupal.org/docs/drupal-apis/form-api" target="_blank" style="color:var(--blue);text-decoration:underline">Form API overview</a></li><li><a href="https://api.drupal.org/api/drupal/elements" target="_blank" style="color:var(--blue);text-decoration:underline">Form Element Reference</a></li></ul></div>
 </div></div></div>
 </section>
 <section class="slide light" data-title="AJAX">
@@ -666,56 +671,323 @@ public function upsert(array $data): void {
 <div class="tip"><span class="tip-icon">⚠️</span><div class="tip-text">Database API = <strong>tables custom</strong> uniquement. Pour les entités, utilisez Entity Query.</div></div>
 </div></div></div>
 </section>
-<section class="slide light" data-title="Entités">
+<section class="slide light" data-title="Database API – Requêtes">
 
-<h2>Custom Content Entity</h2><p class="subtitle">Entités personnalisées en base de données pour structurer les données.</p>
+<h2>Database API – Requêtes CRUD</h2><p class="subtitle">Insert, Select, Update, Delete : l'abstraction Drupal pour les tables custom</p>
 <div class="content"><div class="row fill">
-<div class="col col-60">
-<p class="body-text">Les entités sont le modèle de données principal. En Drupal 11, la déclaration utilise les <strong>attributs PHP 8</strong> directement sur la classe. <code>baseFieldDefinitions()</code> définit les colonnes de la table. Pour les catégories, on utilise un <strong>vocabulaire de taxonomie</strong> avec un champ personnalisé.</p>
-<div class="code-block"><div class="code-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang">php</span></div><pre><code class="language-php">#[ContentEntityType(
-  id: 'event',
-  label: new TranslatableMarkup('Event'),
-  base_table: 'eventhub_event',
-  entity_keys: [
-    'id' =&gt; 'id', 'uuid' =&gt; 'uuid',
-    'label' =&gt; 'name', 'owner' =&gt; 'uid',
-    'published' =&gt; 'status',
+<div class="col col-60" style="gap:.65rem">
+<p class="body-text">Toutes les requêtes passent par le service <code>database</code> (<code>Drupal\Core\Database\Connection</code>). Chaque méthode retourne un <strong>query builder</strong> chaînable terminé par <code>-&gt;execute()</code>.</p>
+<div class="code-block"><div class="code-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang">php</span></div><pre><code class="language-php">// INSERT – ajouter un enregistrement
+$id = $this-&gt;database-&gt;insert('eventhub_geodata')
+  -&gt;fields([
+    'code_commune' =&gt; $data['code_commune'],
+    'nom' =&gt; $data['nom'],
+    'population' =&gt; $data['population'] ?? 0,
+    'departement' =&gt; $data['departement'],
+    'region' =&gt; $data['region'] ?? '',
+    'imported_at' =&gt; $this-&gt;time-&gt;getRequestTime(),
+  ])
+  -&gt;execute(); // retourne l'ID inséré</code></pre></div>
+<div class="code-block"><div class="code-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang">php</span></div><pre><code class="language-php">// SELECT – construire une requête de lecture
+$query = $this-&gt;database-&gt;select('eventhub_geodata', 'g')
+  -&gt;fields('g', ['id', 'code_commune', 'nom', 'departement'])
+  -&gt;condition('departement', '75')
+  -&gt;orderBy('nom', 'ASC')
+  -&gt;range(0, 10);   // LIMIT 10 OFFSET 0
+$results = $query-&gt;execute();</code></pre></div>
+<div class="code-block"><div class="code-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang">php</span></div><pre><code class="language-php">// UPDATE – modifier des enregistrements
+$this-&gt;database-&gt;update('eventhub_geodata')
+  -&gt;fields([
+    'nom' =&gt; $data['nom'],
+    'population' =&gt; $data['population'] ?? 0,
+    'imported_at' =&gt; $this-&gt;time-&gt;getRequestTime(),
+  ])
+  -&gt;condition('id', $existing)
+  -&gt;execute(); // retourne le nombre de lignes modifiées</code></pre></div>
+<div class="code-block"><div class="code-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang">php</span></div><pre><code class="language-php">// DELETE – supprimer des enregistrements
+$this-&gt;database-&gt;delete('eventhub_geodata')
+  -&gt;condition('departement', '00')
+  -&gt;execute(); // retourne le nombre de lignes supprimées
+
+// TRUNCATE – vider toute la table
+$this-&gt;database-&gt;truncate('eventhub_geodata')-&gt;execute();</code></pre></div>
+</div><div class="col">
+<div class="card accent-blue"><h4>Structure des requêtes</h4><ul><li><code>insert(table)</code> → <code>-&gt;fields([])</code></li><li><code>select(table, alias)</code> → <code>-&gt;fields()</code>, <code>-&gt;condition()</code>, <code>-&gt;orderBy()</code>, <code>-&gt;range()</code></li><li><code>update(table)</code> → <code>-&gt;fields([])</code>, <code>-&gt;condition()</code></li><li><code>delete(table)</code> → <code>-&gt;condition()</code></li><li>Toujours terminer par <code>-&gt;execute()</code></li></ul></div>
+<div class="card accent-green"><h4>Méthodes Fetch</h4><ul><li><code>fetchAll()</code> – tableau d'objets <code>stdClass</code> (toutes les lignes)</li><li><code>fetchAssoc()</code> – tableau associatif de la <strong>prochaine</strong> ligne (<code>['col' =&gt; val]</code>)</li><li><code>fetchField()</code> – valeur scalaire du <strong>premier champ</strong> de la prochaine ligne</li><li><code>fetchCol()</code> – tableau des valeurs d'une seule colonne</li><li><code>fetchAllAssoc(key)</code> – tableau indexé par une colonne clé</li></ul></div>
+<div class="code-block"><div class="code-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang">php</span></div><pre><code class="language-php">// fetchAll() – toutes les communes d'un département
+$communes = $this-&gt;database
+  -&gt;select('eventhub_geodata', 'g')
+  -&gt;fields('g')-&gt;condition('departement', '75')
+  -&gt;execute()-&gt;fetchAll();
+// → [stdClass{id, nom, ...}, stdClass{...}, ...]
+
+// fetchField() – compter les enregistrements
+$count = $this-&gt;database
+  -&gt;select('eventhub_geodata', 'g')
+  -&gt;countQuery()-&gt;execute()-&gt;fetchField();
+// → "1234" (string, valeur scalaire)
+
+// fetchAssoc() – une seule ligne en tableau
+$commune = $this-&gt;database
+  -&gt;select('eventhub_geodata', 'g')
+  -&gt;fields('g', ['nom', 'departement'])
+  -&gt;condition('code_commune', '75056')
+  -&gt;execute()-&gt;fetchAssoc();
+// → ['nom' =&gt; 'Paris', 'departement' =&gt; '75']</code></pre></div>
+<div class="tip"><span class="tip-icon">💡</span><div class="tip-text">Utilisez <code>escapeLike()</code> pour les recherches LIKE : <code>-&gt;condition('nom', '%' . $db-&gt;escapeLike($search) . '%', 'LIKE')</code></div></div>
+</div></div></div>
+</section>
+<section class="slide light" data-title="Content Entity – Déclaration">
+
+<h2>Content Entity – Déclaration</h2><p class="subtitle">Attribut PHP 8 <code>#[ContentEntityType]</code>, classe de base, traits et handlers</p>
+<div class="content"><div class="row fill">
+<div class="col col-60" style="gap:.65rem">
+<p class="body-text">Une <strong>Content Entity</strong> est le modèle de données principal de Drupal : stockée en base de données, elle est déclarée via un <strong>attribut PHP 8</strong> sur la classe. L'attribut définit l'identifiant, la table, les clés et les handlers.</p>
+<div class="code-block"><div class="code-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang">php</span></div><pre><code class="language-php">// src/Entity/Event.php
+use Drupal\Core\Entity\Attribute\ContentEntityType;
+use Drupal\Core\Entity\ContentEntityBase;
+use Drupal\Core\Entity\EntityChangedInterface;
+use Drupal\Core\Entity\EntityChangedTrait;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
+use Drupal\user\EntityOwnerInterface;
+use Drupal\user\EntityOwnerTrait;
+
+#[ContentEntityType(
+  id: 'event',                              // Identifiant machine unique
+  label: new TranslatableMarkup('Event'),   // Label affiché
+  label_collection: new TranslatableMarkup('Events'),
+  label_singular: new TranslatableMarkup('event'),
+  label_plural: new TranslatableMarkup('events'),
+  base_table: 'eventhub_event',            // Nom de la table en BDD
+  entity_keys: [                            // Colonnes spéciales
+    'id' =&gt; 'id',                          // Clé primaire
+    'uuid' =&gt; 'uuid',                      // Identifiant universel
+    'label' =&gt; 'name',                     // Champ utilisé comme label
+    'owner' =&gt; 'uid',                      // Propriétaire (user)
+    'published' =&gt; 'status',               // Statut publication
   ],
-  handlers: [
-    'access' =&gt; EventAccessControlHandler::class,
+  handlers: [                               // Services associés
+    'access' =&gt; 'Drupal\eventhub_core\Access\EventAccessControlHandler',
+    'views_data' =&gt; 'Drupal\views\EntityViewsData',
   ],
 )]
 class Event extends ContentEntityBase
     implements EntityChangedInterface, EntityOwnerInterface {
-  use EntityChangedTrait;
-  use EntityOwnerTrait;
+  use EntityChangedTrait;   // Gère automatiquement le champ 'changed'
+  use EntityOwnerTrait;     // Gère automatiquement le champ 'uid'
+}</code></pre></div>
+</div><div class="col">
+<div class="card accent-blue"><h4>Éléments obligatoires</h4><ul><li><code>id</code> – identifiant machine unique</li><li><code>label</code> – label traduisible</li><li><code>base_table</code> – nom de la table SQL</li><li><code>entity_keys</code> – mapping des colonnes clés (<code>id</code>, <code>uuid</code>, <code>label</code>)</li><li>Étendre <code>ContentEntityBase</code></li><li>Implémenter <code>baseFieldDefinitions()</code></li></ul></div>
+<div class="card"><h4>Handlers courants</h4><ul><li><code>access</code> – contrôle d'accès (view, update, delete)</li><li><code>form</code> – formulaires (default, edit, delete)</li><li><code>list_builder</code> – page de listing admin</li><li><code>views_data</code> – intégration Views</li><li><code>storage</code> – couche de persistance</li><li><code>route_provider</code> – routes CRUD auto</li></ul></div>
+<div class="card accent-green"><h4>Traits utiles</h4><ul><li><code>EntityOwnerTrait</code> – champ <code>uid</code> + méthodes <code>getOwner()</code>, <code>getOwnerId()</code></li><li><code>EntityChangedTrait</code> – champ <code>changed</code> auto-mis à jour</li><li><code>RevisionLogEntityTrait</code> – support des révisions</li><li><code>EntityPublishedTrait</code> – champ <code>status</code> + <code>isPublished()</code></li></ul></div>
+<div class="tip"><span class="tip-icon">💡</span><div class="tip-text">Drupal crée <strong>automatiquement la table</strong> en BDD à partir des base fields. Pas besoin de <code>hook_schema()</code> pour les entités.</div></div>
+</div></div></div>
+</section>
+<section class="slide light" data-title="Content Entity – Base Fields">
 
-  public static function baseFieldDefinitions(
-      EntityTypeInterface $entity_type): array {
-    $fields = parent::baseFieldDefinitions($entity_type);
-    $fields += static::ownerBaseFieldDefinitions($entity_type);
-    $fields['name'] = BaseFieldDefinition::create('string')
-      -&gt;setLabel(t('Title'))-&gt;setRequired(TRUE)
-      -&gt;setSetting('max_length', 255);
-    $fields['event_date'] = BaseFieldDefinition::create('datetime')
-      -&gt;setLabel(t('Date'))-&gt;setRequired(TRUE);
-    $fields['location'] = BaseFieldDefinition::create('string')
-      -&gt;setLabel(t('Lieu'))-&gt;setRequired(TRUE);
-    $fields['capacity'] = BaseFieldDefinition::create('integer')
-      -&gt;setLabel(t('Capacité'))-&gt;setRequired(TRUE)
-      -&gt;setSetting('min', 1)-&gt;setDefaultValue(50);
-    $fields['category'] = BaseFieldDefinition::create('entity_reference')
-      -&gt;setLabel(t('Catégorie'))-&gt;setRequired(TRUE)
-      -&gt;setSetting('target_type', 'taxonomy_term')
-      -&gt;setSetting('handler_settings',
-        ['target_bundles' =&gt; ['event_categories' =&gt; 'event_categories']]);
-    return $fields;
+<h2>Content Entity – Base Fields</h2><p class="subtitle"><code>baseFieldDefinitions()</code> : déclarer les champs et leur configuration</p>
+<div class="content"><div class="row fill">
+<div class="col col-60" style="gap:.65rem">
+<p class="body-text">Chaque champ est créé via <code>BaseFieldDefinition::create(type)</code>. Les méthodes chaînées définissent label, contraintes, widget de formulaire et formateur d'affichage.</p>
+<div class="code-block"><div class="code-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang">php</span></div><pre><code class="language-php">public static function baseFieldDefinitions(
+    EntityTypeInterface $entity_type): array {
+  // Récupère id, uuid, langcode du parent
+  $fields = parent::baseFieldDefinitions($entity_type);
+  // Ajoute uid (propriétaire) via le trait
+  $fields += static::ownerBaseFieldDefinitions($entity_type);
+
+  // STRING – texte court (varchar)
+  $fields['name'] = BaseFieldDefinition::create('string')
+    -&gt;setLabel(new TranslatableMarkup('Titre'))
+    -&gt;setDescription(new TranslatableMarkup("Le titre de l'événement."))
+    -&gt;setRequired(TRUE)
+    -&gt;setSetting('max_length', 255)
+    -&gt;setDisplayOptions('form', [
+      'type' =&gt; 'string_textfield', 'weight' =&gt; 0,
+    ]);
+
+  // TEXT_LONG – texte riche (table dédiée)
+  $fields['description'] = BaseFieldDefinition::create('text_long')
+    -&gt;setLabel(new TranslatableMarkup('Description'))
+    -&gt;setDisplayOptions('form', [
+      'type' =&gt; 'text_textarea', 'weight' =&gt; 5,
+    ]);
+
+  // DATETIME – date et heure
+  $fields['event_date'] = BaseFieldDefinition::create('datetime')
+    -&gt;setLabel(new TranslatableMarkup("Date de l'événement"))
+    -&gt;setRequired(TRUE)
+    -&gt;setSetting('datetime_type', 'datetime')
+    -&gt;setDisplayOptions('form', [
+      'type' =&gt; 'datetime_default', 'weight' =&gt; 10,
+    ]);
+
+  // INTEGER – nombre entier
+  $fields['capacity'] = BaseFieldDefinition::create('integer')
+    -&gt;setLabel(new TranslatableMarkup('Capacité'))
+    -&gt;setRequired(TRUE)
+    -&gt;setSetting('min', 1)
+    -&gt;setDefaultValue(50)
+    -&gt;setDisplayOptions('form', [
+      'type' =&gt; 'number', 'weight' =&gt; 20,
+    ]);
+
+  // ENTITY_REFERENCE – relation vers une autre entité
+  $fields['category'] = BaseFieldDefinition::create('entity_reference')
+    -&gt;setLabel(new TranslatableMarkup('Catégorie'))
+    -&gt;setRequired(TRUE)
+    -&gt;setSetting('target_type', 'taxonomy_term')
+    -&gt;setSetting('handler', 'default:taxonomy_term')
+    -&gt;setSetting('handler_settings', [
+      'target_bundles' =&gt; ['event_categories' =&gt; 'event_categories'],
+      'sort' =&gt; ['field' =&gt; 'name', 'direction' =&gt; 'asc'],
+      'auto_create' =&gt; FALSE,
+    ])
+    -&gt;setDisplayOptions('form', [
+      'type' =&gt; 'options_select', 'weight' =&gt; 25,
+    ]);
+
+  // LIST_STRING – liste de valeurs prédéfinies
+  $fields['registration_status'] = BaseFieldDefinition::create('list_string')
+    -&gt;setLabel(new TranslatableMarkup('Statut'))
+    -&gt;setRequired(TRUE)-&gt;setDefaultValue('confirmed')
+    -&gt;setSetting('allowed_values', [
+      'confirmed' =&gt; 'Confirmée',
+      'pending' =&gt; 'En attente',
+      'cancelled' =&gt; 'Annulée',
+    ]);
+
+  // BOOLEAN, CREATED, CHANGED – champs système
+  $fields['status'] = BaseFieldDefinition::create('boolean')
+    -&gt;setLabel(new TranslatableMarkup('Publié'))
+    -&gt;setDefaultValue(TRUE);
+  $fields['created'] = BaseFieldDefinition::create('created')
+    -&gt;setLabel(new TranslatableMarkup('Créé le'));
+  $fields['changed'] = BaseFieldDefinition::create('changed')
+    -&gt;setLabel(new TranslatableMarkup('Modifié le'));
+
+  return $fields;
+}</code></pre></div>
+</div><div class="col">
+<div class="card accent-blue"><h4>Types de champs courants</h4><ul><li><code>string</code> – varchar (max_length)</li><li><code>text_long</code> – texte long avec format</li><li><code>integer</code> / <code>float</code> / <code>decimal</code></li><li><code>boolean</code> – 0 ou 1</li><li><code>datetime</code> – date / datetime</li><li><code>email</code> – adresse email</li><li><code>entity_reference</code> – relation</li><li><code>list_string</code> – liste de choix</li><li><code>created</code> / <code>changed</code> – timestamps auto</li><li><code>uri</code>, <code>link</code>, <code>image</code> …</li></ul></div>
+<div class="card accent-orange"><h4>Méthodes de configuration</h4><ul><li><code>setLabel()</code> – libellé affiché</li><li><code>setDescription()</code> – aide contextuelle</li><li><code>setRequired(TRUE)</code> – champ obligatoire</li><li><code>setDefaultValue()</code> – valeur par défaut</li><li><code>setSetting(key, val)</code> – réglage spécifique au type</li><li><code>setDisplayOptions('form', [...])</code> – widget formulaire</li><li><code>setDisplayOptions('view', [...])</code> – formateur d'affichage</li><li><code>setDisplayConfigurable('form', TRUE)</code> – configurable via Field UI</li><li><code>addConstraint()</code> – validation custom</li></ul></div>
+<div class="tip"><span class="tip-icon">💡</span><div class="tip-text"><code>parent::baseFieldDefinitions()</code> fournit <code>id</code>, <code>uuid</code> et <code>langcode</code>. Les traits ajoutent leurs propres champs : <code>ownerBaseFieldDefinitions()</code> pour <code>uid</code>.</div></div>
+</div></div></div>
+</section>
+<section class="slide light" data-title="Content Entity – Accesseurs &amp; Accès">
+
+<h2>Content Entity – Accesseurs &amp; Accès</h2><p class="subtitle">Méthodes d'accès aux données et contrôle d'accès par permissions</p>
+<div class="content"><div class="row fill">
+<div class="col col-60" style="gap:.65rem">
+<p class="body-text">Ajoutez des <strong>méthodes getters</strong> typées sur l'entité pour un accès propre aux données. Le <strong>Access Control Handler</strong> protège les opérations CRUD selon les permissions.</p>
+<div class="code-block"><div class="code-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang">php</span></div><pre><code class="language-php">// src/Entity/Event.php – méthodes d'accès typées
+public function getName(): string {
+  return (string) $this-&gt;get('name')-&gt;value;
+}
+
+public function getCapacity(): int {
+  return (int) $this-&gt;get('capacity')-&gt;value;
+}
+
+public function getEventDate(): ?string {
+  return $this-&gt;get('event_date')-&gt;value;
+}
+
+// entity_reference → accès à l'entité liée
+public function getCategoryId(): ?int {
+  $target_id = $this-&gt;get('category')-&gt;target_id;
+  return $target_id ? (int) $target_id : NULL;
+}
+
+public function getCategory(): ?TermInterface {
+  $entity = $this-&gt;get('category')-&gt;entity;
+  return $entity instanceof TermInterface ? $entity : NULL;
+}
+
+public function isPublished(): bool {
+  return (bool) $this-&gt;get('status')-&gt;value;
+}</code></pre></div>
+<div class="code-block"><div class="code-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang">php</span></div><pre><code class="language-php">// src/Access/EventAccessControlHandler.php
+class EventAccessControlHandler extends EntityAccessControlHandler {
+
+  protected function checkAccess(EntityInterface $entity,
+      $operation, AccountInterface $account): AccessResultInterface {
+    return match ($operation) {
+      'view' =&gt; AccessResult::allowedIfHasPermission(
+          $account, 'access content'),
+      'update' =&gt; $this-&gt;checkUpdateAccess($entity, $account),
+      'delete' =&gt; AccessResult::allowedIfHasPermission(
+          $account, 'delete any event'),
+      default =&gt; AccessResult::neutral(),
+    };
+  }
+
+  protected function checkCreateAccess(AccountInterface $account,
+      array $context, $entity_bundle = NULL): AccessResultInterface {
+    return AccessResult::allowedIfHasPermission(
+        $account, 'create event');
   }
 }</code></pre></div>
 </div><div class="col">
-<div class="card"><h4>Content Entity</h4><ul><li>Stockée en <strong>base de données</strong> (table custom)</li><li>Déclaration via <code>#[ContentEntityType]</code> PHP 8</li><li><code>baseFieldDefinitions()</code> = schéma de la table</li><li>Traits : EntityOwnerTrait, EntityChangedTrait</li><li>Access handler pour le contrôle d'accès</li></ul></div>
-<div class="card accent-orange"><h4>Taxonomie pour les catégories</h4><ul><li>Vocabulaire <code>event_categories</code></li><li>Champ custom <code>field_max_capacity</code> (entier)</li><li>Termes par défaut : conference, meetup, formation, workshop</li><li>Référencé via <code>entity_reference</code> dans Event</li><li>Config exportable via <code>drush cex</code></li></ul></div>
-<div class="tip"><span class="tip-icon">💡</span><div class="tip-text"><strong>Content Entity</strong> = données volumineuses (événements, inscriptions). <strong>Taxonomie</strong> = catégorisation avec champs personnalisés. Drupal propose aussi les <strong>Config Entities</strong> pour les structures YAML, mais la taxonomie est plus flexible ici.</div></div>
+<div class="card"><h4>Accéder aux valeurs</h4><ul><li><code>$entity-&gt;get('field')-&gt;value</code> – valeur scalaire</li><li><code>$entity-&gt;get('field')-&gt;target_id</code> – ID référence</li><li><code>$entity-&gt;get('field')-&gt;entity</code> – entité référencée (chargée)</li><li><code>$entity-&gt;set('field', $value)</code> – modifier</li><li><code>$entity-&gt;save()</code> – persister</li><li><code>$entity-&gt;delete()</code> – supprimer</li></ul></div>
+<div class="card accent-blue"><h4>Access Control Handler</h4><ul><li>Déclaré dans <code>handlers['access']</code></li><li>Étend <code>EntityAccessControlHandler</code></li><li><code>checkAccess()</code> – view, update, delete</li><li><code>checkCreateAccess()</code> – création</li><li>Retourne <code>AccessResult::allowed()</code>, <code>forbidden()</code>, <code>neutral()</code></li><li><code>cachePerPermissions()</code>, <code>cachePerUser()</code> – cache granulaire</li></ul></div>
+<div class="card accent-orange"><h4>Opérations CRUD sur l'entité</h4><ul><li><code>Event::create([...])-&gt;save()</code></li><li><code>Event::load($id)</code></li><li><code>Event::loadMultiple([$id1, $id2])</code></li><li><code>$entity-&gt;set('name', 'New')-&gt;save()</code></li><li><code>$entity-&gt;delete()</code></li></ul></div>
+<div class="tip"><span class="tip-icon">💡</span><div class="tip-text">L'accès <code>update</code> gère souvent deux cas : <strong>edit any</strong> (admin) et <strong>edit own</strong> (auteur). Utilisez <code>cachePerUser()</code> quand le résultat dépend de l'utilisateur courant.</div></div>
+</div></div></div>
+</section>
+<section class="slide light" data-title="Entités configurables &amp; Bundles">
+
+<h2>Entités configurables &amp; Bundles</h2><p class="subtitle">Field UI, bundles, entités de configuration et extensibilité</p>
+<div class="content"><div class="row fill">
+<div class="col col-60" style="gap:.65rem">
+<p class="body-text">Les <strong>base fields</strong> sont définis en code. Pour permettre aux administrateurs d'ajouter des champs <strong>depuis l'interface</strong> (Field UI), l'entité doit être <strong>configurable</strong>. Les <strong>bundles</strong> permettent d'avoir des variantes d'une même entité avec des champs différents.</p>
+<div class="code-block"><div class="code-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang">php</span></div><pre><code class="language-php">// Rendre un base field configurable via Field UI
+$fields['name'] = BaseFieldDefinition::create('string')
+  -&gt;setLabel(new TranslatableMarkup('Titre'))
+  -&gt;setRequired(TRUE)
+  -&gt;setDisplayConfigurable('form', TRUE)  // Widget modifiable
+  -&gt;setDisplayConfigurable('view', TRUE); // Formateur modifiable
+
+// Activer Field UI sur l'entité : ajouter dans l'attribut
+#[ContentEntityType(
+  // ...
+  handlers: [
+    'form' =&gt; [
+      'default' =&gt; EventForm::class,
+      'edit' =&gt; EventEditForm::class,
+      'delete' =&gt; EventDeleteForm::class,
+    ],
+    'list_builder' =&gt; EventListBuilder::class,
+    'route_provider' =&gt; ['html' =&gt; DefaultHtmlRouteProvider::class],
+  ],
+  links: [
+    'canonical' =&gt; '/event/{event}',
+    'add-form' =&gt; '/event/add',
+    'edit-form' =&gt; '/event/{event}/edit',
+    'delete-form' =&gt; '/event/{event}/delete',
+    'collection' =&gt; '/admin/content/events',
+  ],
+  field_ui_base_route: 'entity.event.collection',
+)]</code></pre></div>
+<div class="code-block"><div class="code-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang">php</span></div><pre><code class="language-php">// BUNDLES – variantes d'une entité (ex: Node → Article, Page)
+// L'entité bundle est une Config Entity qui définit les types
+#[ContentEntityType(
+  id: 'event',
+  bundle_entity_type: 'event_type',  // Config Entity des bundles
+  entity_keys: [
+    'id' =&gt; 'id',
+    'bundle' =&gt; 'type',             // Colonne bundle
+    'label' =&gt; 'name',
+  ],
+)]
+
+// Chaque bundle peut avoir ses propres champs Field UI
+// Ex: Node "article" a un champ "image", Node "page" non</code></pre></div>
+</div><div class="col">
+<div class="card accent-blue"><h4>Base Fields vs Field UI</h4><ul><li><strong>Base fields</strong> – définis en PHP, identiques pour toutes les instances, versionnés dans le code</li><li><strong>Field UI fields</strong> – ajoutés via l'admin, stockés en config YAML, exportables avec <code>drush cex</code></li><li><code>setDisplayConfigurable('form', TRUE)</code> – rend le widget ajustable dans Field UI</li></ul></div>
+<div class="card accent-green"><h4>Bundles (types)</h4><ul><li>Un <strong>bundle</strong> = une variante d'entité avec ses propres champs</li><li>Exemples Drupal core : Node → Article, Page, …</li><li>Défini par une <strong>Config Entity</strong> (bundle_entity_type)</li><li>Colonne <code>type</code> dans <code>entity_keys</code></li><li>Chaque bundle peut avoir des champs Field UI différents</li></ul></div>
+<div class="card accent-orange"><h4>Config Entity (résumé)</h4><ul><li>Stockée en <strong>YAML</strong> (pas en BDD)</li><li>Attribut <code>#[ConfigEntityType]</code></li><li>Étend <code>ConfigEntityBase</code></li><li>Exportable / importable avec <code>drush cex</code> / <code>drush cim</code></li><li>Utilisée pour : types de contenu, vocabulaires, vues, formats d'image…</li></ul></div>
+<div class="tip"><span class="tip-icon">💡</span><div class="tip-text">Le projet EventHub utilise des <strong>base fields uniquement</strong> (pas de bundles). Pour des entités plus complexes avec des variantes, combinez <strong>bundles + Field UI</strong>.</div></div>
 </div></div></div>
 </section>
 <section class="slide light exo-slide" data-title="✏️ Exo 2.1 – Entités &amp; Schema">
@@ -1132,13 +1404,15 @@ ddev exec vendor/bin/phpunit -c web/core \
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/bash.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/xml.min.js"></script>
 <script>
-hljs.highlightAll();const sl=document.querySelectorAll('.slide'),N=sl.length;let cur=0;
+hljs.highlightAll();
+document.querySelectorAll('.code-header').forEach(h=>{const btn=document.createElement('button');btn.className='code-copy';btn.title='Copier';btn.innerHTML='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';h.appendChild(btn);btn.addEventListener('click',()=>{const code=h.closest('.code-block').querySelector('code');navigator.clipboard.writeText(code.textContent).then(()=>{btn.innerHTML='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';btn.classList.add('copied');setTimeout(()=>{btn.innerHTML='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';btn.classList.remove('copied')},1500)})})});
+const sl=document.querySelectorAll('.slide'),N=sl.length;let cur=0;
 function show(n){sl.forEach((s,i)=>{s.classList.remove('active','prev');if(i===n)s.classList.add('active');else if(i<n)s.classList.add('prev')});cur=n;document.getElementById('counter').textContent=(n+1)+' / '+N;document.getElementById('prevBtn').disabled=n===0;document.getElementById('nextBtn').disabled=n===N-1;document.getElementById('progress').style.width=((n+1)/N*100)+'%';document.querySelectorAll('.sidebar a').forEach((a,i)=>a.classList.toggle('active',i===n))}
 function go(d){const n=cur+d;if(n>=0&&n<N)show(n)}
 document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();go(1)}if(e.key==='ArrowLeft'){e.preventDefault();go(-1)}if(e.key==='Home'){e.preventDefault();show(0)}if(e.key==='End'){e.preventDefault();show(N-1)}if(e.key==='Escape')closeSidebar()});
 let tx=0;document.addEventListener('touchstart',e=>{tx=e.touches[0].clientX});document.addEventListener('touchend',e=>{const d=e.changedTouches[0].clientX-tx;if(Math.abs(d)>60)go(d<0?1:-1)});
 const sb=document.getElementById('sidebar'),ov=document.getElementById('overlay');
-function buildSidebar(){let h='';sl.forEach((s,i)=>{const t=s.dataset.title;if(t.startsWith('—'))h+='<h3>'+t.replace('— ','')+'</h3>';else h+='<a data-i="'+i+'">'+t+'</a>'});sb.innerHTML=h;sb.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{show(+a.dataset.i);closeSidebar()}))}
+function buildSidebar(){let h='';sl.forEach((s,i)=>{const t=s.dataset.title;if(t.startsWith('—'))h+='<h3 data-i="'+i+'" style="cursor:pointer">'+t.replace('— ','')+'</h3>';else h+='<a data-i="'+i+'">'+t+'</a>'});sb.innerHTML=h;sb.querySelectorAll('a,h3[data-i]').forEach(a=>a.addEventListener('click',()=>{show(+a.dataset.i);closeSidebar()}))}
 function toggleSidebar(){sb.classList.toggle('open');ov.classList.toggle('open')}
 function closeSidebar(){sb.classList.remove('open');ov.classList.remove('open')}
 document.getElementById('sidebarBtn').addEventListener('click',toggleSidebar);

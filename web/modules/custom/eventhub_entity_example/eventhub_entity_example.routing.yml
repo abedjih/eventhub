@@ -1,0 +1,7 @@
+entity.event_example.settings:
+  path: 'admin/structure/event-example'
+  defaults:
+    _form: '\Drupal\eventhub_entity_example\Form\EventExampleSettingsForm'
+    _title: 'EventExample'
+  requirements:
+    _permission: 'administer event_example'

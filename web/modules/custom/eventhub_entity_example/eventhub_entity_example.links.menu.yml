@@ -1,0 +1,11 @@
+entity.event_example.settings:
+  title: 'EventExample'
+  description: 'Configure an EventExample entity type.'
+  route_name:  entity.event_example.settings
+  parent: system.admin_structure
+
+entity.event_example.collection:
+  title: 'EventExamples'
+  description: 'List of eventexamples.'
+  route_name: entity.event_example.collection
+  parent: system.admin_content

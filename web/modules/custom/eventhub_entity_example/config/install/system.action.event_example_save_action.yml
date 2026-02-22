@@ -1,0 +1,10 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - eventhub_entity_example
+id: event_example_save_action
+label: 'Save eventexamples'
+type: event_example
+plugin: entity:save_action:event_example
+configuration: {  }

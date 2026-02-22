@@ -1,0 +1,5 @@
+name: 'eventhub examples'
+type: module
+description: 'Eenthub code examples'
+package: Custom
+core_version_requirement: ^10 || ^11

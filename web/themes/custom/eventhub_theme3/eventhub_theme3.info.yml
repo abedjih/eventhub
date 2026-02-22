@@ -1,0 +1,26 @@
+name: 'EventHub Theme'
+type: theme
+'base theme': stable9
+version: 1.0.0
+libraries:
+  - eventhub_theme3/base
+  - eventhub_theme3/messages
+  - core/normalize
+libraries-extend:
+  user/drupal.user:
+    - eventhub_theme3/user
+  core/drupal.dropbutton:
+    - eventhub_theme3/dropbutton
+  core/drupal.dialog:
+    - eventhub_theme3/dialog
+  file/drupal.file:
+    - eventhub_theme3/file
+  core/drupal.item-list:
+    - eventhub_theme3/item-list
+  core/drupal.progress:
+    - eventhub_theme3/progress
+  core/drupal.tablesort:
+    - eventhub_theme3/drupal.tablesort
+description: ''
+core_version_requirement: ^11
+generator: 'starterkit_theme:11.3.2'

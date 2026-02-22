@@ -1,0 +1,5 @@
+name: 'Eventhub entity example'
+type: module
+description: 'Event entity example'
+package: 'Event entity example'
+core_version_requirement: ^10 || ^11

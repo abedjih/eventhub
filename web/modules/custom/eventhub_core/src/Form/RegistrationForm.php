@@ -36,8 +36,11 @@ final class RegistrationForm extends FormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state): array {
-    /** @var \Drupal\eventhub_core\Entity\Event|null $event */
-    $event = $this->getRouteMatch()->getParameter('event');
+    $eventId = $this->getRouteMatch()->getParameter('event');
+    $event = NULL;
+    if ($eventId) {
+      $event = $this->entityTypeManager->getStorage('event')->load($eventId);
+    }
 
     if ($event instanceof Event) {
       $form['event_id'] = [
