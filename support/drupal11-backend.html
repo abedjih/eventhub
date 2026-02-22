@@ -8,7 +8,7 @@
 html,body{height:100%;overflow:hidden;background:var(--navy)}
 body{font-family:'Plus Jakarta Sans',sans-serif;color:var(--white);-webkit-font-smoothing:antialiased}
 .deck{position:relative;width:100vw;height:100vh}
-.slide{position:absolute;inset:0;display:flex;flex-direction:column;opacity:0;visibility:hidden;transition:opacity .4s,transform .4s;transform:translateX(30px);padding:3.2rem 4.2rem 2.8rem;overflow-y:auto}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;opacity:0;visibility:hidden;transition:opacity .4s,transform .4s;transform:translateX(30px);padding:3.2rem 4.2rem 4.5rem;overflow-y:auto}
 .slide.active{opacity:1;visibility:visible;transform:translateX(0)}
 .slide.prev{opacity:0;transform:translateX(-30px)}
 .slide.light{background:var(--light);color:var(--text)}
@@ -71,6 +71,9 @@ body{font-family:'Plus Jakarta Sans',sans-serif;color:var(--white);-webkit-font-
 .nav-progress{position:fixed;top:0;left:0;height:3px;z-index:101;background:linear-gradient(90deg,var(--blue),var(--teal));transition:width .4s ease}
 .sidebar-toggle{position:fixed;top:.7rem;left:.7rem;z-index:200;background:rgba(15,23,41,.85);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.1);color:#fff;width:34px;height:34px;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.95rem;transition:all .2s}
 .sidebar-toggle:hover{background:var(--blue)}
+.zoom-controls{position:fixed;top:.7rem;right:.7rem;z-index:200;display:flex;gap:.35rem}
+.zoom-btn{background:rgba(15,23,41,.85);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.1);color:#fff;width:34px;height:34px;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-weight:700;transition:all .2s;font-family:inherit;line-height:1}
+.zoom-btn:hover{background:var(--blue);border-color:var(--blue)}
 .sidebar{position:fixed;top:0;left:0;bottom:0;width:290px;z-index:150;background:rgba(15,23,41,.97);backdrop-filter:blur(16px);border-right:1px solid rgba(255,255,255,.08);transform:translateX(-100%);transition:transform .3s ease;overflow-y:auto;padding:3rem 1rem 1rem}
 .sidebar.open{transform:translateX(0)}
 .sidebar-overlay{position:fixed;inset:0;z-index:140;background:rgba(0,0,0,.5);opacity:0;visibility:hidden;transition:all .3s}
@@ -111,6 +114,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;color:var(--white);-webkit-font-
 </style></head><body>
 <div class="nav-progress" id="progress"></div>
 <button class="sidebar-toggle" id="sidebarBtn" title="Sommaire">☰</button>
+<div class="zoom-controls"><button class="zoom-btn" id="zoomOut" title="Dézoomer">−</button><button class="zoom-btn" id="zoomIn" title="Zoomer">+</button></div>
 <div class="sidebar-overlay" id="overlay"></div>
 <nav class="sidebar" id="sidebar"></nav>
 <div class="deck" id="deck"><section class="slide dark title-slide" data-title="Accueil">
@@ -125,7 +129,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;color:var(--white);-webkit-font-
 <h2>Programme de la formation</h2>
 <p class="subtitle">Formation en mode projet. Chaque concept est immédiatement mis en pratique dans EventHub, une plateforme de gestion d'événements professionnels.</p>
 <div class="three-col content">
-<div class="card accent-orange"><h4>Jour 1 – Qualité, Routing &amp; Forms</h4><ul><li>Qualité de code (PHPCS, PHPStan)</li><li>Routing &amp; paramètres d'entité</li><li>Form API avancé, #states &amp; AJAX</li><li>ConfigFormBase (paramètres module)</li><li>Validation &amp; contraintes custom</li></ul></div>
+<div class="card accent-orange"><h4>Jour 1 – Qualité, Theming &amp; Forms</h4><ul><li>Qualité de code (PHPCS, PHPStan)</li><li>Theming : starter, templates Twig, preprocessors</li><li>Routing &amp; paramètres d'entité</li><li>Form API avancé, #states &amp; AJAX</li><li>ConfigFormBase (paramètres module)</li></ul></div>
 <div class="card"><h4>Jour 2 – Data &amp; Performance</h4><ul><li>Schema API &amp; Database API</li><li>Content Entities &amp; Taxonomie</li><li>Entity Query &amp; Services métier</li><li>Controllers &amp; réponses</li><li>Hooks entités (attributs PHP 8)</li><li>Cache metadata &amp; lazy builders</li></ul></div>
 <div class="card accent-teal"><h4>Jour 3 – Async, Sécu &amp; Tests</h4><ul><li>Queue Workers &amp; Cron</li><li>Sécurité (XSS, CSRF, SQLi)</li><li>Permissions &amp; contrôle d'accès</li><li>Config Split &amp; Config Ignore</li><li>Tests unitaires &amp; mocking</li></ul></div>
 </div>
@@ -149,7 +153,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;color:var(--white);-webkit-font-
 <div class="tip"><span class="tip-icon">💡</span><div class="tip-text">Chaque exercice construit une brique du projet. À la fin des 3 jours, vous aurez une application complète et fonctionnelle.</div></div>
 </section>
 <section class="slide dark section-slide" data-title="— Jour 1" data-day="1">
-<div class="day-badge">JOUR 1</div><h1>Qualité de Code, Routing,<br>Form API &amp; Validation</h1><p class="subtitle">Standards, routing, formulaires avancés et contraintes custom</p>
+<div class="day-badge">JOUR 1</div><h1>Qualité de Code, Theming<br>&amp; Form API</h1><p class="subtitle">Standards, theming, routing et formulaires avancés</p>
 </section>
 <section class="slide light" data-title="PHPCS">
 
@@ -268,13 +272,125 @@ web/modules/custom/
 │       ├── Form/
 │       ├── Service/
 │       ├── Hook/
-│       └── Plugin/Validation/Constraint/
+│       └── Controller/
 └── eventhub_import/
     ├── eventhub_import.info.yml
     ├── eventhub_import.services.yml
     └── src/
         ├── Hook/
         └── Plugin/QueueWorker/</code></pre></div></div><div class="col"><div class="card accent-green"><h4>✓ Critères de réussite</h4><ul><li>Structure de fichiers complète (voir arbre)</li><li><code>phpcs</code> et <code>phpstan</code> passent à 0 erreur</li><li>Modules activables (<code>drush en eventhub_core eventhub_import</code>)</li><li>Entités Event &amp; Registration détectées par Drupal</li><li>Code versionné sur GitHub</li></ul></div><div class="tip"><span class="tip-icon">💡</span><div class="tip-text">Utilisez <code>ddev drush generate module</code> pour scaffolder rapidement la structure de base.</div></div></div></div></div>
+</section>
+<section class="slide light" data-title="Theming">
+
+<h2>Theming Drupal 11</h2><p class="subtitle">Générer un thème starter, comprendre Twig et surcharger les templates</p>
+<div class="content"><div class="row fill">
+<div class="col col-60" style="gap:.65rem">
+<p class="body-text">Un thème Drupal contrôle le rendu HTML. En Drupal 11, on part d'un <strong>thème starter</strong> généré via Starterkit, puis on surcharge les templates Twig et on enrichit les variables avec des <strong>preprocessors</strong>.</p>
+<div class="code-block"><div class="code-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang">bash</span></div><pre><code class="language-bash"># Générer un thème starter basé sur Starterkit
+ddev drush generate theme
+
+# Ou via le script Starterkit de Drupal core
+ddev exec php web/core/scripts/drupal generate-theme eventhub_theme \
+  --name="EventHub Theme" --path=themes/custom</code></pre></div>
+<div class="code-block"><div class="code-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang">yaml</span></div><pre><code class="language-yaml"># eventhub_theme.info.yml
+name: 'EventHub Theme'
+type: theme
+description: 'Thème custom pour la plateforme EventHub.'
+core_version_requirement: ^10.3 || ^11
+base theme: starterkit_theme
+regions:
+  header: Header
+  content: Content
+  sidebar: Sidebar
+  footer: Footer
+libraries:
+  - eventhub_theme/global-styling</code></pre></div>
+<p class="body-text">La structure d'un thème :</p>
+<div class="code-block"><div class="code-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang">bash</span></div><pre><code class="language-bash">themes/custom/eventhub_theme/
+├── eventhub_theme.info.yml
+├── eventhub_theme.libraries.yml
+├── eventhub_theme.theme        # preprocessors
+├── css/
+│   └── style.css
+├── js/
+│   └── scripts.js
+├── templates/
+│   ├── layout/
+│   │   └── page.html.twig
+│   ├── content/
+│   │   └── node.html.twig
+│   └── navigation/
+│       └── menu.html.twig
+└── logo.svg</code></pre></div>
+</div><div class="col">
+<div class="card"><h4>Starterkit</h4><ul><li>Générateur officiel de Drupal core</li><li>Crée un thème complet prêt à personnaliser</li><li>Templates, librairies CSS/JS, régions</li><li><code>base theme</code> : héritage de templates</li></ul></div>
+<div class="card accent-orange"><h4>Libraries (CSS/JS)</h4><ul><li>Déclarées dans <code>.libraries.yml</code></li><li>Attachées globalement ou par template</li><li><code>{{ attach_library('theme/lib') }}</code> dans Twig</li><li>Dépendances : <code>core/drupal</code>, <code>core/jquery</code></li></ul></div>
+<div class="card accent-teal"><h4>Régions</h4><ul><li>Zones de la page (header, content, sidebar…)</li><li>Déclarées dans <code>.info.yml</code></li><li>Rendues dans <code>page.html.twig</code> via <code>{{ page.region_name }}</code></li></ul></div>
+</div></div></div>
+</section>
+<section class="slide light" data-title="Templates &amp; Preprocessors">
+
+<h2>Templates Twig &amp; Preprocessors</h2><p class="subtitle">Surcharger le rendu et enrichir les variables disponibles dans les templates</p>
+<div class="content"><div class="row fill">
+<div class="col col-60" style="gap:.65rem">
+<p class="body-text">Drupal utilise <strong>Twig</strong> pour le rendu. Pour surcharger un template, il suffit de le copier depuis le module/core vers le dossier <code>templates/</code> du thème en respectant la <strong>convention de nommage</strong>. Activez le <strong>debug Twig</strong> pour identifier les templates utilisés.</p>
+<div class="code-block"><div class="code-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang">yaml</span></div><pre><code class="language-yaml"># sites/default/services.yml – activer le debug Twig
+parameters:
+  twig.config:
+    debug: true        # affiche les suggestions de noms
+    auto_reload: true  # recharge les templates modifiés
+    cache: false       # désactive le cache Twig (dev only)</code></pre></div>
+<div class="code-block"><div class="code-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang">html (twig)</span></div><pre><code class="language-html">{# templates/content/node--event.html.twig #}
+&lt;article{{ attributes.addClass('event-card') }}&gt;
+  &lt;h2&gt;{{ label }}&lt;/h2&gt;
+  &lt;div class="event-meta"&gt;
+    &lt;span class="event-date"&gt;{{ event_date }}&lt;/span&gt;
+    &lt;span class="event-location"&gt;{{ location }}&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;div class="event-body"&gt;{{ content.body }}&lt;/div&gt;
+  {% if remaining_spots is not null %}
+    &lt;div class="event-spots"&gt;
+      {{ remaining_spots }} place(s) restante(s)
+    &lt;/div&gt;
+  {% endif %}
+&lt;/article&gt;</code></pre></div>
+<p class="body-text">Les <strong>preprocessors</strong> dans <code>.theme</code> permettent d'ajouter ou transformer des variables avant le rendu Twig :</p>
+<div class="code-block"><div class="code-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang">php</span></div><pre><code class="language-php">// eventhub_theme.theme
+function eventhub_theme_preprocess_node(&amp;$variables): void {
+  $node = $variables['node'];
+  if ($node-&gt;getType() !== 'event') {
+    return;
+  }
+  // Ajouter des variables custom au template
+  $variables['event_date'] = $node-&gt;get('event_date')-&gt;value;
+  $variables['location'] = $node-&gt;get('location')-&gt;value;
+  $variables['remaining_spots'] = \Drupal::service(
+    EventManager::class)-&gt;getRemainingCapacity((int) $node-&gt;id());
+}
+
+function eventhub_theme_preprocess_page(&amp;$variables): void {
+  // Variable disponible dans page.html.twig
+  $variables['site_name'] = \Drupal::config('system.site')
+    -&gt;get('name');
+}</code></pre></div>
+</div><div class="col">
+<div class="card"><h4>Conventions de nommage</h4><ul><li><code>node--event.html.twig</code> → nœud de type event</li><li><code>node--42.html.twig</code> → nœud spécifique</li><li><code>page--events.html.twig</code> → page /events</li><li><code>field--field-name.html.twig</code> → champ</li><li>Le debug Twig affiche toutes les suggestions</li></ul></div>
+<div class="card accent-orange"><h4>Preprocessors</h4><ul><li><code>THEME_preprocess_HOOK(&amp;$vars)</code></li><li>Hooks : <code>node</code>, <code>page</code>, <code>block</code>, <code>field</code>, <code>html</code></li><li>Ajouter des variables : <code>$vars['ma_var']</code></li><li>Modifier les classes : <code>$vars['attributes']</code></li><li>Accès aux entités et services</li></ul></div>
+<div class="card accent-green"><h4>Bonnes pratiques Twig</h4><ul><li><code>{{ var }}</code> → auto-échappé (anti-XSS)</li><li><code>{{ var|raw }}</code> → <strong>JAMAIS</strong> sauf cas extrême</li><li><code>{% trans %}…{% endtrans %}</code> → traduction</li><li><code>{{ attach_library('theme/lib') }}</code> → CSS/JS</li><li><code>{{ dump(variable) }}</code> → debug (dev only)</li></ul></div>
+<div class="tip"><span class="tip-icon">💡</span><div class="tip-text">Utilisez <code>drush cr</code> (cache rebuild) après chaque ajout de template. En mode debug, inspectez le HTML pour voir les commentaires <code>&lt;!-- THEME DEBUG --&gt;</code> avec les suggestions de noms de fichiers.</div></div>
+</div></div></div>
+</section>
+<section class="slide light exo-slide" data-title="✏️ Exo 1.2 – Theming">
+<div class="exo-header"><span class="exo-badge">✏️ Exercice 1.2</span><h2>Thème custom EventHub</h2></div><p class="subtitle">Créer le thème EventHub, surcharger des templates et ajouter des preprocessors</p><div class="content"><div class="row fill"><div class="col col-60" style="gap:.65rem"><div class="card accent-yellow"><h4>📋 Tâches à réaliser</h4><ul><li>Générer un thème starter avec <code>ddev drush generate theme</code> ou <code>php web/core/scripts/drupal generate-theme</code></li><li>Configurer <code>eventhub_theme.info.yml</code> : régions (header, content, sidebar, footer), librairie CSS globale</li><li>Créer <code>eventhub_theme.libraries.yml</code> avec une librairie <code>global-styling</code> (fichier <code>css/style.css</code>)</li><li>Activer le <strong>debug Twig</strong> dans <code>services.yml</code></li><li>Surcharger <code>page.html.twig</code> : structure HTML avec régions, logo, navigation</li><li>Créer un preprocessor <code>eventhub_theme_preprocess_page()</code> pour ajouter le nom du site en variable</li><li>Activer le thème : <code>drush theme:enable eventhub_theme</code> puis <code>drush config:set system.theme default eventhub_theme</code></li></ul></div><div class="code-block"><div class="code-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang">yaml</span></div><pre><code class="language-yaml"># eventhub_theme.libraries.yml
+global-styling:
+  version: 1.0
+  css:
+    theme:
+      css/style.css: {}
+  js:
+    js/scripts.js: {}
+  dependencies:
+    - core/drupal</code></pre></div></div><div class="col"><div class="card accent-green"><h4>✓ Critères de réussite</h4><ul><li>Thème généré et activé sans erreur</li><li>CSS custom chargé sur toutes les pages</li><li>Debug Twig activé (commentaires HTML visibles)</li><li>Template <code>page.html.twig</code> surchargé</li><li>Preprocessor fonctionnel (variable accessible dans Twig)</li><li>PHPCS passe sur le fichier <code>.theme</code></li></ul></div><div class="tip"><span class="tip-icon">💡</span><div class="tip-text">Utilisez l'inspecteur du navigateur pour repérer les commentaires <code>&lt;!-- THEME DEBUG --&gt;</code>. Ils indiquent le template utilisé et les suggestions de noms pour le surcharger.</div></div></div></div></div>
 </section>
 <section class="slide light" data-title="Routing">
 
@@ -476,8 +592,8 @@ notification_email: 'admin@example.com'</code></pre></div>
 <div class="tip"><span class="tip-icon">💡</span><div class="tip-text">Pour les secrets (clés API, mots de passe), utilisez <code>$settings</code> dans <code>settings.php</code> plutôt que ConfigFormBase — les secrets ne doivent pas être versionnés dans les YAML.</div></div>
 </div></div></div>
 </section>
-<section class="slide light exo-slide" data-title="✏️ Exo 1.2 – Formulaires">
-<div class="exo-header"><span class="exo-badge">✏️ Exercice 1.2</span><h2>Formulaires, routes &amp; configuration</h2></div><p class="subtitle">Créer les formulaires EventHub avec routing, Form API avancé, #states, AJAX et ConfigFormBase</p><div class="content"><div class="row fill"><div class="col col-60" style="gap:.65rem"><div class="card accent-yellow"><h4>📋 Tâches à réaliser</h4><ul><li><strong>eventhub_core.routing.yml</strong> : déclarer les routes pour chaque formulaire avec permissions</li><li><strong>RegistrationForm</strong> (FormBase) : event conditionnel (hidden si route param, sinon entity_autocomplete), participant_name, email, phone (visible via #states si checkbox), notes (dans un container details repliable). Validation : événement non complet (isEventFull), email non déjà inscrit (isAlreadyRegistered)</li><li><strong>EventForm</strong> avec AJAX : location avec <code>autocomplete_route_name</code> vers geodata, sélection catégorie (taxonomie event_categories) → callback <code>::updateCapacity</code> lit <code>field_max_capacity</code> du terme</li><li><strong>EventEditForm</strong> : même structure que EventForm, pré-rempli depuis l'entité Event existante</li><li><strong>EventDeleteForm</strong> (ConfirmFormBase) : confirmation avec warning sur la suppression en cascade des inscriptions</li><li><strong>EventHubSettingsForm</strong> (ConfigFormBase) : api_endpoint (url), import_batch_size (number 10-500), notification_email. Config : <code>eventhub_core.settings</code></li></ul></div><div class="code-block"><div class="code-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang">php</span></div><pre><code class="language-php">// EventForm – autocomplétion du lieu via geodata
+<section class="slide light exo-slide" data-title="✏️ Exo 1.3 – Formulaires">
+<div class="exo-header"><span class="exo-badge">✏️ Exercice 1.3</span><h2>Formulaires, routes &amp; configuration</h2></div><p class="subtitle">Créer les formulaires EventHub avec routing, Form API avancé, #states, AJAX et ConfigFormBase</p><div class="content"><div class="row fill"><div class="col col-60" style="gap:.65rem"><div class="card accent-yellow"><h4>📋 Tâches à réaliser</h4><ul><li><strong>eventhub_core.routing.yml</strong> : déclarer les routes pour chaque formulaire avec permissions</li><li><strong>RegistrationForm</strong> (FormBase) : event conditionnel (hidden si route param, sinon entity_autocomplete), participant_name, email, phone (visible via #states si checkbox), notes (dans un container details repliable). Validation : événement non complet (isEventFull), email non déjà inscrit (isAlreadyRegistered)</li><li><strong>EventForm</strong> avec AJAX : location avec <code>autocomplete_route_name</code> vers geodata, sélection catégorie (taxonomie event_categories) → callback <code>::updateCapacity</code> lit <code>field_max_capacity</code> du terme</li><li><strong>EventEditForm</strong> : même structure que EventForm, pré-rempli depuis l'entité Event existante</li><li><strong>EventDeleteForm</strong> (ConfirmFormBase) : confirmation avec warning sur la suppression en cascade des inscriptions</li><li><strong>EventHubSettingsForm</strong> (ConfigFormBase) : api_endpoint (url), import_batch_size (number 10-500), notification_email. Config : <code>eventhub_core.settings</code></li></ul></div><div class="code-block"><div class="code-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang">php</span></div><pre><code class="language-php">// EventForm – autocomplétion du lieu via geodata
 $form['location'] = [
   '#type' =&gt; 'textfield',
   '#title' =&gt; $this-&gt;t('Lieu'),
@@ -500,64 +616,6 @@ $form['phone'] = [
     ':input[name="add_phone"]' =&gt; ['checked' =&gt; TRUE]]],
 ];</code></pre></div></div><div class="col"><div class="card accent-green"><h4>✓ Critères de réussite</h4><ul><li>5 formulaires fonctionnels (create, edit, delete, register, settings)</li><li>Routes avec permissions dans routing.yml</li><li>#states masque/affiche le téléphone</li><li>AJAX met à jour la capacité depuis field_max_capacity</li><li>Autocomplétion du lieu connectée à geodata</li><li>ConfigFormBase sauvegarde en YAML exportable</li><li>ConfirmFormBase pour la suppression</li></ul></div><div class="tip"><span class="tip-icon">⚠️</span><div class="tip-text">#states est <strong>client-side uniquement</strong>. Ajoutez toujours une validation serveur dans <code>validateForm()</code>. Les entités Event et Registration sont fournies comme code de démarrage pour le Jour 1 — elles seront étudiées en détail le Jour 2.</div></div>
 <div class="tip"><span class="tip-icon">💡</span><div class="tip-text">Utilisez <code>ddev drush generate form</code> pour scaffolder rapidement vos formulaires. La commande génère la classe, le routing et les permissions. Variantes : <code>drush generate form:simple</code>, <code>drush generate form:config</code>, <code>drush generate form:confirm</code>.</div></div></div></div></div>
-</section>
-<section class="slide light" data-title="Contraintes">
-
-<h2>Contraintes de validation</h2><p class="subtitle">Valider les données au niveau du modèle, pas uniquement dans les formulaires</p>
-<div class="content">
-<p class="body-text">Les contraintes valident les entités <strong>quel que soit le canal</strong> (formulaire, API REST, migration, code). Basées sur Symfony Validator, elles garantissent l'intégrité des données. Chaque contrainte se compose de 2 classes : la Constraint (règle) et le Validator (logique).</p>
-<div class="row">
-<div class="col"><div class="code-block"><div class="code-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang">php – Constraint</span></div><pre><code class="language-php">#[Constraint(
-  id: 'UniqueRegistration',
-  label: new TranslatableMarkup('Unique registration'),
-)]
-class UniqueRegistrationConstraint
-    extends SymfonyConstraint {
-  public string $message =
-    "L'adresse email %value est déjà inscrite
-     à cet événement.";
-}</code></pre></div></div>
-<div class="col"><div class="code-block"><div class="code-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang">php – Validator</span></div><pre><code class="language-php">class UniqueRegistrationConstraintValidator
-    extends ConstraintValidator
-    implements ContainerInjectionInterface {
-  use AutowireTrait;
-
-  public function __construct(
-    private readonly RegistrationManager $regMgr,
-  ) {}
-
-  public function validate(mixed $value,
-      Constraint $constraint): void {
-    $entity = $this-&gt;context-&gt;getRoot()-&gt;getEntity();
-    $eventId = $entity-&gt;get('event')-&gt;target_id;
-    $excludeId = $entity-&gt;isNew() ? NULL : (int) $entity-&gt;id();
-
-    if ($this-&gt;regMgr-&gt;isAlreadyRegistered(
-        (int) $eventId, $value, $excludeId)) {
-      $this-&gt;context-&gt;addViolation(
-        $constraint-&gt;message,
-        ['%value' =&gt; $value]);
-    }
-  }
-}</code></pre></div></div></div>
-<div class="row">
-<div class="card"><h4>Application dans EventHub</h4><ul><li><code>Registration::baseFieldDefinitions()</code> : <code>-&gt;addConstraint('UniqueRegistration')</code> sur email</li><li><code>Event::baseFieldDefinitions()</code> : <code>-&gt;addConstraint('FutureDate')</code> sur event_date</li><li>Les violations sont affichées automatiquement dans les formulaires</li></ul></div>
-<div class="card accent-orange"><h4>Contraintes Drupal intégrées</h4><ul><li>NotNull, NotBlank, Length, Range, Regex</li><li>UniqueField – unicité sur un champ</li></ul></div>
-<div class="card accent-green"><h4>Convention de nommage</h4><ul><li>Validator = même nom + suffixe <em>Validator</em></li><li>Drupal les associe automatiquement</li></ul></div>
-</div></div>
-</section>
-<section class="slide light exo-slide" data-title="✏️ Exo 1.3 – Contraintes">
-<div class="exo-header"><span class="exo-badge">✏️ Exercice 1.3</span><h2>Contraintes de validation EventHub</h2></div><p class="subtitle">Créer 2 contraintes personnalisées pour garantir l'intégrité des données</p><div class="content"><div class="row fill"><div class="col col-60" style="gap:.65rem"><div class="card accent-yellow"><h4>📋 Tâches à réaliser</h4><ul><li><strong>UniqueRegistrationConstraint</strong> : un email ne peut s'inscrire qu'une fois par événement. Utilise Entity Query pour chercher les inscriptions existantes avec le même email ET le même event_id.</li><li><strong>FutureDateConstraint</strong> : la date de l'événement doit être dans le futur. Compare avec <code>new \DateTime()</code>.</li><li>Appliquer UniqueRegistration sur le champ <code>email</code> de Registration</li><li>Appliquer FutureDate sur le champ <code>event_date</code> de Event</li><li>Tester : essayer d'inscrire le même email 2 fois, créer un événement dans le passé</li></ul></div><div class="code-block"><div class="code-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang">php</span></div><pre><code class="language-php">// Dans Registration::baseFieldDefinitions()
-$fields['email'] = BaseFieldDefinition::create('email')
-  -&gt;setLabel(t('Email'))
-  -&gt;setRequired(TRUE)
-  -&gt;addConstraint('UniqueRegistration');
-
-// Dans Event::baseFieldDefinitions()
-$fields['event_date'] = BaseFieldDefinition::create('datetime')
-  -&gt;setLabel(t('Date'))
-  -&gt;setRequired(TRUE)
-  -&gt;addConstraint('FutureDate');</code></pre></div></div><div class="col"><div class="card accent-green"><h4>✓ Critères de réussite</h4><ul><li>2 Constraints + 2 Validators créés</li><li>Messages d'erreur clairs et contextualisés</li><li>Double inscription rejetée avec message explicite</li><li>Événement passé rejeté à la création</li><li>PHPCS + PHPStan passent toujours à 0 erreur</li></ul></div><div class="card"><h4>Livrables Jour 1</h4><ul><li>Module eventhub_core avec 5 formulaires + routing</li><li>2 contraintes de validation custom</li><li>phpcs.xml + phpstan.neon configurés</li><li>Entités Event &amp; Registration (starter code)</li><li>Code 100% conforme aux standards</li></ul></div></div></div></div>
 </section>
 <section class="slide dark section-slide" data-title="— Jour 2" data-day="2">
 <div class="day-badge">JOUR 2</div><h1>Données, Entités,<br>Controllers &amp; Cache</h1><p class="subtitle">Base de données, entités, services, controllers, hooks PHP 8 et performance</p>
@@ -640,8 +698,7 @@ class Event extends ContentEntityBase
       -&gt;setLabel(t('Title'))-&gt;setRequired(TRUE)
       -&gt;setSetting('max_length', 255);
     $fields['event_date'] = BaseFieldDefinition::create('datetime')
-      -&gt;setLabel(t('Date'))-&gt;setRequired(TRUE)
-      -&gt;addConstraint('FutureDate');
+      -&gt;setLabel(t('Date'))-&gt;setRequired(TRUE);
     $fields['location'] = BaseFieldDefinition::create('string')
       -&gt;setLabel(t('Lieu'))-&gt;setRequired(TRUE);
     $fields['capacity'] = BaseFieldDefinition::create('integer')
@@ -662,7 +719,7 @@ class Event extends ContentEntityBase
 </div></div></div>
 </section>
 <section class="slide light exo-slide" data-title="✏️ Exo 2.1 – Entités &amp; Schema">
-<div class="exo-header"><span class="exo-badge">✏️ Exercice 2.1</span><h2>Entités EventHub, taxonomie &amp; table geodata</h2></div><p class="subtitle">Créer les 2 Content Entities, le vocabulaire de taxonomie et la table custom</p><div class="content"><div class="row fill"><div class="col col-60" style="gap:.65rem"><div class="card accent-yellow"><h4>📋 Tâches à réaliser</h4><ul><li><strong>Event</strong> (Content Entity, table <code>eventhub_event</code>) : name, description (text_long), event_date (datetime + FutureDate), location (string), capacity (integer, min 1, défaut 50), category (entity_reference → taxonomy_term, bundle event_categories), status (boolean), uid, created, changed</li><li><strong>Registration</strong> (Content Entity, table <code>eventhub_registration</code>) : event (entity_reference → Event), participant_name, email (+ UniqueRegistration), phone, registration_status (list_string: confirmed/pending/cancelled), notes, created</li><li><strong>Vocabulaire event_categories</strong> : créer le vocabulaire via config/install, ajouter <code>field_max_capacity</code> (entier) sur les termes, créer 4 termes par défaut dans <code>hook_install</code> : conference (200), meetup (50), formation (20), workshop (15)</li><li>Table <strong>eventhub_geodata</strong> (Schema API) : id, code_commune (unique), nom, population, departement, region, imported_at. Index sur nom, departement, imported_at.</li><li><strong>GeoDataRepository</strong> (service) : upsert(), insertBatch(), findByName(), findByDepartement(), getCount(), deleteAll()</li></ul></div></div><div class="col"><div class="card accent-green"><h4>✓ Critères de réussite</h4><ul><li><code>drush entity:updates</code> crée les tables eventhub_event et eventhub_registration</li><li>4 termes de taxonomie créés à l'activation du module</li><li>Chaque terme a un <code>field_max_capacity</code> avec la bonne valeur</li><li>Table eventhub_geodata créée via hook_schema()</li><li>GeoDataRepository injectable et fonctionnel</li></ul></div><div class="card"><h4>Fichiers à créer</h4><ul><li><code>src/Entity/Event.php</code></li><li><code>src/Entity/Registration.php</code></li><li><code>eventhub_core.install</code> (schema + install)</li><li><code>src/Service/GeoDataRepository.php</code></li><li><code>config/install/taxonomy.vocabulary.event_categories.yml</code></li><li><code>config/install/field.storage.taxonomy_term.field_max_capacity.yml</code></li></ul></div></div></div></div>
+<div class="exo-header"><span class="exo-badge">✏️ Exercice 2.1</span><h2>Entités EventHub, taxonomie &amp; table geodata</h2></div><p class="subtitle">Créer les 2 Content Entities, le vocabulaire de taxonomie et la table custom</p><div class="content"><div class="row fill"><div class="col col-60" style="gap:.65rem"><div class="card accent-yellow"><h4>📋 Tâches à réaliser</h4><ul><li><strong>Event</strong> (Content Entity, table <code>eventhub_event</code>) : name, description (text_long), event_date (datetime), location (string), capacity (integer, min 1, défaut 50), category (entity_reference → taxonomy_term, bundle event_categories), status (boolean), uid, created, changed</li><li><strong>Registration</strong> (Content Entity, table <code>eventhub_registration</code>) : event (entity_reference → Event), participant_name, email, phone, registration_status (list_string: confirmed/pending/cancelled), notes, created</li><li><strong>Vocabulaire event_categories</strong> : créer le vocabulaire via config/install, ajouter <code>field_max_capacity</code> (entier) sur les termes, créer 4 termes par défaut dans <code>hook_install</code> : conference (200), meetup (50), formation (20), workshop (15)</li><li>Table <strong>eventhub_geodata</strong> (Schema API) : id, code_commune (unique), nom, population, departement, region, imported_at. Index sur nom, departement, imported_at.</li><li><strong>GeoDataRepository</strong> (service) : upsert(), insertBatch(), findByName(), findByDepartement(), getCount(), deleteAll()</li></ul></div></div><div class="col"><div class="card accent-green"><h4>✓ Critères de réussite</h4><ul><li><code>drush entity:updates</code> crée les tables eventhub_event et eventhub_registration</li><li>4 termes de taxonomie créés à l'activation du module</li><li>Chaque terme a un <code>field_max_capacity</code> avec la bonne valeur</li><li>Table eventhub_geodata créée via hook_schema()</li><li>GeoDataRepository injectable et fonctionnel</li></ul></div><div class="card"><h4>Fichiers à créer</h4><ul><li><code>src/Entity/Event.php</code></li><li><code>src/Entity/Registration.php</code></li><li><code>eventhub_core.install</code> (schema + install)</li><li><code>src/Service/GeoDataRepository.php</code></li><li><code>config/install/taxonomy.vocabulary.event_categories.yml</code></li><li><code>config/install/field.storage.taxonomy_term.field_max_capacity.yml</code></li></ul></div></div></div></div>
 </section>
 <section class="slide light" data-title="Entity Query">
 
@@ -682,7 +739,7 @@ public function getUpcomingEvents(int $limit = 10): array {
   return $this-&gt;entityTypeManager
     -&gt;getStorage('event')-&gt;loadMultiple($ids);
 }</code></pre></div>
-<p class="body-text">Les services métier encapsulent la logique dans des classes réutilisables, injectables dans controllers, forms, hooks et contraintes.</p>
+<p class="body-text">Les services métier encapsulent la logique dans des classes réutilisables, injectables dans controllers, forms et hooks.</p>
 <div class="code-block"><div class="code-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang">php</span></div><pre><code class="language-php">// EventManager – capacité restante
 public function getRemainingCapacity(int $eventId): int {
   $event = $this-&gt;entityTypeManager
@@ -1058,7 +1115,7 @@ ddev exec vendor/bin/phpunit -c web/core \
 <section class="slide dark recap-slide" data-title="Récapitulatif">
 
 <h1 style="margin-bottom:1.5rem">Récapitulatif</h1>
-<div class="recap-item"><strong>Jour 1 : </strong><span>PHPCS, PHPStan, Routing, Form API (#states, AJAX, autocomplétion), ConfigFormBase, ConfirmFormBase, Contraintes (UniqueRegistration, FutureDate)</span></div>
+<div class="recap-item"><strong>Jour 1 : </strong><span>PHPCS, PHPStan, Theming (starter, Twig, preprocessors), Routing (11 routes, paramètres d'entité, CSRF), Form API (#states, AJAX, autocomplétion), ConfigFormBase, ConfirmFormBase</span></div>
 <div class="recap-item"><strong>Jour 2 : </strong><span>Schema API (eventhub_geodata), Database API (GeoDataRepository), Content Entities (Event, Registration), Taxonomie (event_categories + field_max_capacity), Entity Query, Services (EventManager, RegistrationManager), Controllers (3 controllers, 11 routes), Hooks PHP 8 (5 hooks entité), Cache &amp; Lazy Builder (RegistrationCountBuilder)</span></div>
 <div class="recap-item"><strong>Jour 3 : </strong><span>Queue Worker (GeoDataImportWorker), Cron (CronHooks + GeoApiConstants), Sécurité (XSS, CSRF, SQLi), 7 permissions, EventAccessControlHandler, Config Split/Ignore, Tests unitaires (4 classes, 17 tests)</span></div>
 <p style="margin-top:1.2rem;font-size:.85rem;color:rgba(255,255,255,.5)">Chaque concept a été mis en pratique dans le projet EventHub – une application complète avec 2 modules, 2 content entities, 1 vocabulaire taxonomie, 3 controllers, 5 services, 7 permissions, import asynchrone et 17 tests unitaires.</p>
@@ -1086,4 +1143,8 @@ function toggleSidebar(){sb.classList.toggle('open');ov.classList.toggle('open')
 function closeSidebar(){sb.classList.remove('open');ov.classList.remove('open')}
 document.getElementById('sidebarBtn').addEventListener('click',toggleSidebar);
 ov.addEventListener('click',closeSidebar);buildSidebar();show(0);
+let zoom=100;const deck=document.getElementById('deck');
+function setZoom(v){zoom=Math.min(150,Math.max(50,v));deck.style.transform='scale('+(zoom/100)+')';deck.style.transformOrigin='top left';deck.style.width=(10000/zoom)+'vw';deck.style.height=(10000/zoom)+'vh'}
+document.getElementById('zoomIn').addEventListener('click',()=>setZoom(zoom+10));
+document.getElementById('zoomOut').addEventListener('click',()=>setZoom(zoom-10));
 </script></body></html>
