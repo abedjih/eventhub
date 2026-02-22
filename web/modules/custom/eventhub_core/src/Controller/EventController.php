@@ -10,7 +10,7 @@ use Drupal\Core\Url;
 use Drupal\eventhub_core\Entity\Event;
 use Drupal\eventhub_core\Service\EventManager;
 use Drupal\eventhub_core\Service\GeoDataRepository;
-use Drupal\eventhub_core\Service\RegistrationManager;
+use Drupal\eventhub_registration\Service\RegistrationManager;
 
 /**
  * Controller for event pages.
@@ -143,7 +143,7 @@ class EventController extends ControllerBase {
     // Lazy builder for dynamic registration count.
     $build['registration_count'] = [
       '#lazy_builder' => [
-        'Drupal\eventhub_core\Service\RegistrationCountBuilder:build',
+        'Drupal\eventhub_registration\Service\RegistrationCountBuilder:build',
         [(int) $event->id()],
       ],
       '#create_placeholder' => TRUE,

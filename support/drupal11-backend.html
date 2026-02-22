@@ -150,8 +150,9 @@ body{font-family:'Plus Jakarta Sans',sans-serif;color:var(--white);-webkit-font-
 <div class="card accent-orange"><h4>1 Vocabulaire Taxonomie + 1 Table</h4><ul>
 <li><strong>event_categories</strong> – vocabulaire avec field_max_capacity (conférence, meetup, formation, workshop)</li>
 <li><strong>eventhub_geodata</strong> – communes françaises (Schema API)</li></ul></div>
-<div class="card accent-teal"><h4>2 Modules</h4><ul>
-<li><strong>eventhub_core</strong> – entités, forms, controllers, services, hooks, cache</li>
+<div class="card accent-teal"><h4>3 Modules</h4><ul>
+<li><strong>eventhub_core</strong> – entité Event, forms, controllers, services, hooks, cache</li>
+<li><strong>eventhub_registration</strong> – entité Registration, inscription, accès</li>
 <li><strong>eventhub_import</strong> – QueueWorker, cron, HttpClient, constantes</li></ul></div>
 </div>
 <div class="tip"><span class="tip-icon">💡</span><div class="tip-text">Chaque exercice construit une brique du projet. À la fin des 3 jours, vous aurez une application complète et fonctionnelle.</div></div>
@@ -261,7 +262,7 @@ parameters:
 </div></div></div>
 </section>
 <section class="slide light exo-slide" data-title="✏️ Exo 1.1 – Setup">
-<div class="exo-header"><span class="exo-badge">✏️ Exercice 1.1</span><h2>Setup du projet &amp; outils qualité</h2></div><p class="subtitle">Créer la structure du projet EventHub avec les outils de qualité de code</p><div class="content"><div class="row fill"><div class="col col-60" style="gap:.65rem"><div class="card accent-yellow"><h4>📋 Tâches à réaliser</h4><ul><li>Créer un dépôt GitHub <strong>eventhub</strong></li><li>Installer Drupal 11 avec DDEV</li><li>Créer le module <strong>eventhub_core</strong> (.info.yml, .module, .services.yml) — dépendances : datetime, options, taxonomy, user</li><li>Créer le module <strong>eventhub_import</strong> (.info.yml, .services.yml) — dépendance sur eventhub_core</li><li>Installer les outils dev : <code>ddev composer require --dev drupal/core-dev:^11 -W</code> (inclut PHPCS, PHPStan, phpstan-drupal, PHPUnit)</li><li>Configurer <strong>phpcs.xml</strong> et <strong>phpstan.neon</strong> à la racine</li><li>Intégrer les fichiers entités (Event.php, Registration.php) fournis comme <strong>starter code</strong> dans src/Entity/</li>
+<div class="exo-header"><span class="exo-badge">✏️ Exercice 1.1</span><h2>Setup du projet &amp; outils qualité</h2></div><p class="subtitle">Créer la structure du projet EventHub avec les outils de qualité de code</p><div class="content"><div class="row fill"><div class="col col-60" style="gap:.65rem"><div class="card accent-yellow"><h4>📋 Tâches à réaliser</h4><ul><li>Créer un dépôt GitHub <strong>eventhub</strong></li><li>Installer Drupal 11 avec DDEV</li><li>Créer le module <strong>eventhub_core</strong> (.info.yml, .module, .services.yml) — dépendances : datetime, options, taxonomy, user</li><li>Créer le module <strong>eventhub_registration</strong> (.info.yml, .services.yml) — dépendance sur eventhub_core</li><li>Créer le module <strong>eventhub_import</strong> (.info.yml, .services.yml) — dépendance sur eventhub_core</li><li>Installer les outils dev : <code>ddev composer require --dev drupal/core-dev:^11 -W</code> (inclut PHPCS, PHPStan, phpstan-drupal, PHPUnit)</li><li>Configurer <strong>phpcs.xml</strong> et <strong>phpstan.neon</strong> à la racine</li><li>Intégrer Event.php (starter code) dans <code>eventhub_core/src/Entity/</code> et Registration.php dans <code>eventhub_registration/src/Entity/</code></li>
 <li>Lancer les deux outils → 0 erreur</li></ul></div><div class="code-block"><div class="code-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang">bash</span></div><pre><code class="language-bash"># Structure attendue
 web/modules/custom/
 ├── eventhub_core/
@@ -277,12 +278,23 @@ web/modules/custom/
 │       ├── Service/
 │       ├── Hook/
 │       └── Controller/
+├── eventhub_registration/
+│   ├── eventhub_registration.info.yml
+│   ├── eventhub_registration.permissions.yml
+│   ├── eventhub_registration.routing.yml
+│   ├── eventhub_registration.services.yml
+│   └── src/
+│       ├── Entity/
+│       ├── Form/
+│       ├── Service/
+│       ├── Hook/
+│       └── Controller/
 └── eventhub_import/
     ├── eventhub_import.info.yml
     ├── eventhub_import.services.yml
     └── src/
         ├── Hook/
-        └── Plugin/QueueWorker/</code></pre></div></div><div class="col"><div class="card accent-green"><h4>✓ Critères de réussite</h4><ul><li>Structure de fichiers complète (voir arbre)</li><li><code>phpcs</code> et <code>phpstan</code> passent à 0 erreur</li><li>Modules activables (<code>drush en eventhub_core eventhub_import</code>)</li><li>Entités Event &amp; Registration détectées par Drupal</li><li>Code versionné sur GitHub</li></ul></div><div class="tip"><span class="tip-icon">💡</span><div class="tip-text">Utilisez <code>ddev drush generate module</code> pour scaffolder rapidement la structure de base.</div></div></div></div></div>
+        └── Plugin/QueueWorker/</code></pre></div></div><div class="col"><div class="card accent-green"><h4>✓ Critères de réussite</h4><ul><li>Structure de fichiers complète (voir arbre)</li><li><code>phpcs</code> et <code>phpstan</code> passent à 0 erreur</li><li>Modules activables (<code>drush en eventhub_core eventhub_registration eventhub_import</code>)</li><li>Entités Event &amp; Registration détectées par Drupal</li><li>Code versionné sur GitHub</li></ul></div><div class="tip"><span class="tip-icon">💡</span><div class="tip-text">Utilisez <code>ddev drush generate module</code> pour scaffolder rapidement la structure de base.</div></div></div></div></div>
 </section>
 <section class="slide light" data-title="Theming">
 
@@ -433,7 +445,7 @@ eventhub.event_create:
 eventhub.registration_cancel:
   path: '/registration/{registration}/cancel'
   defaults:
-    _controller: '\Drupal\eventhub_core\Controller\RegistrationController::cancel'
+    _controller: '\Drupal\eventhub_registration\Controller\RegistrationController::cancel'
   requirements:
     _permission: 'register to event'
     _csrf_token: 'TRUE'</code></pre></div>
@@ -450,7 +462,7 @@ eventhub.registration_cancel:
 <div class="content"><div class="row fill">
 <div class="col col-60">
 <p class="body-text">La Form API est le système central de Drupal pour les formulaires. Drupal gère le rendu HTML, la protection CSRF, et le cycle requête/réponse. Depuis Drupal 11, l'<code>AutowireTrait</code> simplifie l'injection de dépendances.</p>
-<div class="code-block"><div class="code-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang">php</span></div><pre><code class="language-php">// RegistrationForm – extrait (projet EventHub)
+<div class="code-block"><div class="code-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang">php</span></div><pre><code class="language-php">// RegistrationForm (module eventhub_registration)
 class RegistrationForm extends FormBase {
   use AutowireTrait;
 
@@ -537,12 +549,12 @@ public function updateCapacity(array &amp;$form,
 <h2>ConfigFormBase – Formulaire de configuration</h2><p class="subtitle">Stocker les paramètres du module en YAML, exportable et versionnable</p>
 <div class="content"><div class="row fill">
 <div class="col col-60" style="gap:.65rem">
-<p class="body-text"><code>ConfigFormBase</code> crée un formulaire dont les valeurs sont stockées dans la <strong>Config API</strong> de Drupal (fichier YAML). Les valeurs sont exportables via <code>drush cex</code> et versionnables. Dans EventHub, <code>EventHubSettingsForm</code> gère les paramètres d'import et de notification.</p>
-<div class="code-block"><div class="code-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang">php</span></div><pre><code class="language-php">// src/Form/EventHubSettingsForm.php
+<p class="body-text"><code>ConfigFormBase</code> crée un formulaire dont les valeurs sont stockées dans la <strong>Config API</strong> de Drupal (fichier YAML). Les valeurs sont exportables via <code>drush cex</code> et versionnables. Dans EventHub, <code>EventHubSettingsForm</code> (module <em>eventhub_import</em>) gère les paramètres d'import et de notification.</p>
+<div class="code-block"><div class="code-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang">php</span></div><pre><code class="language-php">// eventhub_import/src/Form/EventHubSettingsForm.php
 final class EventHubSettingsForm extends ConfigFormBase {
 
   protected function getEditableConfigNames(): array {
-    return ['eventhub_core.settings'];
+    return ['eventhub_import.settings'];
   }
 
   public function getFormId(): string {
@@ -551,7 +563,7 @@ final class EventHubSettingsForm extends ConfigFormBase {
 
   public function buildForm(array $form,
       FormStateInterface $form_state): array {
-    $config = $this-&gt;config('eventhub_core.settings');
+    $config = $this-&gt;config('eventhub_import.settings');
 
     $form['api_endpoint'] = [
       '#type' =&gt; 'url',
@@ -577,7 +589,7 @@ final class EventHubSettingsForm extends ConfigFormBase {
 
   public function submitForm(array &amp;$form,
       FormStateInterface $form_state): void {
-    $this-&gt;config('eventhub_core.settings')
+    $this-&gt;config('eventhub_import.settings')
       -&gt;set('api_endpoint', $form_state-&gt;getValue('api_endpoint'))
       -&gt;set('import_batch_size',
         (int) $form_state-&gt;getValue('import_batch_size'))
@@ -589,8 +601,8 @@ final class EventHubSettingsForm extends ConfigFormBase {
 }</code></pre></div>
 </div><div class="col">
 <div class="card"><h4>Les 3 méthodes clés</h4><ul><li><code>getEditableConfigNames()</code> → liste des configs modifiables par ce formulaire</li><li><code>parent::buildForm()</code> → ajoute le bouton « Save configuration » automatiquement</li><li><code>parent::submitForm()</code> → affiche le message « The configuration options have been saved »</li></ul></div>
-<div class="card accent-orange"><h4>Config par défaut</h4><ul><li>Fichier <code>config/install/eventhub_core.settings.yml</code></li><li>Valeurs initiales à l'activation du module</li><li>Exportable via <code>drush cex</code>, importable via <code>drush cim</code></li></ul></div>
-<div class="code-block"><div class="code-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang">yaml</span></div><pre><code class="language-yaml"># config/install/eventhub_core.settings.yml
+<div class="card accent-orange"><h4>Config par défaut</h4><ul><li>Fichier <code>config/install/eventhub_import.settings.yml</code></li><li>Valeurs initiales à l'activation du module</li><li>Exportable via <code>drush cex</code>, importable via <code>drush cim</code></li></ul></div>
+<div class="code-block"><div class="code-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang">yaml</span></div><pre><code class="language-yaml"># config/install/eventhub_import.settings.yml
 api_endpoint: 'https://geo.api.gouv.fr'
 import_batch_size: 50
 notification_email: 'admin@example.com'</code></pre></div>
@@ -598,7 +610,7 @@ notification_email: 'admin@example.com'</code></pre></div>
 </div></div></div>
 </section>
 <section class="slide light exo-slide" data-title="✏️ Exo 1.3 – Formulaires">
-<div class="exo-header"><span class="exo-badge">✏️ Exercice 1.3</span><h2>Formulaires, routes &amp; configuration</h2></div><p class="subtitle">Créer les formulaires EventHub avec routing, Form API avancé, #states, AJAX et ConfigFormBase</p><div class="content"><div class="row fill"><div class="col col-60" style="gap:.65rem"><div class="card accent-yellow"><h4>📋 Tâches à réaliser</h4><ul><li><strong>eventhub_core.routing.yml</strong> : déclarer les routes pour chaque formulaire avec permissions</li><li><strong>RegistrationForm</strong> (FormBase) : event conditionnel (hidden si route param, sinon entity_autocomplete), participant_name, email, phone (visible via #states si checkbox), notes (dans un container details repliable). Validation : événement non complet (isEventFull), email non déjà inscrit (isAlreadyRegistered)</li><li><strong>EventForm</strong> avec AJAX : location avec <code>autocomplete_route_name</code> vers geodata, sélection catégorie (taxonomie event_categories) → callback <code>::updateCapacity</code> lit <code>field_max_capacity</code> du terme</li><li><strong>EventEditForm</strong> : même structure que EventForm, pré-rempli depuis l'entité Event existante</li><li><strong>EventDeleteForm</strong> (ConfirmFormBase) : confirmation avec warning sur la suppression en cascade des inscriptions</li><li><strong>EventHubSettingsForm</strong> (ConfigFormBase) : api_endpoint (url), import_batch_size (number 10-500), notification_email. Config : <code>eventhub_core.settings</code></li></ul></div><div class="code-block"><div class="code-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang">php</span></div><pre><code class="language-php">// EventForm – autocomplétion du lieu via geodata
+<div class="exo-header"><span class="exo-badge">✏️ Exercice 1.3</span><h2>Formulaires, routes &amp; configuration</h2></div><p class="subtitle">Créer les formulaires EventHub avec routing, Form API avancé, #states, AJAX et ConfigFormBase</p><div class="content"><div class="row fill"><div class="col col-60" style="gap:.65rem"><div class="card accent-yellow"><h4>📋 Tâches à réaliser</h4><ul><li><strong>eventhub_core.routing.yml</strong> et <strong>eventhub_registration.routing.yml</strong> : déclarer les routes pour chaque formulaire avec permissions</li><li><strong>RegistrationForm</strong> (FormBase, <em>module eventhub_registration</em>) : event conditionnel (hidden si route param, sinon entity_autocomplete), participant_name, email, phone (visible via #states si checkbox), notes (dans un container details repliable). Validation : événement non complet (isEventFull), email non déjà inscrit (isAlreadyRegistered)</li><li><strong>EventForm</strong> avec AJAX : location avec <code>autocomplete_route_name</code> vers geodata, sélection catégorie (taxonomie event_categories) → callback <code>::updateCapacity</code> lit <code>field_max_capacity</code> du terme</li><li><strong>EventEditForm</strong> : même structure que EventForm, pré-rempli depuis l'entité Event existante</li><li><strong>EventDeleteForm</strong> (ConfirmFormBase) : confirmation avec warning sur la suppression en cascade des inscriptions</li><li><strong>EventHubSettingsForm</strong> (ConfigFormBase, <em>module eventhub_import</em>) : api_endpoint (url), import_batch_size (number 10-500), notification_email. Config : <code>eventhub_import.settings</code></li></ul></div><div class="code-block"><div class="code-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang">php</span></div><pre><code class="language-php">// EventForm – autocomplétion du lieu via geodata
 $form['location'] = [
   '#type' =&gt; 'textfield',
   '#title' =&gt; $this-&gt;t('Lieu'),
@@ -991,7 +1003,7 @@ $fields['name'] = BaseFieldDefinition::create('string')
 </div></div></div>
 </section>
 <section class="slide light exo-slide" data-title="✏️ Exo 2.1 – Entités &amp; Schema">
-<div class="exo-header"><span class="exo-badge">✏️ Exercice 2.1</span><h2>Entités EventHub, taxonomie &amp; table geodata</h2></div><p class="subtitle">Créer les 2 Content Entities, le vocabulaire de taxonomie et la table custom</p><div class="content"><div class="row fill"><div class="col col-60" style="gap:.65rem"><div class="card accent-yellow"><h4>📋 Tâches à réaliser</h4><ul><li><strong>Event</strong> (Content Entity, table <code>eventhub_event</code>) : name, description (text_long), event_date (datetime), location (string), capacity (integer, min 1, défaut 50), category (entity_reference → taxonomy_term, bundle event_categories), status (boolean), uid, created, changed</li><li><strong>Registration</strong> (Content Entity, table <code>eventhub_registration</code>) : event (entity_reference → Event), participant_name, email, phone, registration_status (list_string: confirmed/pending/cancelled), notes, created</li><li><strong>Vocabulaire event_categories</strong> : créer le vocabulaire via config/install, ajouter <code>field_max_capacity</code> (entier) sur les termes, créer 4 termes par défaut dans <code>hook_install</code> : conference (200), meetup (50), formation (20), workshop (15)</li><li>Table <strong>eventhub_geodata</strong> (Schema API) : id, code_commune (unique), nom, population, departement, region, imported_at. Index sur nom, departement, imported_at.</li><li><strong>GeoDataRepository</strong> (service) : upsert(), insertBatch(), findByName(), findByDepartement(), getCount(), deleteAll()</li></ul></div></div><div class="col"><div class="card accent-green"><h4>✓ Critères de réussite</h4><ul><li><code>drush entity:updates</code> crée les tables eventhub_event et eventhub_registration</li><li>4 termes de taxonomie créés à l'activation du module</li><li>Chaque terme a un <code>field_max_capacity</code> avec la bonne valeur</li><li>Table eventhub_geodata créée via hook_schema()</li><li>GeoDataRepository injectable et fonctionnel</li></ul></div><div class="card"><h4>Fichiers à créer</h4><ul><li><code>src/Entity/Event.php</code></li><li><code>src/Entity/Registration.php</code></li><li><code>eventhub_core.install</code> (schema + install)</li><li><code>src/Service/GeoDataRepository.php</code></li><li><code>config/install/taxonomy.vocabulary.event_categories.yml</code></li><li><code>config/install/field.storage.taxonomy_term.field_max_capacity.yml</code></li></ul></div></div></div></div>
+<div class="exo-header"><span class="exo-badge">✏️ Exercice 2.1</span><h2>Entités EventHub, taxonomie &amp; table geodata</h2></div><p class="subtitle">Créer les 2 Content Entities, le vocabulaire de taxonomie via le BO et la table custom</p><div class="content"><div class="row fill"><div class="col col-60" style="gap:.65rem"><div class="card accent-yellow"><h4>📋 Tâches à réaliser</h4><ul><li><strong>Event</strong> (Content Entity, table <code>eventhub_event</code>) : name, description (text_long), event_date (datetime), location (string), capacity (integer, min 1, défaut 50), category (entity_reference → taxonomy_term, bundle event_categories), status (boolean), uid, created, changed</li><li><strong>Registration</strong> (Content Entity dans <em>eventhub_registration</em>, table <code>eventhub_registration</code>) : event (entity_reference → Event), participant_name, email, phone, registration_status (list_string: confirmed/pending/cancelled), notes, created</li><li><strong>Vocabulaire event_categories</strong> via le Back Office :<ol><li>Aller dans <em>Structure → Taxonomie → Ajouter un vocabulaire</em></li><li>Nom : <code>Catégories d'événements</code>, nom machine : <code>event_categories</code></li><li><em>Gérer les champs</em> → Ajouter un champ <strong>Nombre (entier)</strong> : <code>field_max_capacity</code> (Capacité maximale)</li><li>Ajouter 4 termes avec leur capacité max : Conference (200), Meetup (50), Formation (20), Workshop (15)</li></ol></li><li>Exporter la config : <code>drush cex</code> → vérifier les fichiers YAML générés dans <code>config/sync/</code></li><li>Table <strong>eventhub_geodata</strong> (Schema API) : id, code_commune (unique), nom, population, departement, region, imported_at. Index sur nom, departement, imported_at.</li><li><strong>GeoDataRepository</strong> (service) : upsert(), insertBatch(), findByName(), findByDepartement(), getCount(), deleteAll()</li></ul></div></div><div class="col"><div class="card accent-green"><h4>✓ Critères de réussite</h4><ul><li><code>drush pm:install eventhub_core eventhub_registration</code> crée automatiquement les tables eventhub_event et eventhub_registration</li><li>Vocabulaire <code>event_categories</code> visible dans <em>Structure → Taxonomie</em></li><li>Champ <code>field_max_capacity</code> ajouté sur les termes du vocabulaire</li><li>4 termes créés avec les bonnes valeurs de capacité</li><li><code>drush cex</code> exporte la config du vocabulaire et du champ</li><li>Table eventhub_geodata créée via hook_schema()</li><li>GeoDataRepository injectable et fonctionnel</li></ul></div><div class="card"><h4>Fichiers à créer / générés</h4><ul><li><code>eventhub_core/src/Entity/Event.php</code></li><li><code>eventhub_registration/src/Entity/Registration.php</code></li><li><code>eventhub_core.install</code> (schema)</li><li><code>src/Service/GeoDataRepository.php</code></li><li><em>Générés par <code>drush cex</code> :</em></li><li><code>taxonomy.vocabulary.event_categories.yml</code></li><li><code>field.storage.taxonomy_term.field_max_capacity.yml</code></li><li><code>field.field.taxonomy_term.event_categories.field_max_capacity.yml</code></li></ul></div><div class="tip"><span class="tip-icon">💡</span><div class="tip-text">Créer le vocabulaire et les champs via le BO puis exporter avec <code>drush cex</code> est la méthode recommandée. Les fichiers YAML générés pourront ensuite être copiés dans <code>config/install/</code> pour que le vocabulaire soit recréé automatiquement à l'installation du module.</div></div></div></div></div>
 </section>
 <section class="slide light" data-title="Entity Query">
 
@@ -1094,22 +1106,27 @@ class GeoDataController extends ControllerBase {
 }</code></pre></div>
 </div><div class="col">
 <div class="card"><h4>Types de réponse</h4><ul><li><strong>Render array</strong> → HTML (pages, tableaux)</li><li><strong>JsonResponse</strong> → API, autocomplétion</li><li><strong>RedirectResponse</strong> → après action (cancel)</li><li>Le paramètre <code>{event}</code> est auto-converti en objet</li></ul></div>
-<div class="card accent-orange"><h4>Controllers EventHub</h4><ul><li><strong>EventController</strong> : list, view, dashboard</li><li><strong>RegistrationController</strong> : listForEvent, cancel</li><li><strong>GeoDataController</strong> : autocomplete (JSON)</li></ul></div>
+<div class="card accent-orange"><h4>Controllers EventHub</h4><ul><li><strong>EventController</strong> : list, view, dashboard</li><li><strong>RegistrationController</strong> <em>(eventhub_registration)</em> : listForEvent, cancel</li><li><strong>GeoDataController</strong> : autocomplete (JSON)</li></ul></div>
 <div class="card accent-teal"><h4>Bonnes pratiques</h4><ul><li>Logique métier dans les <strong>services</strong>, pas les controllers</li><li>Controllers = orchestration uniquement</li><li>Cache metadata sur chaque render array</li><li>AutowireTrait pour l'injection</li></ul></div>
 </div></div></div>
 </section>
 <section class="slide light exo-slide" data-title="✏️ Exo 2.2 – Services &amp; Controllers">
-<div class="exo-header"><span class="exo-badge">✏️ Exercice 2.2</span><h2>Services métier, Controllers &amp; autocomplétion</h2></div><p class="subtitle">Créer les services, controllers et l'endpoint d'autocomplétion géographique</p><div class="content"><div class="row fill"><div class="col col-60" style="gap:.65rem"><div class="card accent-yellow"><h4>📋 Services à créer</h4><ul><li><strong>EventManager</strong> : getUpcomingEvents($limit), getEventsByCategory($termId), getEventsByOrganizer($uid), getRemainingCapacity($eventId), isEventFull($eventId), getTotalEventCount()</li><li><strong>RegistrationManager</strong> : getRegistrationsForEvent($eventId), getRegistrationCount($eventId), isAlreadyRegistered($eventId, $email), cancelRegistration($registrationId) (soft delete → statut cancelled), deleteRegistrationsForEvent($eventId) (hard delete en cascade)</li></ul></div><div class="card accent-yellow"><h4>📋 Controllers à créer</h4><ul><li><strong>EventController</strong> : list() → tableau des événements à venir, view(Event $event) → détail avec lazy builder, dashboard() → stats admin</li><li><strong>RegistrationController</strong> : listForEvent(Event $event) → inscriptions d'un événement, cancel(Registration $registration) → annulation CSRF</li><li><strong>GeoDataController</strong> : autocomplete(Request $request) → JsonResponse pour autocomplétion du lieu (min 2 chars, max 10 résultats, format « nom (département) »)</li></ul></div><div class="code-block"><div class="code-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang">yaml</span></div><pre><code class="language-yaml"># eventhub_core.services.yml
+<div class="exo-header"><span class="exo-badge">✏️ Exercice 2.2</span><h2>Services métier, Controllers &amp; autocomplétion</h2></div><p class="subtitle">Créer les services, controllers et l'endpoint d'autocomplétion géographique</p><div class="content"><div class="row fill"><div class="col col-60" style="gap:.65rem"><div class="card accent-yellow"><h4>📋 Services à créer</h4><ul><li><strong>EventManager</strong> : getUpcomingEvents($limit), getEventsByCategory($termId), getEventsByOrganizer($uid), getRemainingCapacity($eventId), isEventFull($eventId), getTotalEventCount()</li><li><strong>RegistrationManager</strong> <em>(module eventhub_registration)</em> : getRegistrationsForEvent($eventId), getRegistrationCount($eventId), isAlreadyRegistered($eventId, $email), cancelRegistration($registrationId) (soft delete → statut cancelled), deleteRegistrationsForEvent($eventId) (hard delete en cascade)</li></ul></div><div class="card accent-yellow"><h4>📋 Controllers à créer</h4><ul><li><strong>EventController</strong> <em>(eventhub_core)</em> : list() → tableau des événements à venir, view(Event $event) → détail avec lazy builder, dashboard() → stats admin</li><li><strong>RegistrationController</strong> <em>(eventhub_registration)</em> : listForEvent(Event $event) → inscriptions d'un événement, cancel(Registration $registration) → annulation CSRF</li><li><strong>GeoDataController</strong> : autocomplete(Request $request) → JsonResponse pour autocomplétion du lieu (min 2 chars, max 10 résultats, format « nom (département) »)</li></ul></div><div class="code-block"><div class="code-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang">yaml</span></div><pre><code class="language-yaml"># eventhub_core.services.yml
 services:
   Drupal\eventhub_core\Service\EventManager:
     autowire: true
-  Drupal\eventhub_core\Service\RegistrationManager:
-    autowire: true
   Drupal\eventhub_core\Service\GeoDataRepository:
     autowire: true
-  Drupal\eventhub_core\Service\RegistrationCountBuilder:
-    autowire: true
   Drupal\eventhub_core\Hook\EntityHooks:
+    autowire: true
+
+# eventhub_registration.services.yml
+services:
+  Drupal\eventhub_registration\Service\RegistrationManager:
+    autowire: true
+  Drupal\eventhub_registration\Service\RegistrationCountBuilder:
+    autowire: true
+  Drupal\eventhub_registration\Hook\EntityHooks:
     autowire: true</code></pre></div></div><div class="col"><div class="card accent-green"><h4>✓ Critères de réussite</h4><ul><li>EventManager retourne les événements à venir publiés</li><li>getRemainingCapacity() = capacity - registrations non-cancelled</li><li>cancelRegistration() = soft delete (statut → cancelled)</li><li>Liste des événements accessible sur <code>/events</code></li><li>Vue événement avec compteur d'inscriptions</li><li>Dashboard admin avec statistiques</li><li>Autocomplétion du lieu fonctionne (JSON)</li><li>Services injectés dans formulaires et controllers</li></ul></div><div class="tip"><span class="tip-icon">💡</span><div class="tip-text">Utilisez <code>AutowireTrait</code> dans les controllers. L'injection de dépendances dans le constructeur est résolue automatiquement.</div></div></div></div></div>
 </section>
 <section class="slide light" data-title="Hooks Entités">
@@ -1293,7 +1310,7 @@ public function cron(): void {
 <div class="card accent-teal"><h4>SQLi</h4><ul><li>Database API = requêtes préparées</li><li>Entity Query = entièrement sécurisé</li><li>JAMAIS de concaténation SQL</li></ul></div>
 </div>
 <div class="row">
-<div class="col col-60"><div class="code-block"><div class="code-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang">yaml</span></div><pre><code class="language-yaml"># eventhub_core.permissions.yml – 7 permissions
+<div class="col col-60"><div class="code-block"><div class="code-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang">yaml</span></div><pre><code class="language-yaml"># eventhub_core.permissions.yml – 5 permissions
 create event:
   title: 'Créer un événement'
 edit own event:
@@ -1303,19 +1320,21 @@ edit any event:
 delete any event:
   title: 'Supprimer des événements'
   restrict access: true
+administer eventhub:
+  title: 'Administrer EventHub'
+  restrict access: true
+
+# eventhub_registration.permissions.yml – 2 permissions
 register to event:
   title: "S'inscrire à un événement"
 view event registrations:
-  title: 'Voir les inscriptions'
-administer eventhub:
-  title: 'Administrer EventHub'
-  restrict access: true</code></pre></div></div>
+  title: 'Voir les inscriptions'</code></pre></div></div>
 <div class="col">
 <div class="card accent-green"><h4>EventAccessControlHandler</h4><ul><li><strong>view</strong> : <code>accessCheck('access content')</code></li><li><strong>update</strong> : 'edit any event' OU 'edit own event' + propriétaire</li><li><strong>delete</strong> : 'delete any event'</li><li><strong>create</strong> : 'create event'</li><li><code>AccessResult::allowedIfHasPermission()</code></li></ul></div>
 </div></div></div>
 </section>
 <section class="slide light exo-slide" data-title="✏️ Exo 3.2 – Sécurité">
-<div class="exo-header"><span class="exo-badge">✏️ Exercice 3.2</span><h2>Sécurisation complète d'EventHub</h2></div><p class="subtitle">Appliquer les bonnes pratiques de sécurité sur l'ensemble du projet</p><div class="content"><div class="row fill"><div class="col col-60" style="gap:.65rem"><div class="card accent-yellow"><h4>📋 Tâches à réaliser</h4><ul><li><strong>XSS</strong> : vérifier que tous les messages utilisent <code>t()</code> avec @placeholder, appliquer <code>Xss::filter()</code> sur les descriptions d'événements</li><li><strong>CSRF</strong> : ajouter <code>_csrf_token: 'TRUE'</code> sur la route d'annulation d'inscription</li><li><strong>7 permissions</strong> dans eventhub_core.permissions.yml : create event, edit own event, edit any event, delete any event (restrict access), register to event, view event registrations, administer eventhub (restrict access)</li><li><strong>11 routes sécurisées</strong> : chaque route avec <code>_permission</code>, route cancel avec <code>_csrf_token: 'TRUE'</code>, routes edit/delete utilisant le contrôle d'accès de l'entité</li><li><strong>EventAccessControlHandler</strong> : checkAccess() → view='access content', update='edit own/any event' (+ ownership check), delete='delete any event'. checkCreateAccess() → 'create event'</li></ul></div><div class="code-block"><div class="code-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang">yaml</span></div><pre><code class="language-yaml"># eventhub_core.routing.yml – extraits
+<div class="exo-header"><span class="exo-badge">✏️ Exercice 3.2</span><h2>Sécurisation complète d'EventHub</h2></div><p class="subtitle">Appliquer les bonnes pratiques de sécurité sur l'ensemble du projet</p><div class="content"><div class="row fill"><div class="col col-60" style="gap:.65rem"><div class="card accent-yellow"><h4>📋 Tâches à réaliser</h4><ul><li><strong>XSS</strong> : vérifier que tous les messages utilisent <code>t()</code> avec @placeholder, appliquer <code>Xss::filter()</code> sur les descriptions d'événements</li><li><strong>CSRF</strong> : ajouter <code>_csrf_token: 'TRUE'</code> sur la route d'annulation d'inscription</li><li><strong>7 permissions</strong> réparties entre <code>eventhub_core.permissions.yml</code> (5) et <code>eventhub_registration.permissions.yml</code> (2) : create event, edit own event, edit any event, delete any event (restrict access), register to event, view event registrations, administer eventhub (restrict access)</li><li><strong>11 routes sécurisées</strong> : chaque route avec <code>_permission</code>, route cancel avec <code>_csrf_token: 'TRUE'</code>, routes edit/delete utilisant le contrôle d'accès de l'entité</li><li><strong>EventAccessControlHandler</strong> : checkAccess() → view='access content', update='edit own/any event' (+ ownership check), delete='delete any event'. checkCreateAccess() → 'create event'</li></ul></div><div class="code-block"><div class="code-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang">yaml</span></div><pre><code class="language-yaml"># eventhub_core.routing.yml
 eventhub.event_create:
   path: '/event/create'
   defaults:
@@ -1323,6 +1342,7 @@ eventhub.event_create:
   requirements:
     _permission: 'create event'
 
+# eventhub_registration.routing.yml
 eventhub.registration_cancel:
   path: '/registration/{registration}/cancel'
   defaults:
@@ -1365,16 +1385,17 @@ $config['config_split.config_split.prod']['status'] = FALSE;</code></pre></div>
 }</code></pre></div>
 </div><div class="col">
 <div class="card"><h4>Config Split</h4><ul><li><strong>Dev</strong> : devel, kint, verbose errors</li><li><strong>Prod</strong> : cache agressif, syslog</li><li>Activation via <code>settings.php</code></li></ul></div>
-<div class="card accent-orange"><h4>Config Ignore</h4><ul><li><code>system.site</code> – nom/slogan par env</li><li><code>eventhub_core.settings</code> – clé API</li><li><code>system.mail</code> – transport mail</li></ul></div>
+<div class="card accent-orange"><h4>Config Ignore</h4><ul><li><code>system.site</code> – nom/slogan par env</li><li><code>eventhub_import.settings</code> – clé API</li><li><code>system.mail</code> – transport mail</li></ul></div>
 <div class="card accent-teal"><h4>Tests : 4 niveaux</h4><ul><li><strong>Unit</strong> : rapide, mocks, pas de Drupal</li><li><strong>Kernel</strong> : DB + container réels</li><li><strong>Functional</strong> : navigateur simulé</li><li><strong>FunctionalJS</strong> : WebDriver</li></ul></div>
 </div></div></div>
 </section>
 <section class="slide light exo-slide" data-title="✏️ Exo 3.3 – Config &amp; Tests">
-<div class="exo-header"><span class="exo-badge">✏️ Exercice 3.3</span><h2>Config Split, Config Ignore &amp; Tests unitaires</h2></div><p class="subtitle">Finaliser le projet avec la gestion de configuration par environnement et les tests</p><div class="content"><div class="row fill"><div class="col col-60" style="gap:.65rem"><div class="card accent-yellow"><h4>📋 Tâches à réaliser</h4><ul><li><strong>Config Split</strong> : créer 2 splits (dev, prod), activer dans settings.php</li><li><strong>Config Ignore</strong> : ignorer system.site, eventhub_core.settings, system.mail</li><li><strong>EventManagerTest</strong> (6 tests) : getRemainingCapacity() avec places dispo, quand plein, event inexistant, jamais négatif. isEventFull() true/false</li><li><strong>RegistrationManagerTest</strong> (3 tests) : cancelRegistration() succès (statut → cancelled), not found (retour false), déjà annulé (retour false)</li><li><strong>GeoDataRepositoryTest</strong> (3 tests) : findByName() résultats avec label formaté, résultat vide. getCount() retour int</li><li><strong>GeoDataImportWorkerTest</strong> (5 tests) : processItem() département valide, code vide skip, réponse vide, communes invalides filtrées, exception HTTP re-thrown</li></ul></div><div class="code-block"><div class="code-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang">bash</span></div><pre><code class="language-bash"># Structure des tests (4 classes, 15+ tests)
+<div class="exo-header"><span class="exo-badge">✏️ Exercice 3.3</span><h2>Config Split, Config Ignore &amp; Tests unitaires</h2></div><p class="subtitle">Finaliser le projet avec la gestion de configuration par environnement et les tests</p><div class="content"><div class="row fill"><div class="col col-60" style="gap:.65rem"><div class="card accent-yellow"><h4>📋 Tâches à réaliser</h4><ul><li><strong>Config Split</strong> : créer 2 splits (dev, prod), activer dans settings.php</li><li><strong>Config Ignore</strong> : ignorer system.site, eventhub_import.settings, system.mail</li><li><strong>EventManagerTest</strong> (6 tests) : getRemainingCapacity() avec places dispo, quand plein, event inexistant, jamais négatif. isEventFull() true/false</li><li><strong>RegistrationManagerTest</strong> (3 tests) : cancelRegistration() succès (statut → cancelled), not found (retour false), déjà annulé (retour false)</li><li><strong>GeoDataRepositoryTest</strong> (3 tests) : findByName() résultats avec label formaté, résultat vide. getCount() retour int</li><li><strong>GeoDataImportWorkerTest</strong> (5 tests) : processItem() département valide, code vide skip, réponse vide, communes invalides filtrées, exception HTTP re-thrown</li></ul></div><div class="code-block"><div class="code-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang">bash</span></div><pre><code class="language-bash"># Structure des tests (4 classes, 17 tests)
 eventhub_core/tests/src/Unit/Service/
 ├── EventManagerTest.php          # 6 tests
-├── RegistrationManagerTest.php   # 3 tests
 └── GeoDataRepositoryTest.php     # 3 tests
+eventhub_registration/tests/src/Unit/Service/
+└── RegistrationManagerTest.php   # 3 tests
 eventhub_import/tests/src/Unit/
 └── GeoDataImportWorkerTest.php   # 5 tests
 
@@ -1388,9 +1409,9 @@ ddev exec vendor/bin/phpunit -c web/core \
 
 <h1 style="margin-bottom:1.5rem">Récapitulatif</h1>
 <div class="recap-item"><strong>Jour 1 : </strong><span>PHPCS, PHPStan, Theming (starter, Twig, preprocessors), Routing (11 routes, paramètres d'entité, CSRF), Form API (#states, AJAX, autocomplétion), ConfigFormBase, ConfirmFormBase</span></div>
-<div class="recap-item"><strong>Jour 2 : </strong><span>Schema API (eventhub_geodata), Database API (GeoDataRepository), Content Entities (Event, Registration), Taxonomie (event_categories + field_max_capacity), Entity Query, Services (EventManager, RegistrationManager), Controllers (3 controllers, 11 routes), Hooks PHP 8 (5 hooks entité), Cache &amp; Lazy Builder (RegistrationCountBuilder)</span></div>
+<div class="recap-item"><strong>Jour 2 : </strong><span>Schema API (eventhub_geodata), Database API (GeoDataRepository), Content Entities (Event dans eventhub_core, Registration dans eventhub_registration), Taxonomie (event_categories + field_max_capacity), Entity Query, Services (EventManager, RegistrationManager), Controllers (3 controllers, 11 routes), Hooks PHP 8 (5 hooks entité), Cache &amp; Lazy Builder (RegistrationCountBuilder)</span></div>
 <div class="recap-item"><strong>Jour 3 : </strong><span>Queue Worker (GeoDataImportWorker), Cron (CronHooks + GeoApiConstants), Sécurité (XSS, CSRF, SQLi), 7 permissions, EventAccessControlHandler, Config Split/Ignore, Tests unitaires (4 classes, 17 tests)</span></div>
-<p style="margin-top:1.2rem;font-size:.85rem;color:rgba(255,255,255,.5)">Chaque concept a été mis en pratique dans le projet EventHub – une application complète avec 2 modules, 2 content entities, 1 vocabulaire taxonomie, 3 controllers, 5 services, 7 permissions, import asynchrone et 17 tests unitaires.</p>
+<p style="margin-top:1.2rem;font-size:.85rem;color:rgba(255,255,255,.5)">Chaque concept a été mis en pratique dans le projet EventHub – une application complète avec 3 modules (eventhub_core, eventhub_registration, eventhub_import), 2 content entities, 1 vocabulaire taxonomie, 3 controllers, 5 services, 7 permissions, import asynchrone et 17 tests unitaires.</p>
 <p style="margin-top:1.5rem;font-size:1.15rem;font-weight:700;color:var(--blue-light)">Merci &amp; bonnes pratiques Drupal !</p>
 </section></div>
 <div class="nav-bar">

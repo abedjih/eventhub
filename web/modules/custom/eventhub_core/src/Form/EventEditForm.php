@@ -20,7 +20,7 @@ final class EventEditForm extends FormBase {
   use AutowireTrait;
 
   public function __construct(
-    private readonly EntityTypeManagerInterface $entityTypeManager,
+    protected EntityTypeManagerInterface $entityTypeManager,
   ) {}
 
   /**

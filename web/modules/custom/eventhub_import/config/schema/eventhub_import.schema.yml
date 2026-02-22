@@ -1,4 +1,4 @@
-eventhub_core.settings:
+eventhub_import.settings:
   type: config_object
   label: 'EventHub settings'
   mapping:

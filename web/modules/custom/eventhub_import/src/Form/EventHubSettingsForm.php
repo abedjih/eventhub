@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Drupal\eventhub_core\Form;
+namespace Drupal\eventhub_import\Form;
 
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
@@ -16,7 +16,7 @@ final class EventHubSettingsForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   protected function getEditableConfigNames(): array {
-    return ['eventhub_core.settings'];
+    return ['eventhub_import.settings'];
   }
 
   /**
@@ -30,7 +30,7 @@ final class EventHubSettingsForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state): array {
-    $config = $this->config('eventhub_core.settings');
+    $config = $this->config('eventhub_import.settings');
 
     $form['api_endpoint'] = [
       '#type' => 'url',
@@ -65,7 +65,7 @@ final class EventHubSettingsForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state): void {
-    $this->config('eventhub_core.settings')
+    $this->config('eventhub_import.settings')
       ->set('api_endpoint', $form_state->getValue('api_endpoint'))
       ->set('import_batch_size', (int) $form_state->getValue('import_batch_size'))
       ->set('notification_email', $form_state->getValue('notification_email'))

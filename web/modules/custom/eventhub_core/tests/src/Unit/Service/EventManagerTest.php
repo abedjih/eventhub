@@ -8,7 +8,7 @@ use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\eventhub_core\Entity\Event;
 use Drupal\eventhub_core\Service\EventManager;
-use Drupal\eventhub_core\Service\RegistrationManager;
+use Drupal\eventhub_registration\Service\RegistrationManager;
 use Drupal\Tests\UnitTestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 
@@ -33,7 +33,7 @@ class EventManagerTest extends UnitTestCase {
   /**
    * The mocked registration manager.
    *
-   * @var \Drupal\eventhub_core\Service\RegistrationManager|\PHPUnit\Framework\MockObject\MockObject
+   * @var \Drupal\eventhub_registration\Service\RegistrationManager|\PHPUnit\Framework\MockObject\MockObject
    */
   private RegistrationManager|MockObject $registrationManager;
 

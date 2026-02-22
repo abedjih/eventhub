@@ -18,7 +18,7 @@ final class EventForm extends FormBase {
   use AutowireTrait;
 
   public function __construct(
-    private readonly EntityTypeManagerInterface $entityTypeManager,
+    protected EntityTypeManagerInterface $entityTypeManager,
   ) {}
 
   /**

@@ -50,47 +50,6 @@ eventhub.event_create:
   requirements:
     _permission: 'create event'
 
-eventhub.registration_create:
-  path: '/event/{event}/register'
-  defaults:
-    _form: '\Drupal\eventhub_core\Form\RegistrationForm'
-    _title: 'Inscription'
-  requirements:
-    _permission: 'register to event'
-
-eventhub.event_registrations:
-  path: '/event/{event}/registrations'
-  defaults:
-    _controller: '\Drupal\eventhub_core\Controller\RegistrationController::listForEvent'
-    _title: 'Inscriptions'
-  requirements:
-    _permission: 'view event registrations'
-  options:
-    parameters:
-      event:
-        type: entity:event
-
-eventhub.registration_cancel:
-  path: '/registration/{registration}/cancel'
-  defaults:
-    _controller: '\Drupal\eventhub_core\Controller\RegistrationController::cancel'
-    _title: 'Annuler l''inscription'
-  requirements:
-    _permission: 'register to event'
-    _csrf_token: 'TRUE'
-  options:
-    parameters:
-      registration:
-        type: entity:registration
-
-eventhub.admin_settings:
-  path: '/admin/config/eventhub/settings'
-  defaults:
-    _form: '\Drupal\eventhub_core\Form\EventHubSettingsForm'
-    _title: 'Configuration EventHub'
-  requirements:
-    _permission: 'administer eventhub'
-
 eventhub.dashboard:
   path: '/admin/eventhub/dashboard'
   defaults:

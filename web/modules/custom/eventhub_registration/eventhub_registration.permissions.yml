@@ -1,0 +1,7 @@
+register to event:
+  title: "S'inscrire à un événement"
+  description: "Permet de s'inscrire comme participant à un événement."
+
+view event registrations:
+  title: 'Voir les inscriptions'
+  description: "Permet de voir les inscriptions à un événement."

@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace Drupal\Tests\eventhub_core\Unit\Service;
+namespace Drupal\Tests\eventhub_registration\Unit\Service;
 
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\eventhub_core\Entity\Registration;
-use Drupal\eventhub_core\Service\RegistrationManager;
+use Drupal\eventhub_registration\Entity\Registration;
+use Drupal\eventhub_registration\Service\RegistrationManager;
 use Drupal\Tests\UnitTestCase;
 
 /**
  * Tests the RegistrationManager service.
  *
  * @group eventhub
- * @coversDefaultClass \Drupal\eventhub_core\Service\RegistrationManager
+ * @coversDefaultClass \Drupal\eventhub_registration\Service\RegistrationManager
  */
 class RegistrationManagerTest extends UnitTestCase {
 

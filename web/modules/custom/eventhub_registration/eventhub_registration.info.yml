@@ -1,0 +1,7 @@
+name: 'EventHub Registration'
+type: module
+description: "Gestion des inscriptions aux événements EventHub."
+core_version_requirement: ^10 || ^11
+package: EventHub
+dependencies:
+  - eventhub_core:eventhub_core

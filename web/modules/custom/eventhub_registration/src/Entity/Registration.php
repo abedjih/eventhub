@@ -2,13 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Drupal\eventhub_core\Entity;
+namespace Drupal\eventhub_registration\Entity;
 
 use Drupal\Core\Entity\Attribute\ContentEntityType;
 use Drupal\Core\Entity\ContentEntityBase;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
+use Drupal\eventhub_core\Entity\Event;
 
 /**
  * Defines the Registration entity.

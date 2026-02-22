@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Drupal\eventhub_core\Form;
+namespace Drupal\eventhub_registration\Form;
 
 use Drupal\Core\DependencyInjection\AutowireTrait;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
@@ -10,7 +10,7 @@ use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\eventhub_core\Entity\Event;
 use Drupal\eventhub_core\Service\EventManager;
-use Drupal\eventhub_core\Service\RegistrationManager;
+use Drupal\eventhub_registration\Service\RegistrationManager;
 
 /**
  * Registration form with #states, validation and AJAX concepts.
@@ -20,9 +20,9 @@ final class RegistrationForm extends FormBase {
   use AutowireTrait;
 
   public function __construct(
-    private readonly EntityTypeManagerInterface $entityTypeManager,
-    private readonly EventManager $eventManager,
-    private readonly RegistrationManager $registrationManager,
+    protected EntityTypeManagerInterface $entityTypeManager,
+    protected EventManager $eventManager,
+    protected RegistrationManager $registrationManager,
   ) {}
 
   /**
@@ -168,7 +168,7 @@ final class RegistrationForm extends FormBase {
       $values['notes'] = $notes;
     }
 
-    /** @var \Drupal\eventhub_core\Entity\Registration $registration */
+    /** @var \Drupal\eventhub_registration\Entity\Registration $registration */
     $registration = $this->entityTypeManager
       ->getStorage('registration')
       ->create($values);

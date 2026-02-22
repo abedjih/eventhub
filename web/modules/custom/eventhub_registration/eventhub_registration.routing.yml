@@ -1,0 +1,32 @@
+eventhub.registration_create:
+  path: '/event/{event}/register'
+  defaults:
+    _form: '\Drupal\eventhub_registration\Form\RegistrationForm'
+    _title: 'Inscription'
+  requirements:
+    _permission: 'register to event'
+
+eventhub.event_registrations:
+  path: '/event/{event}/registrations'
+  defaults:
+    _controller: '\Drupal\eventhub_registration\Controller\RegistrationController::listForEvent'
+    _title: 'Inscriptions'
+  requirements:
+    _permission: 'view event registrations'
+  options:
+    parameters:
+      event:
+        type: entity:event
+
+eventhub.registration_cancel:
+  path: '/registration/{registration}/cancel'
+  defaults:
+    _controller: '\Drupal\eventhub_registration\Controller\RegistrationController::cancel'
+    _title: "Annuler l'inscription"
+  requirements:
+    _permission: 'register to event'
+    _csrf_token: 'TRUE'
+  options:
+    parameters:
+      registration:
+        type: entity:registration

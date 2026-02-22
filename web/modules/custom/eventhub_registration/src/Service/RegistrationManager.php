@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Drupal\eventhub_core\Service;
+namespace Drupal\eventhub_registration\Service;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 
@@ -21,7 +21,7 @@ class RegistrationManager {
    * @param int $eventId
    *   The event ID.
    *
-   * @return \Drupal\eventhub_core\Entity\Registration[]
+   * @return \Drupal\eventhub_registration\Entity\Registration[]
    *   Array of Registration entities.
    */
   public function getRegistrationsForEvent(int $eventId): array {
@@ -38,7 +38,7 @@ class RegistrationManager {
       return [];
     }
 
-    /** @var \Drupal\eventhub_core\Entity\Registration[] $registrations */
+    /** @var \Drupal\eventhub_registration\Entity\Registration[] $registrations */
     $registrations = $this->entityTypeManager
       ->getStorage('registration')
       ->loadMultiple($ids);
@@ -105,7 +105,7 @@ class RegistrationManager {
    *   TRUE if successfully cancelled.
    */
   public function cancelRegistration(int $registrationId): bool {
-    /** @var \Drupal\eventhub_core\Entity\Registration|null $registration */
+    /** @var \Drupal\eventhub_registration\Entity\Registration|null $registration */
     $registration = $this->entityTypeManager
       ->getStorage('registration')
       ->load($registrationId);

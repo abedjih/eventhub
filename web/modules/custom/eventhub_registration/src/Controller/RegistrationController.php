@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Drupal\eventhub_core\Controller;
+namespace Drupal\eventhub_registration\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Datetime\DateFormatterInterface;
 use Drupal\Core\DependencyInjection\AutowireTrait;
 use Drupal\Core\Url;
 use Drupal\eventhub_core\Entity\Event;
-use Drupal\eventhub_core\Entity\Registration;
-use Drupal\eventhub_core\Service\RegistrationManager;
+use Drupal\eventhub_registration\Entity\Registration;
+use Drupal\eventhub_registration\Service\RegistrationManager;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**

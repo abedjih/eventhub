@@ -10,7 +10,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\Url;
 use Drupal\eventhub_core\Entity\Event;
-use Drupal\eventhub_core\Service\RegistrationManager;
+use Drupal\eventhub_registration\Service\RegistrationManager;
 
 /**
  * Event delete confirmation form.
@@ -20,7 +20,7 @@ final class EventDeleteForm extends ConfirmFormBase {
   use AutowireTrait;
 
   public function __construct(
-    private readonly RegistrationManager $registrationManager,
+    protected RegistrationManager $registrationManager,
   ) {}
 
   /**

@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Drupal\eventhub_core\Plugin\Validation\Constraint;
+namespace Drupal\eventhub_registration\Plugin\Validation\Constraint;
 
 use Drupal\Core\DependencyInjection\AutowireTrait;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
-use Drupal\eventhub_core\Entity\Registration;
-use Drupal\eventhub_core\Service\RegistrationManager;
+use Drupal\eventhub_registration\Entity\Registration;
+use Drupal\eventhub_registration\Service\RegistrationManager;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 
@@ -30,7 +30,7 @@ class UniqueRegistrationConstraintValidator extends ConstraintValidator implemen
       return;
     }
 
-    /** @var \Drupal\eventhub_core\Plugin\Validation\Constraint\UniqueRegistrationConstraint $constraint */
+    /** @var \Drupal\eventhub_registration\Plugin\Validation\Constraint\UniqueRegistrationConstraint $constraint */
     $root = $this->context->getRoot();
 
     // Get the entity from the typed data tree.

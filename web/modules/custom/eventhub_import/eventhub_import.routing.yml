@@ -1,0 +1,7 @@
+eventhub.admin_settings:
+  path: '/admin/config/eventhub/settings'
+  defaults:
+    _form: '\Drupal\eventhub_import\Form\EventHubSettingsForm'
+    _title: 'Configuration EventHub'
+  requirements:
+    _permission: 'administer eventhub'

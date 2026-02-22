@@ -1,0 +1,9 @@
+services:
+  Drupal\eventhub_registration\Service\RegistrationManager:
+    autowire: true
+
+  Drupal\eventhub_registration\Service\RegistrationCountBuilder:
+    autowire: true
+
+  Drupal\eventhub_registration\Hook\EntityHooks:
+    autowire: true

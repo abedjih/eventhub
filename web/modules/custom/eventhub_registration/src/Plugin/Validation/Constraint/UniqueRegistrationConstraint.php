@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Drupal\eventhub_core\Plugin\Validation\Constraint;
+namespace Drupal\eventhub_registration\Plugin\Validation\Constraint;
 
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\Validation\Attribute\Constraint;

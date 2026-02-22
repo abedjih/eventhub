@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Drupal\eventhub_core\Service;
+namespace Drupal\eventhub_registration\Service;
 
 use Drupal\Core\Security\TrustedCallbackInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\eventhub_core\Service\EventManager;
 
 /**
  * Lazy builder for the registration count display.
