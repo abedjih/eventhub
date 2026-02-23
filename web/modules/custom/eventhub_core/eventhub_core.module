@@ -14,3 +14,8 @@ function eventhub_core_entity_bundle_field_info_alter(array &$fields, EntityType
   // Les contraintes sont appliquées directement dans les baseFieldDefinitions
   // des entités Event et Registration.
 }
+
+
+
+
+
