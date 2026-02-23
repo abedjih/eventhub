@@ -18,4 +18,3 @@ function eventhub_core_entity_bundle_field_info_alter(array &$fields, EntityType
 
 
 
-
