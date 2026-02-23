@@ -1,0 +1,32 @@
+/* Tabs (admin) */
+.tabs {
+  margin-bottom: 1.5rem;
+}
+
+.tabs ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.tabs ul li a {
+  display: block;
+  padding: 0.6rem 1.25rem;
+  color: #6b7280;
+  font-weight: 500;
+  font-size: 0.9rem;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+}
+
+.tabs ul li a:hover {
+  color: #2563eb;
+  text-decoration: none;
+}
+
+.tabs ul li a.is-active {
+  color: #2563eb;
+  border-bottom-color: #2563eb;
+}

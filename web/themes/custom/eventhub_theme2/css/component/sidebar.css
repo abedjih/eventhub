@@ -1,0 +1,26 @@
+/* Sidebar */
+.layout-sidebar-first .block {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 1.25rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.layout-sidebar-first .block h2 {
+  font-size: 1.1rem;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #2563eb;
+}
+
+.layout-sidebar-first .menu {
+  flex-direction: column;
+  gap: 0;
+}
+
+.layout-sidebar-first .menu li a {
+  padding: 0.4rem 0.75rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}

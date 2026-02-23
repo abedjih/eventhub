@@ -1,0 +1,132 @@
+/* Main navigation bar */
+.main-navigation {
+  background-color: #16213e;
+  border-bottom: 3px solid #2563eb;
+}
+
+.main-navigation__inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* Menu base */
+.menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+/* Menu items */
+.menu__item {
+  position: relative;
+}
+
+.menu__link {
+  display: block;
+  padding: 0.75rem 1.25rem;
+  color: #cbd5e1;
+  font-weight: 500;
+  font-size: 0.95rem;
+  text-decoration: none;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -3px;
+  transition: color 0.2s, border-color 0.2s, background-color 0.2s;
+}
+
+.menu__link:hover,
+.menu__link:focus {
+  color: #fff;
+  background-color: rgba(255, 255, 255, 0.05);
+  text-decoration: none;
+}
+
+/* Active trail */
+.menu__item--active-trail > .menu__link,
+.menu__link.is-active {
+  color: #fff;
+  border-bottom-color: #2563eb;
+}
+
+/* Submenu (level 1+) */
+.menu--level-1 {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 100;
+  min-width: 220px;
+  background-color: #1e293b;
+  border-radius: 0 0 6px 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  padding: 0.5rem 0;
+  flex-direction: column;
+}
+
+.menu__item--has-children:hover > .menu--level-1 {
+  display: flex;
+}
+
+.menu--level-1 .menu__link {
+  padding: 0.5rem 1.25rem;
+  font-size: 0.9rem;
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+.menu--level-1 .menu__link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Sidebar menu override */
+.layout-sidebar-first .menu {
+  flex-direction: column;
+  background: none;
+}
+
+.layout-sidebar-first .menu__link {
+  color: #333;
+  padding: 0.5rem 0.75rem;
+  border-bottom: none;
+  margin-bottom: 0;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.layout-sidebar-first .menu__link:hover,
+.layout-sidebar-first .menu__link.is-active {
+  background-color: #2563eb;
+  color: #fff;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .main-navigation__inner .menu {
+    flex-direction: column;
+  }
+
+  .menu__link {
+    border-bottom: none;
+    margin-bottom: 0;
+    border-left: 3px solid transparent;
+  }
+
+  .menu__item--active-trail > .menu__link,
+  .menu__link.is-active {
+    border-bottom-color: transparent;
+    border-left-color: #2563eb;
+  }
+
+  .menu--level-1 {
+    position: static;
+    box-shadow: none;
+    border-radius: 0;
+    padding-left: 1rem;
+  }
+
+  .menu__item--has-children > .menu--level-1 {
+    display: flex;
+  }
+}

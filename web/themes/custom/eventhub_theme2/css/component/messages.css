@@ -1,0 +1,31 @@
+/* Messages */
+.messages {
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.5rem;
+  border-radius: 6px;
+  border-left: 4px solid;
+  font-size: 0.95rem;
+}
+
+.messages--status {
+  background-color: #ecfdf5;
+  border-color: #10b981;
+  color: #065f46;
+}
+
+.messages--warning {
+  background-color: #fffbeb;
+  border-color: #f59e0b;
+  color: #92400e;
+}
+
+.messages--error {
+  background-color: #fef2f2;
+  border-color: #ef4444;
+  color: #991b1b;
+}
+
+.messages__list {
+  margin: 0;
+  padding: 0 0 0 1.25rem;
+}

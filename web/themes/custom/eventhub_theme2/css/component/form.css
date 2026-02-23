@@ -1,0 +1,64 @@
+/* Forms */
+.form-item {
+  margin-bottom: 1.25rem;
+}
+
+.form-item label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.35rem;
+  font-size: 0.9rem;
+  color: #374151;
+}
+
+.form-text,
+.form-email,
+.form-url,
+.form-search,
+.form-number,
+.form-tel,
+.form-date,
+.form-select,
+textarea {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-family: inherit;
+  background-color: #fff;
+  color: #333;
+}
+
+.form-text:focus,
+.form-email:focus,
+textarea:focus,
+.form-select:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.description {
+  font-size: 0.8rem;
+  color: #6b7280;
+  margin-top: 0.25rem;
+}
+
+fieldset {
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  padding: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+legend {
+  font-weight: 600;
+  padding: 0 0.5rem;
+  font-size: 0.95rem;
+}
