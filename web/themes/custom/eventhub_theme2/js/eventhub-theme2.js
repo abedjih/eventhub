@@ -7,7 +7,7 @@
   'use strict';
 
   Drupal.behaviors.eventhubTheme2 = {
-    attach (context, settings) {
+    attach(context, settings) {
 
       console.log('It works!');
 
