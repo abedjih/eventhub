@@ -28,8 +28,3 @@ function eventhub_theme2_preprocess_node(array &$variables): void {
   $node = $variables['node'];
   $variables['created_date'] = \Drupal::service('date.formatter')->format($node->getCreatedTime(), 'custom', 'Y-m-d');
 }
-
-
-
-
-
