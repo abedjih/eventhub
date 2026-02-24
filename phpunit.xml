@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<phpunit
+  bootstrap="web/core/tests/bootstrap.php"
+  colors="true"
+  stopOnFailure="false"
+  cacheDirectory=".phpunit.cache"
+>
+
+  <testsuites>
+    <testsuite name="Custom module tests">
+      <directory>web/modules/custom</directory>
+    </testsuite>
+  </testsuites>
+
+  <php>
+    <!-- Drupal test site -->
+    <env name="SIMPLETEST_BASE_URL" value="http://web"/>
+    <env name="SIMPLETEST_DB" value="mysql://db:db@db/db"/>
+
+    <!-- Isolation -->
+    <env name="BROWSERTEST_OUTPUT_DIRECTORY" value="sites/simpletest/browser_output"/>
+
+    <!-- Required by Drupal -->
+    <env name="SYMFONY_DEPRECATIONS_HELPER" value="disabled"/>
+
+    <!-- Optional performance tweaks -->
+    <ini name="memory_limit" value="-1"/>
+  </php>
+
+</phpunit>

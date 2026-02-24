@@ -1,0 +1,54 @@
+/* Header */
+.site-header {
+  background-color: #1a1a2e;
+  color: #fff;
+  padding: 0;
+}
+
+.site-header__inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Branding */
+.site-branding {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.site-branding__logo img {
+  display: block;
+  max-height: 48px;
+  width: auto;
+}
+
+.site-branding__name {
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.site-branding__name a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.site-branding__name a:hover {
+  color: #93c5fd;
+}
+
+.site-branding__slogan {
+  font-size: 0.85rem;
+  color: #94a3b8;
+  margin-top: 0.15rem;
+}
+
+/* Reset block wrappers inside header */
+.site-header .block {
+  margin-bottom: 0;
+}

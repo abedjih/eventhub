@@ -9,7 +9,9 @@ libraries:
 
 regions:
   header: Header
-  nav_main: 'Main navigation region'
+  nav_branding: 'Navbar branding'
+  nav_main: 'Main navigation'
+  nav_additional: 'Additional navigation'
   breadcrumb: Breadcrumbs
   content: 'Main content'
   sidebar_first: 'Sidebar first'

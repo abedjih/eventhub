@@ -1,0 +1,26 @@
+/* Print styles */
+@media print {
+  body {
+    font-size: 12pt;
+    color: #000;
+    background: #fff;
+  }
+
+  header[role="banner"],
+  .tabs,
+  .breadcrumb,
+  .layout-sidebar-first,
+  footer[role="contentinfo"] {
+    display: none;
+  }
+
+  .layout-content {
+    width: 100%;
+  }
+
+  a[href]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.8em;
+    color: #666;
+  }
+}

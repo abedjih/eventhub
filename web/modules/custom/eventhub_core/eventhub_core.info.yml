@@ -1,12 +1,10 @@
-name: Eventhub Core
+name: 'EventHub Core'
 type: module
-description: 'Core functionality for the Eventhub site.'
-core_version_requirement: ^10.3 | ^11
-package: Custom
-
+description: 'Plateforme de gestion d''événements professionnels - Module principal.'
+core_version_requirement: ^10.3 || ^11
+package: EventHub
 dependencies:
-  - drupal:node
+  - drupal:datetime
+  - drupal:options
+  - drupal:taxonomy
   - drupal:user
-
-
-

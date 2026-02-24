@@ -1,0 +1,17 @@
+uuid: 08a8298a-22c7-426c-a7e4-d4ec35aa0fa9
+langcode: fr
+status: true
+dependencies:
+  module:
+    - eventhub_import
+title: 'Default cron handler'
+id: eventhub_import_cron
+weight: 0
+module: eventhub_import
+callback: 'eventhub_import#cron'
+scheduler:
+  id: simple
+launcher:
+  id: serial
+logger:
+  id: database

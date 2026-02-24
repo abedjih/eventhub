@@ -2,18 +2,19 @@
 
 /**
  * @file
- * Core functionality for the Eventhub site.
+ * Module principal EventHub Core.
  */
 
-use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Entity\EntityTypeInterface;
 
 /**
- * Implements hook_core_help().
+ * Implements hook_entity_bundle_field_info_alter().
  */
-/*
-function eventhub_core_help($route_name, RouteMatchInterface $route_match) {
-  if ($route_name == 'help.page.eventhub_core') {
-    return '<p>' . \Drupal::translation()->translate('Eventhub Core module provides core functionalities for the Eventhub site.') . '</p>';
-  }
+function eventhub_core_entity_bundle_field_info_alter(array &$fields, EntityTypeInterface $entity_type, string $bundle): void {
+  // Les contraintes sont appliquées directement dans les baseFieldDefinitions
+  // des entités Event et Registration.
 }
-*/
+
+
+
+

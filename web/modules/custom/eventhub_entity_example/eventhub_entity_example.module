@@ -1,0 +1,8 @@
+<?php
+
+/**
+ * @file
+ * Provides an eventhub entity example entity type.
+ */
+
+declare(strict_types=1);

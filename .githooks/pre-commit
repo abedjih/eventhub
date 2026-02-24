@@ -22,7 +22,7 @@ echo ""
 
 # 1. PHPCS via DDEV (avec toutes les dépendances)
 echo "📋 Vérification PHPCS (standards Drupal)..."
-ddev exec vendor/bin/phpcs --standard=Drupal,DrupalPractice $FILES
+ddev exec vendor/bin/phpcs --standard=Drupal,DrupalPractice --extensions=php,module,install,theme,test $FILES
 
 if [ $? -ne 0 ]; then
     echo ""

@@ -1,0 +1,8 @@
+# Schema for the configuration files of the eventhub theme2 theme.
+eventhub_theme2.settings:
+  type: theme_settings
+  label: 'eventhub theme2 settings'
+  mapping:
+    example:
+      type: string
+      label: Example

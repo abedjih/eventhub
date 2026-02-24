@@ -1,0 +1,162 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for EventHub Core.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function eventhub_core_schema(): array {
+  $schema['eventhub_geodata'] = [
+    'description' => 'Données géographiques des communes françaises.',
+    'fields' => [
+      'id' => [
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'description' => 'Identifiant unique.',
+      ],
+      'code_commune' => [
+        'type' => 'varchar',
+        'length' => 10,
+        'not null' => TRUE,
+        'description' => 'Code INSEE de la commune.',
+      ],
+      'nom' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'description' => 'Nom de la commune.',
+      ],
+      'population' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => FALSE,
+        'default' => 0,
+        'description' => 'Population de la commune.',
+      ],
+      'departement' => [
+        'type' => 'varchar',
+        'length' => 5,
+        'not null' => TRUE,
+        'description' => 'Code du département.',
+      ],
+      'region' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => FALSE,
+        'description' => 'Nom de la région.',
+      ],
+      'imported_at' => [
+        'type' => 'int',
+        'not null' => TRUE,
+        'description' => "Timestamp de l'import.",
+      ],
+    ],
+    'primary key' => ['id'],
+    'unique keys' => [
+      'code_commune' => ['code_commune'],
+    ],
+    'indexes' => [
+      'nom' => ['nom'],
+      'departement' => ['departement'],
+      'imported_at' => ['imported_at'],
+    ],
+  ];
+
+  return $schema;
+}
+
+/**
+ * Implements hook_install().
+ */
+function eventhub_core_install(): void {
+  _eventhub_core_create_default_terms();
+}
+
+/**
+ * Create missing entity tables and eventhub_geodata table.
+ */
+function eventhub_core_update_10001(): void {
+  // Install storage for content entity types if tables are missing.
+  $entity_type_manager = \Drupal::entityTypeManager();
+  $entity_definition_update_manager = \Drupal::entityDefinitionUpdateManager();
+
+  foreach (['event', 'registration'] as $entity_type_id) {
+    $entity_type = $entity_type_manager->getDefinition($entity_type_id);
+    $schema = \Drupal::database()->schema();
+    if (!$schema->tableExists($entity_type->getBaseTable())) {
+      $entity_definition_update_manager->installEntityType($entity_type);
+    }
+  }
+
+  // Create the geodata custom table.
+  $db_schema = \Drupal::database()->schema();
+  if (!$db_schema->tableExists('eventhub_geodata')) {
+    $spec = eventhub_core_schema()['eventhub_geodata'];
+    $db_schema->createTable('eventhub_geodata', $spec);
+  }
+}
+
+/**
+ * Creates default taxonomy terms for event categories.
+ *
+ * @return array
+ *   Mapping of old machine names to new term IDs.
+ */
+function _eventhub_core_create_default_terms(): array {
+  $categories = [
+    'conference' => [
+      'name' => 'Conférence',
+      'description' => 'Conférence professionnelle avec présentations et keynotes.',
+      'field_max_capacity' => 200,
+    ],
+    'meetup' => [
+      'name' => 'Meetup',
+      'description' => 'Rencontre informelle entre professionnels.',
+      'field_max_capacity' => 50,
+    ],
+    'formation' => [
+      'name' => 'Formation',
+      'description' => 'Session de formation avec travaux pratiques.',
+      'field_max_capacity' => 20,
+    ],
+    'workshop' => [
+      'name' => 'Workshop',
+      'description' => 'Atelier pratique en petit groupe.',
+      'field_max_capacity' => 15,
+    ],
+  ];
+
+  $term_storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
+  $id_map = [];
+
+  foreach ($categories as $old_id => $data) {
+    $existing = $term_storage->loadByProperties([
+      'vid' => 'event_categories',
+      'name' => $data['name'],
+    ]);
+
+    if (!empty($existing)) {
+      $term = reset($existing);
+    }
+    else {
+      $term = $term_storage->create([
+        'vid' => 'event_categories',
+        'name' => $data['name'],
+        'description' => [
+          'value' => $data['description'],
+          'format' => 'plain_text',
+        ],
+        'field_max_capacity' => $data['field_max_capacity'],
+      ]);
+      $term->save();
+    }
+
+    $id_map[$old_id] = (int) $term->id();
+  }
+
+  return $id_map;
+}

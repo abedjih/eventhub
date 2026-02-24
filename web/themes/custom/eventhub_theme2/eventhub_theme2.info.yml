@@ -1,0 +1,16 @@
+name: eventhub theme2
+type: theme
+base theme: stable9
+description: Eventhub theme 2
+package: Custom
+core_version_requirement: ^10 || ^11
+libraries:
+  - eventhub_theme2/global
+regions:
+  header: 'Header'
+  content_top: 'Content top'
+  primary_menu: 'Primary menu'
+  breadcrumb: 'Breadcrumb'
+  content: 'Content'
+  sidebar_first: 'Sidebar first'
+  footer: 'Footer'

@@ -1,0 +1,9 @@
+/* Blocks */
+.block {
+  margin-bottom: 1.5rem;
+}
+
+.block h2 {
+  font-size: 1.25rem;
+  margin-bottom: 0.75rem;
+}

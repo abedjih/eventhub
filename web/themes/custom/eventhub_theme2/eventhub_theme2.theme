@@ -1,0 +1,30 @@
+<?php
+
+/**
+ * @file
+ * Functions to support theming in the eventhub theme2 theme.
+ */
+
+declare(strict_types=1);
+
+/**
+ * Implements hook_preprocess_HOOK() for html.html.twig.
+ */
+function eventhub_theme2_preprocess_html(array &$variables): void {
+
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for page.html.twig.
+ */
+function eventhub_theme2_preprocess_page(array &$variables): void {
+  $variables['display_content_top'] = TRUE;
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for node.html.twig.
+ */
+function eventhub_theme2_preprocess_node(array &$variables): void {
+  $node = $variables['node'];
+  $variables['created_date'] = \Drupal::service('date.formatter')->format($node->getCreatedTime(), 'custom', 'Y-m-d');
+}
