@@ -195,7 +195,7 @@ class EventController extends ControllerBase {
         : $this->t("L'événement %name a été dépublié.", ['%name' => $event->label()])
     );
 
-    return new RedirectResponse(Url::fromRoute('eventhub.event.list')->toString());
+    return new RedirectResponse(Url::fromRoute('entity.event.collection')->toString());
   }
 
   /**
