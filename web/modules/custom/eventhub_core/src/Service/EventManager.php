@@ -157,6 +157,37 @@ class EventManager {
   }
 
   /**
+   * Gets the latest published events.
+   *
+   * @param int $limit
+   *   Maximum number of events to return.
+   *
+   * @return \Drupal\eventhub_core\Entity\Event[]
+   *   Array of Event entities ordered by creation date DESC.
+   */
+  public function getLatestEvents(int $limit = 5): array {
+    $ids = $this->entityTypeManager
+      ->getStorage('event')
+      ->getQuery()
+      ->accessCheck(FALSE)
+      ->condition('status', 1)
+      ->sort('created', 'DESC')
+      ->range(0, $limit)
+      ->execute();
+
+    if (empty($ids)) {
+      return [];
+    }
+
+    /** @var \Drupal\eventhub_core\Entity\Event[] $events */
+    $events = $this->entityTypeManager
+      ->getStorage('event')
+      ->loadMultiple($ids);
+
+    return $events;
+  }
+
+  /**
    * Gets the total number of events.
    */
   public function getTotalEventCount(): int {

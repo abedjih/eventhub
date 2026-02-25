@@ -5,6 +5,9 @@ services:
   Drupal\eventhub_core\Service\GeoDataRepository:
     autowire: true
 
+  Drupal\eventhub_core\Service\UpcomingEventsBuilder:
+    autowire: true
+
   Drupal\eventhub_core\Hook\EntityHooks:
     autowire: true
 

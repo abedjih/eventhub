@@ -5,6 +5,14 @@ eventhub.geodata_autocomplete:
   requirements:
     _permission: 'create event'
 
+eventhub.event.toggle_status:
+  path: '/event/{event}/toggle-status'
+  defaults:
+    _controller: '\Drupal\eventhub_core\Controller\EventController::toggleStatus'
+  requirements:
+    _permission: 'edit any event'
+    _csrf_token: 'TRUE'
+
 entity.event.settings:
   path: 'admin/structure/event'
   defaults:

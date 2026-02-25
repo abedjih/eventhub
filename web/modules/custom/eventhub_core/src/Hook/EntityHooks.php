@@ -52,6 +52,18 @@ class EntityHooks {
   }
 
   /**
+   * Invalidates cache when a new event is created.
+   */
+  #[Hook('entity_insert')]
+  public function entityInsert(EntityInterface $entity): void {
+    if (!$entity instanceof Event) {
+      return;
+    }
+
+    Cache::invalidateTags(['event_list']);
+  }
+
+  /**
    * Invalidates cache when an event is updated.
    */
   #[Hook('entity_update')]
@@ -77,7 +89,10 @@ class EntityHooks {
 
     $this->registrationManager->deleteRegistrationsForEvent((int) $entity->id());
 
-    Cache::invalidateTags(['event_list']);
+    Cache::invalidateTags([
+      'event:' . $entity->id(),
+      'event_list',
+    ]);
   }
 
   /**
