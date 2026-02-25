@@ -36,7 +36,19 @@ body{font-family:'Plus Jakarta Sans',sans-serif;color:var(--white);-webkit-font-
 .slide.light .card li{color:#4A5E6F}
 .card li::before{content:'›';position:absolute;left:0;font-weight:700;color:var(--blue);font-size:.85rem}
 .card.accent-orange li::before{color:var(--orange)}.card.accent-teal li::before{color:var(--teal)}.card.accent-green li::before{color:var(--green)}
-.code-block{background:var(--code-bg);border-radius:10px;overflow:auto;border:1px solid rgba(255,255,255,.06);display:flex;flex-direction:column;min-height:0;resize:vertical}
+.code-block{background:var(--code-bg);border-radius:10px;overflow:auto;border:1px solid rgba(255,255,255,.06);display:flex;flex-direction:column;min-height:0}
+.code-expand{background:none;border:none;color:var(--muted);cursor:pointer;padding:2px 6px;font-size:.85rem;font-weight:700;line-height:1;border-radius:4px;transition:color .2s,background .2s;display:flex;align-items:center}
+.code-expand:hover{color:var(--accent);background:rgba(255,255,255,.08)}
+.slide.light .code-expand:hover{background:rgba(0,0,0,.06);color:var(--accent)}
+.code-modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:9999;justify-content:center;align-items:center}
+.code-modal-overlay.open{display:flex}
+.code-modal{background:var(--code-bg);border-radius:12px;border:1px solid rgba(255,255,255,.1);width:80vw;max-height:80vh;display:flex;flex-direction:column;box-shadow:0 12px 48px rgba(0,0,0,.5)}
+.code-modal .code-modal-header{display:flex;align-items:center;padding:.5rem 1rem;border-bottom:1px solid rgba(255,255,255,.08);gap:.5rem}
+.code-modal .code-modal-header .code-lang{margin-left:auto}
+.code-modal .code-modal-close{background:none;border:none;color:var(--muted);cursor:pointer;font-size:1.3rem;font-weight:700;line-height:1;padding:2px 8px;border-radius:4px;transition:color .2s,background .2s}
+.code-modal .code-modal-close:hover{color:#FF5F57;background:rgba(255,255,255,.08)}
+.code-modal pre{margin:0;padding:1rem 1.2rem;overflow:auto;flex:1;min-height:0}
+.code-modal code{font-family:'Fira Code',monospace!important;font-size:.82rem!important;line-height:1.7!important;background:transparent!important}
 .slide.light .code-block{border:1px solid #C8D8E8}
 .code-header{display:flex;align-items:center;padding:.35rem .8rem;background:rgba(255,255,255,.04);border-bottom:1px solid rgba(255,255,255,.06);gap:.4rem;flex-shrink:0}
 .code-dot{width:7px;height:7px;border-radius:50%}.code-dot:nth-child(1){background:#FF5F57}.code-dot:nth-child(2){background:#FEBC2E}.code-dot:nth-child(3){background:#28C840}
@@ -1550,25 +1562,21 @@ eventhub.registration_cancel:
   requirements:
     _permission: 'register to event'
     _csrf_token: 'TRUE'       # token CSRF obligatoire</code></pre></div>
-<div class="code-block"><div class="code-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang">php</span></div><pre><code class="language-php">// Générer un lien avec token CSRF (pour les routes non-form)
+<div class="code-block"><div class="code-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang">php</span></div><pre><code class="language-php">// Générer un lien avec token CSRF (routes non-form)
 use Drupal\Core\Url;
-$url = Url::fromRoute('eventhub.registration_cancel',
-  ['registration' =&gt; $id]);
-// Le token est ajouté automatiquement par Drupal
-// quand _csrf_token: 'TRUE' est dans le routing
-
-// Protection SQLi – Database API = requêtes préparées
+$url = Url::fromRoute('eventhub.event.toggle_status',
+  ['event' =&gt; $event-&gt;id()]);
+// Url::fromRoute() détecte _csrf_token: 'TRUE'
+// → ajoute ?token=abc123 automatiquement</code></pre></div>
+<div class="code-block"><div class="code-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang">php</span></div><pre><code class="language-php">// Protection SQLi – Database API = requêtes préparées
 $this-&gt;database-&gt;select('eventhub_registration', 'r')
-  -&gt;fields('r')
-  -&gt;condition('event_id', $eventId)  // paramètre bindé, jamais concaténé
+  -&gt;condition('event_id', $eventId) // paramètre bindé
   -&gt;execute();
-
-// JAMAIS de concaténation SQL :
-// $db-&gt;query("SELECT * WHERE id = $id"); ← INTERDIT</code></pre></div>
+// JAMAIS : $db-&gt;query("SELECT * WHERE id = $id");</code></pre></div>
 </div>
 <div class="col">
 <div class="card"><h4>Permissions custom</h4><ul><li>Déclarées dans <code>module.permissions.yml</code></li><li>Utilisées dans les routes : <code>_permission: 'nom'</code></li><li><code>restrict access: true</code> → visible uniquement sur la page permissions des rôles admin</li><li>Vérifier en code : <code>$account-&gt;hasPermission('create event')</code></li></ul></div>
-<div class="card accent-orange"><h4>Protection CSRF</h4><ul><li><strong>Form API</strong> : token CSRF <strong>automatique</strong> sur tous les formulaires Drupal (champ caché <code>form_token</code>)</li><li><strong>Routes non-form</strong> (liens d'action) : ajouter <code>_csrf_token: 'TRUE'</code> dans le routing</li><li><code>Url::fromRoute()</code> détecte <code>_csrf_token</code> et ajoute automatiquement <code>?token=abc123</code> à l'URL</li><li>Le token est un <strong>hash HMAC</strong> basé sur le chemin de la route + la session de l'utilisateur</li><li>À chaque requête, Drupal recalcule le hash et le compare au token reçu</li><li>Token invalide ou absent → <strong>403 Access Denied</strong></li><li>Protège contre les attaques où un site tiers tenterait de forcer un clic utilisateur sur une action sensible (suppression, changement de statut…)</li></ul></div>
+<div class="card accent-orange"><h4>Protection CSRF</h4><ul><li><strong>Form API</strong> : token automatique (champ caché <code>form_token</code>)</li><li><strong>Routes non-form</strong> : <code>_csrf_token: 'TRUE'</code> dans le routing</li><li><code>Url::fromRoute()</code> ajoute <code>?token=abc123</code> automatiquement</li><li>Token = <strong>hash HMAC</strong> (chemin route + session utilisateur)</li><li>Drupal recalcule le hash et compare → invalide = <strong>403</strong></li><li>Protège contre les clics forcés depuis un site tiers</li></ul></div>
 <div class="card accent-teal"><h4>Protection XSS</h4><ul><li>Twig <strong>auto-escape</strong> : <code>{{ variable }}</code> échappe automatiquement</li><li><code>t()</code> avec placeholders : <code>@name</code> (échappé), <code>:url</code> (filtré URL)</li><li><code>Xss::filter()</code> pour du HTML contrôlé</li><li>JAMAIS <code>|raw</code> dans Twig sauf données de confiance</li></ul></div>
 <div class="card"><h4>Protection SQLi</h4><ul><li><strong>Database API</strong> : requêtes préparées (paramètres bindés)</li><li><strong>Entity Query</strong> : entièrement sécurisé</li><li>JAMAIS de concaténation dans les requêtes SQL</li><li><code>accessCheck(TRUE)</code> dans les Entity Query pour respecter les permissions</li></ul></div>
 </div></div></div>
@@ -1601,6 +1609,7 @@ $config['config_split.config_split.prod']['status'] = FALSE;</code></pre></div>
 <span class="nav-counter" id="counter"></span>
 <button class="nav-btn" id="nextBtn" onclick="go(1)">Suivant →</button>
 </div>
+<div class="code-modal-overlay" id="codeModal"><div class="code-modal"><div class="code-modal-header"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span class="code-lang" id="codeModalLang"></span><button class="code-modal-close" id="codeModalClose" title="Fermer">&times;</button></div><pre><code id="codeModalContent"></code></pre></div></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/php.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/yaml.min.js"></script>
@@ -1608,7 +1617,13 @@ $config['config_split.config_split.prod']['status'] = FALSE;</code></pre></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/xml.min.js"></script>
 <script>
 hljs.highlightAll();
-document.querySelectorAll('.code-header').forEach(h=>{const btn=document.createElement('button');btn.className='code-copy';btn.title='Copier';btn.innerHTML='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';h.appendChild(btn);btn.addEventListener('click',()=>{const code=h.closest('.code-block').querySelector('code');navigator.clipboard.writeText(code.textContent).then(()=>{btn.innerHTML='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';btn.classList.add('copied');setTimeout(()=>{btn.innerHTML='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';btn.classList.remove('copied')},1500)})})});
+const codeModal=document.getElementById('codeModal'),codeModalContent=document.getElementById('codeModalContent'),codeModalLang=document.getElementById('codeModalLang');
+function openCodeModal(block){const code=block.querySelector('code');const lang=block.querySelector('.code-lang');codeModalLang.textContent=lang?lang.textContent:'';codeModalContent.className=code.className;codeModalContent.textContent=code.textContent;hljs.highlightElement(codeModalContent);codeModal.classList.add('open')}
+function closeCodeModal(){codeModal.classList.remove('open')}
+document.getElementById('codeModalClose').addEventListener('click',closeCodeModal);
+codeModal.addEventListener('click',e=>{if(e.target===codeModal)closeCodeModal()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&codeModal.classList.contains('open')){e.stopPropagation();closeCodeModal()}},true);
+document.querySelectorAll('.code-header').forEach(h=>{const block=h.closest('.code-block');const expBtn=document.createElement('button');expBtn.className='code-expand';expBtn.title='Agrandir';expBtn.textContent='+';h.appendChild(expBtn);expBtn.addEventListener('click',()=>openCodeModal(block));const btn=document.createElement('button');btn.className='code-copy';btn.title='Copier';btn.innerHTML='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';h.appendChild(btn);btn.addEventListener('click',()=>{const code=block.querySelector('code');navigator.clipboard.writeText(code.textContent).then(()=>{btn.innerHTML='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';btn.classList.add('copied');setTimeout(()=>{btn.innerHTML='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';btn.classList.remove('copied')},1500)})})});
 const sl=document.querySelectorAll('.slide'),N=sl.length;let cur=0;
 function show(n){sl.forEach((s,i)=>{s.classList.remove('active','prev');if(i===n)s.classList.add('active');else if(i<n)s.classList.add('prev')});cur=n;document.getElementById('counter').textContent=(n+1)+' / '+N;document.getElementById('prevBtn').disabled=n===0;document.getElementById('nextBtn').disabled=n===N-1;document.getElementById('progress').style.width=((n+1)/N*100)+'%';document.querySelectorAll('.sidebar a').forEach((a,i)=>a.classList.toggle('active',i===n))}
 function go(d){const n=cur+d;if(n>=0&&n<N)show(n)}
