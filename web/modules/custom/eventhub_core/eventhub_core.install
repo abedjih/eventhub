@@ -80,17 +80,6 @@ function eventhub_core_install(): void {
  * Create missing entity tables and eventhub_geodata table.
  */
 function eventhub_core_update_10001(): void {
-  // Install storage for content entity types if tables are missing.
-  $entity_type_manager = \Drupal::entityTypeManager();
-  $entity_definition_update_manager = \Drupal::entityDefinitionUpdateManager();
-
-  foreach (['event', 'registration'] as $entity_type_id) {
-    $entity_type = $entity_type_manager->getDefinition($entity_type_id);
-    $schema = \Drupal::database()->schema();
-    if (!$schema->tableExists($entity_type->getBaseTable())) {
-      $entity_definition_update_manager->installEntityType($entity_type);
-    }
-  }
 
   // Create the geodata custom table.
   $db_schema = \Drupal::database()->schema();

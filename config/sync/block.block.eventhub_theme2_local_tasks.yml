@@ -1,0 +1,22 @@
+uuid: e47b67bf-d2a5-4ba7-ac7b-aff6bd4bb1c1
+langcode: fr
+status: true
+dependencies:
+  theme:
+    - eventhub_theme2
+_core:
+  default_config_hash: yX9o6NcntZnXRDfbJoHY1pJwuXlumW44m5AMs347NN4
+id: eventhub_theme2_local_tasks
+theme: eventhub_theme2
+region: content
+weight: -4
+provider: null
+plugin: local_tasks_block
+settings:
+  id: local_tasks_block
+  label: Onglets
+  label_display: '0'
+  provider: core
+  primary: true
+  secondary: true
+visibility: {  }

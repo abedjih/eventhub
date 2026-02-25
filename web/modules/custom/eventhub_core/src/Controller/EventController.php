@@ -40,7 +40,7 @@ class EventController extends ControllerBase {
         $actions[] = [
           '#type' => 'link',
           '#title' => $this->t('Modifier'),
-          '#url' => Url::fromRoute('eventhub.event_edit', ['event' => $event->id()]),
+          '#url' => Url::fromRoute('entity.event.edit_form', ['event' => $event->id()]),
           '#attributes' => ['class' => ['btn', 'btn-sm', 'btn-outline-primary', 'me-1']],
         ];
       }
@@ -48,7 +48,7 @@ class EventController extends ControllerBase {
         $actions[] = [
           '#type' => 'link',
           '#title' => $this->t('Supprimer'),
-          '#url' => Url::fromRoute('eventhub.event_delete', ['event' => $event->id()]),
+          '#url' => Url::fromRoute('entity.event.delete_form', ['event' => $event->id()]),
           '#attributes' => ['class' => ['btn', 'btn-sm', 'btn-outline-danger']],
         ];
       }
@@ -58,7 +58,7 @@ class EventController extends ControllerBase {
           'data' => [
             '#type' => 'link',
             '#title' => $event->getName(),
-            '#url' => Url::fromRoute('eventhub.event_view', ['event' => $event->id()]),
+            '#url' => Url::fromRoute('entity.event.canonical', ['event' => $event->id()]),
           ],
         ],
         $event->getEventDate(),
@@ -77,7 +77,7 @@ class EventController extends ControllerBase {
       $build['add_event'] = [
         '#type' => 'link',
         '#title' => $this->t('Créer un événement'),
-        '#url' => Url::fromRoute('eventhub.event_create'),
+        '#url' => Url::fromRoute('entity.event.add_form'),
         '#attributes' => ['class' => ['button', 'button--primary', 'mb-3']],
       ];
     }
@@ -167,7 +167,7 @@ class EventController extends ControllerBase {
       $build['actions']['edit'] = [
         '#type' => 'link',
         '#title' => $this->t('Modifier'),
-        '#url' => Url::fromRoute('eventhub.event_edit', ['event' => $event->id()]),
+        '#url' => Url::fromRoute('entity.event.edit_form', ['event' => $event->id()]),
         '#attributes' => ['class' => ['btn', 'btn-outline-primary', 'me-2']],
       ];
     }
@@ -176,7 +176,7 @@ class EventController extends ControllerBase {
       $build['actions']['delete'] = [
         '#type' => 'link',
         '#title' => $this->t('Supprimer'),
-        '#url' => Url::fromRoute('eventhub.event_delete', ['event' => $event->id()]),
+        '#url' => Url::fromRoute('entity.event.delete_form', ['event' => $event->id()]),
         '#attributes' => ['class' => ['btn', 'btn-outline-danger']],
       ];
     }

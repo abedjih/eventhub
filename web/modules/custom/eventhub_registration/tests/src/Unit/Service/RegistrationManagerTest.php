@@ -4,11 +4,15 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\eventhub_registration\Unit\Service;
 
-use Drupal\Core\Entity\EntityStorageInterface;
+use Drupal\Component\Datetime\TimeInterface;
+use Drupal\Core\Database\Connection;
+use Drupal\Core\Database\Query\SelectInterface;
+use Drupal\Core\Database\Query\Update;
+use Drupal\Core\Database\StatementInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\eventhub_registration\Entity\Registration;
 use Drupal\eventhub_registration\Service\RegistrationManager;
 use Drupal\Tests\UnitTestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Tests the RegistrationManager service.
@@ -24,14 +28,19 @@ class RegistrationManagerTest extends UnitTestCase {
   private RegistrationManager $registrationManager;
 
   /**
-   * The mocked entity type manager.
+   * The mocked database connection.
    */
-  private EntityTypeManagerInterface $entityTypeManager;
+  private Connection&MockObject $database;
 
   /**
-   * The mocked entity storage.
+   * The mocked time service.
    */
-  private EntityStorageInterface $storage;
+  private TimeInterface&MockObject $time;
+
+  /**
+   * The mocked entity type manager.
+   */
+  private EntityTypeManagerInterface&MockObject $entityTypeManager;
 
   /**
    * {@inheritdoc}
@@ -39,15 +48,13 @@ class RegistrationManagerTest extends UnitTestCase {
   protected function setUp(): void {
     parent::setUp();
 
+    $this->database = $this->createMock(Connection::class);
+    $this->time = $this->createMock(TimeInterface::class);
     $this->entityTypeManager = $this->createMock(EntityTypeManagerInterface::class);
-    $this->storage = $this->createMock(EntityStorageInterface::class);
-
-    $this->entityTypeManager
-      ->method('getStorage')
-      ->with('registration')
-      ->willReturn($this->storage);
 
     $this->registrationManager = new RegistrationManager(
+      $this->database,
+      $this->time,
       $this->entityTypeManager,
     );
   }
@@ -58,18 +65,27 @@ class RegistrationManagerTest extends UnitTestCase {
    * @covers ::cancelRegistration
    */
   public function testCancelRegistrationSuccess(): void {
-    $registration = $this->createMock(Registration::class);
-    $registration->method('isCancelled')->willReturn(FALSE);
-    $registration->expects($this->once())
-      ->method('set')
-      ->with('registration_status', 'cancelled');
-    $registration->expects($this->once())
-      ->method('save');
+    $record = (object) [
+      'id' => 1,
+      'event_id' => 1,
+      'registration_status' => 'confirmed',
+    ];
 
-    $this->storage
-      ->method('load')
-      ->with(1)
-      ->willReturn($registration);
+    $statement = $this->createMock(StatementInterface::class);
+    $statement->method('fetchObject')->willReturn($record);
+
+    $select = $this->createMock(SelectInterface::class);
+    $select->method('fields')->willReturnSelf();
+    $select->method('condition')->willReturnSelf();
+    $select->method('execute')->willReturn($statement);
+
+    $update = $this->createMock(Update::class);
+    $update->method('fields')->willReturnSelf();
+    $update->method('condition')->willReturnSelf();
+    $update->method('execute')->willReturn(1);
+
+    $this->database->method('select')->willReturn($select);
+    $this->database->method('update')->willReturn($update);
 
     $result = $this->registrationManager->cancelRegistration(1);
     $this->assertTrue($result);
@@ -81,10 +97,15 @@ class RegistrationManagerTest extends UnitTestCase {
    * @covers ::cancelRegistration
    */
   public function testCancelRegistrationNotFound(): void {
-    $this->storage
-      ->method('load')
-      ->with(999)
-      ->willReturn(NULL);
+    $statement = $this->createMock(StatementInterface::class);
+    $statement->method('fetchObject')->willReturn(FALSE);
+
+    $select = $this->createMock(SelectInterface::class);
+    $select->method('fields')->willReturnSelf();
+    $select->method('condition')->willReturnSelf();
+    $select->method('execute')->willReturn($statement);
+
+    $this->database->method('select')->willReturn($select);
 
     $result = $this->registrationManager->cancelRegistration(999);
     $this->assertFalse($result);
@@ -96,14 +117,22 @@ class RegistrationManagerTest extends UnitTestCase {
    * @covers ::cancelRegistration
    */
   public function testCancelRegistrationAlreadyCancelled(): void {
-    $registration = $this->createMock(Registration::class);
-    $registration->method('isCancelled')->willReturn(TRUE);
-    $registration->expects($this->never())->method('save');
+    $record = (object) [
+      'id' => 1,
+      'event_id' => 1,
+      'registration_status' => 'cancelled',
+    ];
 
-    $this->storage
-      ->method('load')
-      ->with(1)
-      ->willReturn($registration);
+    $statement = $this->createMock(StatementInterface::class);
+    $statement->method('fetchObject')->willReturn($record);
+
+    $select = $this->createMock(SelectInterface::class);
+    $select->method('fields')->willReturnSelf();
+    $select->method('condition')->willReturnSelf();
+    $select->method('execute')->willReturn($statement);
+
+    $this->database->method('select')->willReturn($select);
+    $this->database->expects($this->never())->method('update');
 
     $result = $this->registrationManager->cancelRegistration(1);
     $this->assertFalse($result);

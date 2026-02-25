@@ -22,7 +22,6 @@ module:
   easy_breadcrumb: 0
   editor: 0
   eventhub_core: 0
-  eventhub_entity_example: 0
   eventhub_import: 0
   eventhub_registration: 0
   field: 0
@@ -32,6 +31,7 @@ module:
   help: 0
   history: 0
   image: 0
+  inline_form_errors: 0
   language: 0
   link: 0
   locale: 0
@@ -65,4 +65,5 @@ theme:
   stable9: 0
   bootstrap5: 0
   eventhub_theme: 0
+  eventhub_theme2: 0
 profile: standard

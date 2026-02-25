@@ -1,0 +1,20 @@
+uuid: 4155ed6c-12d6-4ab9-ae4f-b62aa811685a
+langcode: fr
+status: true
+dependencies:
+  module:
+    - eventhub_core
+id: event.field_capacity
+field_name: field_capacity
+entity_type: event
+type: integer
+settings:
+  unsigned: false
+  size: normal
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

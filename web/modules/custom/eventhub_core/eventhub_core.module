@@ -5,16 +5,22 @@
  * Module principal EventHub Core.
  */
 
-use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\Core\Render\Element;
 
 /**
- * Implements hook_entity_bundle_field_info_alter().
+ * Prepares variables for event templates.
+ *
+ * Default template: event.html.twig.
+ *
+ * @param array $variables
+ *   An associative array containing:
+ *   - elements: An associative array containing the event information and any
+ *     fields attached to the entity.
+ *   - attributes: HTML attributes for the containing element.
  */
-function eventhub_core_entity_bundle_field_info_alter(array &$fields, EntityTypeInterface $entity_type, string $bundle): void {
-  // Les contraintes sont appliquées directement dans les baseFieldDefinitions
-  // des entités Event et Registration.
+function template_preprocess_event(array &$variables): void {
+  $variables['view_mode'] = $variables['elements']['#view_mode'];
+  foreach (Element::children($variables['elements']) as $key) {
+    $variables['content'][$key] = $variables['elements'][$key];
+  }
 }
-
-
-
-

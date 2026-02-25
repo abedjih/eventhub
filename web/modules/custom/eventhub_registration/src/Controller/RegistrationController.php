@@ -9,9 +9,9 @@ use Drupal\Core\Datetime\DateFormatterInterface;
 use Drupal\Core\DependencyInjection\AutowireTrait;
 use Drupal\Core\Url;
 use Drupal\eventhub_core\Entity\Event;
-use Drupal\eventhub_registration\Entity\Registration;
 use Drupal\eventhub_registration\Service\RegistrationManager;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Controller for registration pages.
@@ -34,11 +34,11 @@ class RegistrationController extends ControllerBase {
     $rows = [];
     foreach ($registrations as $registration) {
       $rows[] = [
-        $registration->getParticipantName(),
-        $registration->getEmail(),
-        $registration->getRegistrationStatus(),
+        $registration->participant_name,
+        $registration->email,
+        $registration->registration_status,
         $this->dateFormatter->format(
-          (int) $registration->get('created')->value,
+          (int) $registration->created,
           'short',
         ),
       ];
@@ -47,7 +47,7 @@ class RegistrationController extends ControllerBase {
     return [
       '#theme' => 'table',
       '#caption' => $this->t('Inscriptions pour « @name »', [
-        '@name' => $event->getName(),
+        '@name' => $event->label(),
       ]),
       '#header' => [
         $this->t('Nom'),
@@ -68,13 +68,19 @@ class RegistrationController extends ControllerBase {
   /**
    * Cancels a registration (CSRF-protected route).
    */
-  public function cancel(Registration $registration): RedirectResponse {
-    $eventId = $registration->getEventId();
+  public function cancel(int $registration): RedirectResponse {
+    $record = $this->registrationManager->loadRegistration($registration);
 
-    if ($this->registrationManager->cancelRegistration((int) $registration->id())) {
+    if ($record === NULL) {
+      throw new NotFoundHttpException();
+    }
+
+    $eventId = (int) $record->event_id;
+
+    if ($this->registrationManager->cancelRegistration($registration)) {
       $this->messenger()->addStatus(
         $this->t("L'inscription de @name a été annulée.", [
-          '@name' => $registration->getParticipantName(),
+          '@name' => $record->participant_name,
         ])
       );
     }
@@ -84,7 +90,7 @@ class RegistrationController extends ControllerBase {
       );
     }
 
-    $url = Url::fromRoute('eventhub.event_view', ['event' => $eventId]);
+    $url = Url::fromRoute('entity.event.canonical', ['event' => $eventId]);
     return new RedirectResponse($url->toString());
   }
 

@@ -1,0 +1,20 @@
+uuid: 46d5a510-4f38-44f1-9688-0813bea435aa
+langcode: fr
+status: true
+dependencies:
+  theme:
+    - eventhub_theme2
+_core:
+  default_config_hash: qYppfxaWSy6BwGNKdMch1PeUA24PlRTt39jQft6A6Kg
+id: eventhub_theme2_page_title
+theme: eventhub_theme2
+region: content
+weight: -6
+provider: null
+plugin: page_title_block
+settings:
+  id: page_title_block
+  label: 'Titre de la page'
+  label_display: '0'
+  provider: core
+visibility: {  }

@@ -1,0 +1,30 @@
+uuid: 4be22c8e-1cf5-4b4f-91fa-b4ce9b0f41b3
+langcode: fr
+status: true
+dependencies:
+  config:
+    - field.storage.event.field_category
+    - taxonomy.vocabulary.event_categories
+  module:
+    - eventhub_core
+id: event.event.field_category
+field_name: field_category
+entity_type: event
+bundle: event
+label: Catégorie
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      event_categories: event_categories
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

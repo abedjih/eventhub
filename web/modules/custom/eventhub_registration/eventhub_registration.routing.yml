@@ -13,10 +13,6 @@ eventhub.event_registrations:
     _title: 'Inscriptions'
   requirements:
     _permission: 'view event registrations'
-  options:
-    parameters:
-      event:
-        type: entity:event
 
 eventhub.registration_cancel:
   path: '/registration/{registration}/cancel'
@@ -25,8 +21,5 @@ eventhub.registration_cancel:
     _title: "Annuler l'inscription"
   requirements:
     _permission: 'register to event'
+    registration: \d+
     _csrf_token: 'TRUE'
-  options:
-    parameters:
-      registration:
-        type: entity:registration

@@ -19,3 +19,7 @@ administer eventhub:
   title: 'Administrer EventHub'
   description: 'Accès complet à la configuration et à l''administration d''EventHub.'
   restrict access: true
+
+administer event:
+  title: 'Administer events'
+  restrict access: true

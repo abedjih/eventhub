@@ -1,0 +1,20 @@
+uuid: 1d1112fe-9981-4916-90ce-2e6d55862793
+langcode: fr
+status: true
+dependencies:
+  module:
+    - eventhub_core
+    - taxonomy
+id: event.field_category
+field_name: field_category
+entity_type: event
+type: entity_reference
+settings:
+  target_type: taxonomy_term
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

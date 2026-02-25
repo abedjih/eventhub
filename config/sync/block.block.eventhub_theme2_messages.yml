@@ -1,0 +1,22 @@
+uuid: a697e66c-b006-4cd6-9720-35694a2f75d9
+langcode: fr
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - eventhub_theme2
+_core:
+  default_config_hash: 9LdMj38y4GDi23GrIUtIZIV1bJEn1C47N19jrswvcLc
+id: eventhub_theme2_messages
+theme: eventhub_theme2
+region: content
+weight: -7
+provider: null
+plugin: system_messages_block
+settings:
+  id: system_messages_block
+  label: Messages
+  label_display: '0'
+  provider: system
+visibility: {  }

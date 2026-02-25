@@ -1,12 +1,12 @@
-uuid: 3ee75d78-1714-4d4d-81fd-ffb98c8c78fc
+uuid: f5fa8006-1718-400a-85c9-523760759d9f
 langcode: fr
 status: true
 dependencies:
   module:
-    - eventhub_entity_example
-id: event_example.field_test_field
-field_name: field_test_field
-entity_type: event_example
+    - eventhub_core
+id: event.field_location
+field_name: field_location
+entity_type: event
 type: string
 settings:
   max_length: 255

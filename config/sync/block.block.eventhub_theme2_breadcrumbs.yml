@@ -1,0 +1,22 @@
+uuid: 6ee27740-8f14-45ac-8da4-054ae521a7d7
+langcode: fr
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - eventhub_theme2
+_core:
+  default_config_hash: VShtwe72J2j41BJzApoNbs8l554EpngM5RTObxM7yiw
+id: eventhub_theme2_breadcrumbs
+theme: eventhub_theme2
+region: breadcrumb
+weight: 0
+provider: null
+plugin: system_breadcrumb_block
+settings:
+  id: system_breadcrumb_block
+  label: Breadcrumbs
+  label_display: '0'
+  provider: system
+visibility: {  }

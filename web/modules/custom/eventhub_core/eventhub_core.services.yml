@@ -7,3 +7,9 @@ services:
 
   Drupal\eventhub_core\Hook\EntityHooks:
     autowire: true
+
+  Drupal\eventhub_core\Hook\ThemeHooks:
+    autowire: true
+
+  Drupal\eventhub_core\Hook\UserHooks:
+    autowire: true
