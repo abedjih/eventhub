@@ -1,0 +1,22 @@
+uuid: 8a4fb920-8692-47ff-83aa-f612e160d764
+langcode: fr
+status: true
+dependencies:
+  module:
+    - help
+  theme:
+    - thme2
+_core:
+  default_config_hash: VfPFqqxfkomud5CO8DUijw85QIl9GIxh_nIxLOYESxg
+id: thme2_help
+theme: thme2
+region: sidebar_first
+weight: 0
+provider: null
+plugin: help_block
+settings:
+  id: help_block
+  label: Aide
+  label_display: '0'
+  provider: help
+visibility: {  }

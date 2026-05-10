@@ -4,13 +4,15 @@ declare(strict_types=1);
 
 namespace Drupal\eventhub_core\Controller;
 
+use Drupal\Core\Cache\Cache;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\DependencyInjection\AutowireTrait;
 use Drupal\Core\Url;
 use Drupal\eventhub_core\Entity\Event;
 use Drupal\eventhub_core\Service\EventManager;
-use Drupal\eventhub_core\Service\GeoDataRepository;
+use Drupal\eventhub_import\Service\GeoDataRepository;
 use Drupal\eventhub_registration\Service\RegistrationManager;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * Controller for event pages.
@@ -40,7 +42,7 @@ class EventController extends ControllerBase {
         $actions[] = [
           '#type' => 'link',
           '#title' => $this->t('Modifier'),
-          '#url' => Url::fromRoute('eventhub.event_edit', ['event' => $event->id()]),
+          '#url' => Url::fromRoute('entity.event.edit_form', ['event' => $event->id()]),
           '#attributes' => ['class' => ['btn', 'btn-sm', 'btn-outline-primary', 'me-1']],
         ];
       }
@@ -48,7 +50,7 @@ class EventController extends ControllerBase {
         $actions[] = [
           '#type' => 'link',
           '#title' => $this->t('Supprimer'),
-          '#url' => Url::fromRoute('eventhub.event_delete', ['event' => $event->id()]),
+          '#url' => Url::fromRoute('entity.event.delete_form', ['event' => $event->id()]),
           '#attributes' => ['class' => ['btn', 'btn-sm', 'btn-outline-danger']],
         ];
       }
@@ -58,7 +60,7 @@ class EventController extends ControllerBase {
           'data' => [
             '#type' => 'link',
             '#title' => $event->getName(),
-            '#url' => Url::fromRoute('eventhub.event_view', ['event' => $event->id()]),
+            '#url' => Url::fromRoute('entity.event.canonical', ['event' => $event->id()]),
           ],
         ],
         $event->getEventDate(),
@@ -77,7 +79,7 @@ class EventController extends ControllerBase {
       $build['add_event'] = [
         '#type' => 'link',
         '#title' => $this->t('Créer un événement'),
-        '#url' => Url::fromRoute('eventhub.event_create'),
+        '#url' => Url::fromRoute('entity.event.add_form'),
         '#attributes' => ['class' => ['button', 'button--primary', 'mb-3']],
       ];
     }
@@ -106,7 +108,7 @@ class EventController extends ControllerBase {
   }
 
   /**
-   * Displays an event with a lazy builder for registration count.
+   * Displays an event detail page.
    */
   public function view(Event $event): array {
     $build = [];
@@ -140,24 +142,8 @@ class EventController extends ControllerBase {
       ];
     }
 
-    // Lazy builder for dynamic registration count.
-    $build['registration_count'] = [
-      '#lazy_builder' => [
-        'Drupal\eventhub_registration\Service\RegistrationCountBuilder:build',
-        [(int) $event->id()],
-      ],
-      '#create_placeholder' => TRUE,
-    ];
-
-    $build['register_link'] = [
-      '#type' => 'link',
-      '#title' => $this->t("S'inscrire à cet événement"),
-      '#url' => Url::fromRoute('eventhub.registration_create', [
-        'event' => $event->id(),
-      ]),
-      '#attributes' => ['class' => ['btn', 'btn-primary', 'me-2', 'mt-3']],
-    ];
-
+    // Register link is injected via #[Hook('entity_view')] in
+    // eventhub_registration EntityHooks.
     $build['actions'] = [
       '#type' => 'container',
       '#attributes' => ['class' => ['event-actions', 'mt-3']],
@@ -167,7 +153,7 @@ class EventController extends ControllerBase {
       $build['actions']['edit'] = [
         '#type' => 'link',
         '#title' => $this->t('Modifier'),
-        '#url' => Url::fromRoute('eventhub.event_edit', ['event' => $event->id()]),
+        '#url' => Url::fromRoute('entity.event.edit_form', ['event' => $event->id()]),
         '#attributes' => ['class' => ['btn', 'btn-outline-primary', 'me-2']],
       ];
     }
@@ -176,7 +162,7 @@ class EventController extends ControllerBase {
       $build['actions']['delete'] = [
         '#type' => 'link',
         '#title' => $this->t('Supprimer'),
-        '#url' => Url::fromRoute('eventhub.event_delete', ['event' => $event->id()]),
+        '#url' => Url::fromRoute('entity.event.delete_form', ['event' => $event->id()]),
         '#attributes' => ['class' => ['btn', 'btn-outline-danger']],
       ];
     }
@@ -188,6 +174,28 @@ class EventController extends ControllerBase {
     ];
 
     return $build;
+  }
+
+  /**
+   * Toggles the published status of an event.
+   *
+   * This route is protected by _csrf_token in routing.yml.
+   */
+  public function toggleStatus(Event $event): RedirectResponse {
+    $currentStatus = (bool) $event->get('status')->value;
+    $newStatus = !$currentStatus;
+    $event->set('status', $newStatus);
+    $event->save();
+
+    Cache::invalidateTags(['event_list', 'event:' . $event->id()]);
+
+    $this->messenger()->addStatus(
+      $newStatus
+        ? $this->t("L'événement %name a été publié.", ['%name' => $event->label()])
+        : $this->t("L'événement %name a été dépublié.", ['%name' => $event->label()])
+    );
+
+    return new RedirectResponse(Url::fromRoute('entity.event.collection')->toString());
   }
 
   /**

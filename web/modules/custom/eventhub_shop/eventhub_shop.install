@@ -1,0 +1,277 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the EventHub Shop module.
+ */
+
+use Drupal\commerce_price\Price;
+use Drupal\commerce_product\Entity\Product;
+use Drupal\commerce_product\Entity\ProductVariation;
+use Drupal\commerce_store\Entity\Store;
+use Drupal\taxonomy\Entity\Term;
+
+/**
+ * Implements hook_install().
+ */
+function eventhub_shop_install(): void {
+  // Create animal category terms.
+  $cat_chiens = Term::create([
+    'vid' => 'animal_category',
+    'name' => 'Chiens',
+  ]);
+  $cat_chiens->save();
+
+  $cat_chats = Term::create([
+    'vid' => 'animal_category',
+    'name' => 'Chats',
+  ]);
+  $cat_chats->save();
+
+  // Create product type terms.
+  $product_type_names = [
+    'Nourriture',
+    'Jouets',
+    'Accessoires',
+    'Hygiène & Soins',
+    'Couchage',
+    'Colliers & Laisses',
+    'Gamelles & Distributeurs',
+    'Transport',
+  ];
+
+  $product_types = [];
+  foreach ($product_type_names as $name) {
+    $term = Term::create([
+      'vid' => 'product_type_animal',
+      'name' => $name,
+    ]);
+    $term->save();
+    $product_types[$name] = $term;
+  }
+
+  // Create default store.
+  $store = Store::create([
+    'type' => 'pet_shop',
+    'uid' => 1,
+    'name' => 'Boutique Animaux EventHub',
+    'mail' => 'boutique@eventhub.fr',
+    'default_currency' => 'EUR',
+    'address' => [
+      'country_code' => 'FR',
+      'address_line1' => '1 Rue de la Boutique',
+      'locality' => 'Paris',
+      'postal_code' => '75001',
+    ],
+    'is_default' => TRUE,
+  ]);
+  $store->save();
+
+  // Create demo products.
+  $demo_products = [
+    // Dog products.
+    [
+      'title' => 'Croquettes Premium Chien Adulte 12kg',
+      'description' => 'Croquettes de haute qualité pour chiens adultes. Riche en protéines de poulet et en légumes frais. Sans colorants ni conservateurs artificiels.',
+      'animal' => $cat_chiens->id(),
+      'type' => $product_types['Nourriture']->id(),
+      'sku' => 'DOG-FOOD-001',
+      'price' => '45.90',
+    ],
+    [
+      'title' => 'Pâtée Gourmet Chien - Lot de 12',
+      'description' => 'Pâtée premium au boeuf et aux légumes pour chiens. Recette sans céréales, riche en viande fraîche.',
+      'animal' => $cat_chiens->id(),
+      'type' => $product_types['Nourriture']->id(),
+      'sku' => 'DOG-FOOD-002',
+      'price' => '29.90',
+    ],
+    [
+      'title' => 'Jouet Kong Classic Rouge - Taille L',
+      'description' => 'Le jouet indestructible préféré des chiens ! Parfait pour le jeu et la stimulation mentale. Peut être rempli de friandises.',
+      'animal' => $cat_chiens->id(),
+      'type' => $product_types['Jouets']->id(),
+      'sku' => 'DOG-TOY-001',
+      'price' => '14.95',
+    ],
+    [
+      'title' => 'Balle de tennis lot de 5',
+      'description' => 'Lot de 5 balles de tennis résistantes pour chiens. Idéales pour le jeu de lancer-rapporter.',
+      'animal' => $cat_chiens->id(),
+      'type' => $product_types['Jouets']->id(),
+      'sku' => 'DOG-TOY-002',
+      'price' => '9.99',
+    ],
+    [
+      'title' => 'Collier en cuir ajustable',
+      'description' => 'Collier en cuir véritable de haute qualité. Boucle en acier inoxydable. Disponible en plusieurs tailles.',
+      'animal' => $cat_chiens->id(),
+      'type' => $product_types['Colliers & Laisses']->id(),
+      'sku' => 'DOG-COL-001',
+      'price' => '24.50',
+    ],
+    [
+      'title' => 'Laisse rétractable 8m',
+      'description' => 'Laisse rétractable avec poignée ergonomique. Longueur maximale 8 mètres. Frein et verrouillage facile.',
+      'animal' => $cat_chiens->id(),
+      'type' => $product_types['Colliers & Laisses']->id(),
+      'sku' => 'DOG-COL-002',
+      'price' => '19.90',
+    ],
+    [
+      'title' => 'Panier orthopédique mousse mémoire',
+      'description' => 'Panier confortable en mousse à mémoire de forme. Housse lavable en machine. Idéal pour les chiens âgés ou avec des articulations sensibles.',
+      'animal' => $cat_chiens->id(),
+      'type' => $product_types['Couchage']->id(),
+      'sku' => 'DOG-BED-001',
+      'price' => '59.90',
+    ],
+    [
+      'title' => 'Shampooing naturel chien 500ml',
+      'description' => 'Shampooing doux aux extraits naturels de lavande. Sans paraben. Convient aux peaux sensibles.',
+      'animal' => $cat_chiens->id(),
+      'type' => $product_types['Hygiène & Soins']->id(),
+      'sku' => 'DOG-HYG-001',
+      'price' => '12.50',
+    ],
+    [
+      'title' => 'Gamelle double inox anti-dérapante',
+      'description' => 'Double gamelle en acier inoxydable avec base anti-dérapante en silicone. Facile à nettoyer.',
+      'animal' => $cat_chiens->id(),
+      'type' => $product_types['Gamelles & Distributeurs']->id(),
+      'sku' => 'DOG-BOW-001',
+      'price' => '18.90',
+    ],
+    [
+      'title' => 'Cage de transport IATA - Taille M',
+      'description' => 'Cage de transport homologuée IATA pour voyages en avion. Ventilation optimale. Porte sécurisée.',
+      'animal' => $cat_chiens->id(),
+      'type' => $product_types['Transport']->id(),
+      'sku' => 'DOG-TRA-001',
+      'price' => '69.90',
+    ],
+
+    // Cat products.
+    [
+      'title' => 'Croquettes Chat Stérilisé 4kg',
+      'description' => 'Croquettes spécialement formulées pour chats stérilisés. Contrôle du poids et santé urinaire. Au saumon frais.',
+      'animal' => $cat_chats->id(),
+      'type' => $product_types['Nourriture']->id(),
+      'sku' => 'CAT-FOOD-001',
+      'price' => '32.90',
+    ],
+    [
+      'title' => 'Pâtée Chat - Assortiment 24 sachets',
+      'description' => 'Assortiment de sachets fraîcheur : poulet, thon, saumon, boeuf. Sans céréales ajoutées.',
+      'animal' => $cat_chats->id(),
+      'type' => $product_types['Nourriture']->id(),
+      'sku' => 'CAT-FOOD-002',
+      'price' => '18.50',
+    ],
+    [
+      'title' => 'Arbre à chat 3 niveaux 120cm',
+      'description' => 'Arbre à chat avec 3 plateformes, 2 niches et poteaux à griffer en sisal naturel. Structure solide en bois.',
+      'animal' => $cat_chats->id(),
+      'type' => $product_types['Jouets']->id(),
+      'sku' => 'CAT-TOY-001',
+      'price' => '89.90',
+    ],
+    [
+      'title' => 'Souris interactive à plumes',
+      'description' => 'Jouet interactif avec plumes et grelot. Stimule l\'instinct de chasse de votre chat.',
+      'animal' => $cat_chats->id(),
+      'type' => $product_types['Jouets']->id(),
+      'sku' => 'CAT-TOY-002',
+      'price' => '7.90',
+    ],
+    [
+      'title' => 'Laser automatique pour chat',
+      'description' => 'Pointeur laser automatique avec mouvements aléatoires. 3 vitesses. Timer intégré de 15 minutes. Fonctionne sur piles.',
+      'animal' => $cat_chats->id(),
+      'type' => $product_types['Jouets']->id(),
+      'sku' => 'CAT-TOY-003',
+      'price' => '22.90',
+    ],
+    [
+      'title' => 'Litière autonettoyante',
+      'description' => 'Litière automatique avec capteur de mouvement. Nettoyage automatique 20 minutes après utilisation. Bac amovible facile à vider.',
+      'animal' => $cat_chats->id(),
+      'type' => $product_types['Hygiène & Soins']->id(),
+      'sku' => 'CAT-HYG-001',
+      'price' => '149.90',
+    ],
+    [
+      'title' => 'Sable agglomérant naturel 10L',
+      'description' => 'Litière agglomérante en argile naturelle. Contrôle des odeurs longue durée. Faible poussière.',
+      'animal' => $cat_chats->id(),
+      'type' => $product_types['Hygiène & Soins']->id(),
+      'sku' => 'CAT-HYG-002',
+      'price' => '11.90',
+    ],
+    [
+      'title' => 'Coussin chauffant pour chat',
+      'description' => 'Coussin auto-chauffant qui reflète la chaleur corporelle du chat. Housse douce et lavable. 45x30cm.',
+      'animal' => $cat_chats->id(),
+      'type' => $product_types['Couchage']->id(),
+      'sku' => 'CAT-BED-001',
+      'price' => '25.90',
+    ],
+    [
+      'title' => 'Fontaine à eau 2L',
+      'description' => 'Fontaine à eau avec filtre charbon actif. Encourage le chat à boire davantage. Fonctionnement silencieux.',
+      'animal' => $cat_chats->id(),
+      'type' => $product_types['Gamelles & Distributeurs']->id(),
+      'sku' => 'CAT-BOW-001',
+      'price' => '34.90',
+    ],
+    [
+      'title' => 'Sac de transport souple avec hublot',
+      'description' => 'Sac de transport ventilé avec hublot transparent. Bandoulière ajustable. Poche de rangement latérale. Jusqu\'à 6kg.',
+      'animal' => $cat_chats->id(),
+      'type' => $product_types['Transport']->id(),
+      'sku' => 'CAT-TRA-001',
+      'price' => '39.90',
+    ],
+  ];
+
+  foreach ($demo_products as $product_data) {
+    $variation = ProductVariation::create([
+      'type' => 'pet_product',
+      'sku' => $product_data['sku'],
+      'price' => new Price($product_data['price'], 'EUR'),
+      'status' => TRUE,
+    ]);
+    $variation->save();
+
+    $product = Product::create([
+      'type' => 'pet_product',
+      'title' => $product_data['title'],
+      'field_product_description' => [
+        'value' => $product_data['description'],
+        'format' => 'basic_html',
+      ],
+      'field_animal_category' => ['target_id' => $product_data['animal']],
+      'field_product_type_animal' => ['target_id' => $product_data['type']],
+      'stores' => [$store->id()],
+      'variations' => [$variation],
+      'status' => TRUE,
+    ]);
+    $product->save();
+  }
+
+  \Drupal::messenger()->addStatus('La boutique animaux a été créée avec 20 produits de démonstration !');
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function eventhub_shop_uninstall(): void {
+  // Clean up taxonomy terms.
+  $vids = ['animal_category', 'product_type_animal'];
+  $term_storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
+
+  foreach ($vids as $vid) {
+    $terms = $term_storage->loadByProperties(['vid' => $vid]);
+    $term_storage->delete($terms);
+  }
+}

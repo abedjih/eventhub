@@ -50,7 +50,7 @@ final class RegistrationForm extends FormBase {
       $form['event_info'] = [
         '#type' => 'markup',
         '#markup' => '<h3>' . $this->t('Inscription à : @name', [
-          '@name' => $event->getName(),
+          '@name' => $event->label(),
         ]) . '</h3>',
       ];
     }
@@ -66,7 +66,7 @@ final class RegistrationForm extends FormBase {
     $form['participant_name'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Nom complet'),
-      '#required' => TRUE,
+      '#required' => FALSE,
       '#maxlength' => 255,
     ];
 
@@ -151,8 +151,8 @@ final class RegistrationForm extends FormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state): void {
-    $values = [
-      'event' => $form_state->getValue('event_id'),
+    $data = [
+      'event_id' => (int) $form_state->getValue('event_id'),
       'participant_name' => $form_state->getValue('participant_name'),
       'email' => $form_state->getValue('email'),
       'registration_status' => 'confirmed',
@@ -160,25 +160,21 @@ final class RegistrationForm extends FormBase {
 
     $phone = $form_state->getValue('phone');
     if (!empty($phone)) {
-      $values['phone'] = $phone;
+      $data['phone'] = $phone;
     }
 
     $notes = $form_state->getValue('notes');
     if (!empty($notes)) {
-      $values['notes'] = $notes;
+      $data['notes'] = $notes;
     }
 
-    /** @var \Drupal\eventhub_registration\Entity\Registration $registration */
-    $registration = $this->entityTypeManager
-      ->getStorage('registration')
-      ->create($values);
-    $registration->save();
+    $this->registrationManager->createRegistration($data);
 
     $this->messenger()->addStatus(
       $this->t('Votre inscription a bien été enregistrée. Merci !')
     );
 
-    $form_state->setRedirect('eventhub.event_view', [
+    $form_state->setRedirect('entity.event.canonical', [
       'event' => $form_state->getValue('event_id'),
     ]);
   }

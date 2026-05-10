@@ -1,0 +1,24 @@
+uuid: b0854e31-932a-4705-8ea6-7eded7f395b3
+langcode: fr
+status: true
+dependencies:
+  config:
+    - commerce_product.commerce_product_type.pet_product
+    - field.storage.commerce_product.field_product_description
+  module:
+    - text
+_core:
+  default_config_hash: sfa9HlxPeajhC8I-42VODpxJBD6ctdZyKzyXbX1A27w
+id: commerce_product.pet_product.field_product_description
+field_name: field_product_description
+entity_type: commerce_product
+bundle: pet_product
+label: 'Description du produit'
+description: 'Description détaillée du produit'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_formats: {  }
+field_type: text_long

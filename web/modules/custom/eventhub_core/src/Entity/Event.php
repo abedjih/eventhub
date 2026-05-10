@@ -6,17 +6,22 @@ namespace Drupal\eventhub_core\Entity;
 
 use Drupal\Core\Entity\Attribute\ContentEntityType;
 use Drupal\Core\Entity\ContentEntityBase;
-use Drupal\Core\Entity\EntityChangedInterface;
+use Drupal\Core\Entity\ContentEntityDeleteForm;
 use Drupal\Core\Entity\EntityChangedTrait;
+use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\Core\Entity\Form\DeleteMultipleForm;
+use Drupal\Core\Entity\Routing\AdminHtmlRouteProvider;
 use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
-use Drupal\taxonomy\TermInterface;
-use Drupal\user\EntityOwnerInterface;
+use Drupal\eventhub_core\EventInterface;
+use Drupal\eventhub_core\EventListBuilder;
+use Drupal\eventhub_core\Form\EventForm;
 use Drupal\user\EntityOwnerTrait;
+use Drupal\views\EntityViewsData;
 
 /**
- * Defines the Event entity.
+ * Defines the event entity class.
  */
 #[ContentEntityType(
   id: 'event',
@@ -24,20 +29,43 @@ use Drupal\user\EntityOwnerTrait;
   label_collection: new TranslatableMarkup('Events'),
   label_singular: new TranslatableMarkup('event'),
   label_plural: new TranslatableMarkup('events'),
-  base_table: 'eventhub_event',
   entity_keys: [
     'id' => 'id',
-    'uuid' => 'uuid',
-    'label' => 'name',
+    'label' => 'label',
     'owner' => 'uid',
     'published' => 'status',
+    'uuid' => 'uuid',
   ],
   handlers: [
-    'access' => 'Drupal\eventhub_core\Access\EventAccessControlHandler',
-    'views_data' => 'Drupal\views\EntityViewsData',
+    'list_builder' => EventListBuilder::class,
+    'views_data' => EntityViewsData::class,
+    'form' => [
+      'add' => EventForm::class,
+      'edit' => EventForm::class,
+      'delete' => ContentEntityDeleteForm::class,
+      'delete-multiple-confirm' => DeleteMultipleForm::class,
+    ],
+    'route_provider' => [
+      'html' => AdminHtmlRouteProvider::class,
+    ],
   ],
+  links: [
+    'collection' => '/admin/content/event',
+    'add-form' => '/event/add',
+    'canonical' => '/event/{event}',
+    'edit-form' => '/event/{event}/edit',
+    'delete-form' => '/event/{event}/delete',
+    'delete-multiple-form' => '/admin/content/event/delete-multiple',
+  ],
+  admin_permission: 'administer event',
+  base_table: 'event',
+  label_count: [
+    'singular' => '@count events',
+    'plural' => '@count events',
+  ],
+  field_ui_base_route: 'entity.event.settings',
 )]
-class Event extends ContentEntityBase implements EntityChangedInterface, EntityOwnerInterface {
+class Event extends ContentEntityBase implements EventInterface {
 
   use EntityChangedTrait;
   use EntityOwnerTrait;
@@ -45,103 +73,18 @@ class Event extends ContentEntityBase implements EntityChangedInterface, EntityO
   /**
    * {@inheritdoc}
    */
-  public static function baseFieldDefinitions(EntityTypeInterface $entity_type): array {
-    $fields = parent::baseFieldDefinitions($entity_type);
-    $fields += static::ownerBaseFieldDefinitions($entity_type);
-
-    $fields['name'] = BaseFieldDefinition::create('string')
-      ->setLabel(new TranslatableMarkup('Titre'))
-      ->setDescription(new TranslatableMarkup("Le titre de l'événement."))
-      ->setRequired(TRUE)
-      ->setSetting('max_length', 255)
-      ->setDisplayOptions('form', [
-        'type' => 'string_textfield',
-        'weight' => 0,
-      ]);
-
-    $fields['description'] = BaseFieldDefinition::create('text_long')
-      ->setLabel(new TranslatableMarkup('Description'))
-      ->setDescription(new TranslatableMarkup("Description complète de l'événement."))
-      ->setDisplayOptions('form', [
-        'type' => 'text_textarea',
-        'weight' => 5,
-      ]);
-
-    $fields['event_date'] = BaseFieldDefinition::create('datetime')
-      ->setLabel(new TranslatableMarkup("Date de l'événement"))
-      ->setDescription(new TranslatableMarkup("Date et heure de l'événement."))
-      ->setRequired(TRUE)
-      ->setSetting('datetime_type', 'datetime')
-      ->addConstraint('FutureDate')
-      ->setDisplayOptions('form', [
-        'type' => 'datetime_default',
-        'weight' => 10,
-      ]);
-
-    $fields['location'] = BaseFieldDefinition::create('string')
-      ->setLabel(new TranslatableMarkup('Lieu'))
-      ->setDescription(new TranslatableMarkup('Nom de la commune.'))
-      ->setRequired(TRUE)
-      ->setSetting('max_length', 255)
-      ->setDisplayOptions('form', [
-        'type' => 'string_textfield',
-        'weight' => 15,
-      ]);
-
-    $fields['capacity'] = BaseFieldDefinition::create('integer')
-      ->setLabel(new TranslatableMarkup('Capacité'))
-      ->setDescription(new TranslatableMarkup('Nombre maximum de participants.'))
-      ->setRequired(TRUE)
-      ->setSetting('min', 1)
-      ->setDefaultValue(50)
-      ->setDisplayOptions('form', [
-        'type' => 'number',
-        'weight' => 20,
-      ]);
-
-    $fields['category'] = BaseFieldDefinition::create('entity_reference')
-      ->setLabel(new TranslatableMarkup('Catégorie'))
-      ->setDescription(new TranslatableMarkup("Catégorie de l'événement."))
-      ->setRequired(TRUE)
-      ->setSetting('target_type', 'taxonomy_term')
-      ->setSetting('handler', 'default:taxonomy_term')
-      ->setSetting('handler_settings', [
-        'target_bundles' => [
-          'event_categories' => 'event_categories',
-        ],
-        'sort' => [
-          'field' => 'name',
-          'direction' => 'asc',
-        ],
-        'auto_create' => FALSE,
-      ])
-      ->setDisplayOptions('form', [
-        'type' => 'options_select',
-        'weight' => 25,
-      ]);
-
-    $fields['status'] = BaseFieldDefinition::create('boolean')
-      ->setLabel(new TranslatableMarkup('Publié'))
-      ->setDefaultValue(TRUE)
-      ->setDisplayOptions('form', [
-        'type' => 'boolean_checkbox',
-        'weight' => 30,
-      ]);
-
-    $fields['created'] = BaseFieldDefinition::create('created')
-      ->setLabel(new TranslatableMarkup('Créé le'));
-
-    $fields['changed'] = BaseFieldDefinition::create('changed')
-      ->setLabel(new TranslatableMarkup('Modifié le'));
-
-    return $fields;
+  public function preSave(EntityStorageInterface $storage): void {
+    parent::preSave($storage);
+    if (!$this->getOwnerId()) {
+      $this->setOwnerId(0);
+    }
   }
 
   /**
-   * Gets the event name.
+   * Gets the event name (label).
    */
   public function getName(): string {
-    return (string) $this->get('name')->value;
+    return (string) $this->label();
   }
 
   /**
@@ -155,52 +98,141 @@ class Event extends ContentEntityBase implements EntityChangedInterface, EntityO
    * Gets the event date.
    */
   public function getEventDate(): ?string {
-    return $this->get('event_date')->value;
+    return $this->get('field_date')->value;
   }
 
   /**
-   * Gets the location.
+   * Gets the event location.
    */
-  public function getLocation(): string {
-    return (string) $this->get('location')->value;
+  public function getLocation(): ?string {
+    return $this->get('field_location')->value;
   }
 
   /**
-   * Gets the capacity.
+   * Gets the event capacity.
    */
   public function getCapacity(): int {
-    return (int) $this->get('capacity')->value;
+    return (int) $this->get('field_capacity')->value;
   }
 
   /**
    * Gets the category term ID.
    */
   public function getCategoryId(): ?int {
-    $target_id = $this->get('category')->target_id;
-    return $target_id ? (int) $target_id : NULL;
-  }
-
-  /**
-   * Gets the referenced category taxonomy term.
-   */
-  public function getCategory(): ?TermInterface {
-    $entity = $this->get('category')->entity;
-    return $entity instanceof TermInterface ? $entity : NULL;
+    /** @var string|null $value */
+    $value = $this->get('field_category')->target_id;
+    return $value !== NULL ? (int) $value : NULL;
   }
 
   /**
    * Gets the category label.
    */
-  public function getCategoryLabel(): string {
-    $term = $this->getCategory();
-    return $term !== NULL ? $term->label() : '';
+  public function getCategoryLabel(): ?string {
+    /** @var \Drupal\Core\Entity\EntityInterface|null $term */
+    $term = $this->get('field_category')->entity;
+    return $term !== NULL ? $term->label() : NULL;
   }
 
   /**
-   * Checks if the event is published.
+   * {@inheritdoc}
    */
-  public function isPublished(): bool {
-    return (bool) $this->get('status')->value;
+  public static function baseFieldDefinitions(EntityTypeInterface $entity_type): array {
+
+    $fields = parent::baseFieldDefinitions($entity_type);
+
+    $fields['label'] = BaseFieldDefinition::create('string')
+      ->setLabel(t('Label'))
+      ->setRequired(TRUE)
+      ->setSetting('max_length', 255)
+      ->setDisplayOptions('form', [
+        'type' => 'string_textfield',
+        'weight' => -5,
+      ])
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('view', [
+        'label' => 'hidden',
+        'type' => 'string',
+        'weight' => -5,
+      ])
+      ->setDisplayConfigurable('view', TRUE);
+
+    $fields['status'] = BaseFieldDefinition::create('boolean')
+      ->setLabel(t('Status'))
+      ->setDefaultValue(TRUE)
+      ->setSetting('on_label', 'Enabled')
+      ->setDisplayOptions('form', [
+        'type' => 'boolean_checkbox',
+        'settings' => [
+          'display_label' => FALSE,
+        ],
+        'weight' => 0,
+      ])
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('view', [
+        'type' => 'boolean',
+        'label' => 'above',
+        'weight' => 0,
+        'settings' => [
+          'format' => 'enabled-disabled',
+        ],
+      ])
+      ->setDisplayConfigurable('view', TRUE);
+
+    $fields['description'] = BaseFieldDefinition::create('text_long')
+      ->setLabel(t('Description'))
+      ->setDisplayOptions('form', [
+        'type' => 'text_textarea',
+        'weight' => 10,
+      ])
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('view', [
+        'type' => 'text_default',
+        'label' => 'above',
+        'weight' => 10,
+      ])
+      ->setDisplayConfigurable('view', TRUE);
+
+    $fields['uid'] = BaseFieldDefinition::create('entity_reference')
+      ->setLabel(t('Author'))
+      ->setSetting('target_type', 'user')
+      ->setDefaultValueCallback(self::class . '::getDefaultEntityOwner')
+      ->setDisplayOptions('form', [
+        'type' => 'entity_reference_autocomplete',
+        'settings' => [
+          'match_operator' => 'CONTAINS',
+          'size' => 60,
+          'placeholder' => '',
+        ],
+        'weight' => 15,
+      ])
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('view', [
+        'label' => 'above',
+        'type' => 'author',
+        'weight' => 15,
+      ])
+      ->setDisplayConfigurable('view', TRUE);
+
+    $fields['created'] = BaseFieldDefinition::create('created')
+      ->setLabel(t('Authored on'))
+      ->setDescription(t('The time that the event was created.'))
+      ->setDisplayOptions('view', [
+        'label' => 'above',
+        'type' => 'timestamp',
+        'weight' => 20,
+      ])
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'datetime_timestamp',
+        'weight' => 20,
+      ])
+      ->setDisplayConfigurable('view', TRUE);
+
+    $fields['changed'] = BaseFieldDefinition::create('changed')
+      ->setLabel(t('Changed'))
+      ->setDescription(t('The time that the event was last edited.'));
+
+    return $fields;
   }
 
 }

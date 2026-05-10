@@ -1,0 +1,27 @@
+uuid: a52184c5-4d4d-4510-8418-83016821b6b2
+langcode: fr
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_documents
+    - node.type.formation
+  module:
+    - file
+id: node.formation.field_documents
+field_name: field_documents
+entity_type: node
+bundle: formation
+label: Documents
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:file'
+  handler_settings: {  }
+  file_directory: '[date:custom:Y]-[date:custom:m]'
+  file_extensions: 'txt pdf'
+  max_filesize: ''
+  description_field: false
+field_type: file

@@ -1,0 +1,20 @@
+uuid: 9b8094bf-fdb3-4e8a-8008-2f3192b75253
+langcode: fr
+status: true
+dependencies:
+  config:
+    - field.storage.event.field_location
+  module:
+    - eventhub_core
+id: event.event.field_location
+field_name: field_location
+entity_type: event
+bundle: event
+label: Lieu
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

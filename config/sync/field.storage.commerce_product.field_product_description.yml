@@ -1,0 +1,21 @@
+uuid: ad8333af-de0f-4bdb-bece-5e1d41f52215
+langcode: fr
+status: true
+dependencies:
+  module:
+    - commerce_product
+    - text
+_core:
+  default_config_hash: _hcjHPgxfI7y_tfjSz6sfflrQF8TIK0BT03i-jLt0Zs
+id: commerce_product.field_product_description
+field_name: field_product_description
+entity_type: commerce_product
+type: text_long
+settings: {  }
+module: text
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

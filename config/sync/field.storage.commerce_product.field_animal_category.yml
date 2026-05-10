@@ -1,0 +1,22 @@
+uuid: a2d9f997-0d60-4659-924c-531936a7d64a
+langcode: fr
+status: true
+dependencies:
+  module:
+    - commerce_product
+    - taxonomy
+_core:
+  default_config_hash: T-A2K1HzotGPXvb_90p847fqoLkXp9y2rbj5aLg4XaY
+id: commerce_product.field_animal_category
+field_name: field_animal_category
+entity_type: commerce_product
+type: entity_reference
+settings:
+  target_type: taxonomy_term
+module: core
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

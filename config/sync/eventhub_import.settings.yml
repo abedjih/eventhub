@@ -1,3 +1,5 @@
+_core:
+  default_config_hash: txpcmCHyjTw8Og8g9pvELrLeFUohnc7kiLei-05Q-bs
 api_endpoint: 'https://geo.api.gouv.fr'
-import_batch_size: 500
-notification_email: ben.bedjih@gmail.com
+import_batch_size: 50
+notification_email: admin@example.com

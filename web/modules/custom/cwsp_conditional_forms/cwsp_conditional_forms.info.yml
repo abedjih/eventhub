@@ -1,0 +1,7 @@
+name: 'CWSP Conditional Forms'
+type: module
+description: 'Provides custom Webform elements with conditional logic for the CWSP project.'
+package: 'CWSP'
+core_version_requirement: ^10.3 || ^11
+dependencies:
+  - 'webform:webform'

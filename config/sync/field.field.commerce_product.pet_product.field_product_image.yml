@@ -1,0 +1,40 @@
+uuid: 72007de3-c146-40c7-aafd-48f8c85d331a
+langcode: fr
+status: true
+dependencies:
+  config:
+    - commerce_product.commerce_product_type.pet_product
+    - field.storage.commerce_product.field_product_image
+  module:
+    - image
+_core:
+  default_config_hash: xVgOLYgycc7iIitiR1k22yj3ehY-qkpET52owU-SmD4
+id: commerce_product.pet_product.field_product_image
+field_name: field_product_image
+entity_type: commerce_product
+bundle: pet_product
+label: 'Images du produit'
+description: "Ajoutez jusqu'à 3 images du produit"
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  file_directory: 'products/[date:custom:Y]-[date:custom:m]'
+  file_extensions: 'png gif jpg jpeg webp'
+  max_filesize: '5 MB'
+  max_resolution: 2000x2000
+  min_resolution: 200x200
+  alt_field: true
+  alt_field_required: true
+  title_field: false
+  title_field_required: false
+  handler: 'default:file'
+  handler_settings: {  }
+  default_image:
+    uuid: null
+    alt: ''
+    title: ''
+    width: null
+    height: null
+field_type: image

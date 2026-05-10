@@ -6,12 +6,13 @@ namespace Drupal\eventhub_core\Hook;
 
 use Drupal\Core\Cache\Cache;
 use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Hook\Attribute\Hook;
 use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
-use Drupal\Component\Utility\Html;
 use Drupal\eventhub_core\Entity\Event;
 use Drupal\eventhub_registration\Service\RegistrationManager;
+use Drupal\node\NodeInterface;
 
 /**
  * Entity hooks for EventHub.
@@ -26,7 +27,7 @@ class EntityHooks {
   ) {}
 
   /**
-   * Generates a slug for events and validates capacity.
+   * Validates capacity on event presave.
    */
   #[Hook('entity_presave')]
   public function entityPresave(EntityInterface $entity): void {
@@ -34,24 +35,32 @@ class EntityHooks {
       return;
     }
 
-    // Generate a clean slug from the title if this is a new event.
-    if ($entity->isNew()) {
-      // Generate a clean slug from the title (could be used for URL alias).
-      Html::cleanCssIdentifier(mb_strtolower($entity->getName()));
-    }
-
     // Validate that capacity is not reduced below current registrations.
     if (!$entity->isNew()) {
-      $count = $this->registrationManager->getRegistrationCount((int) $entity->id());
-      if ($entity->getCapacity() < $count) {
-        $entity->set('capacity', $count);
-        $this->messenger->addWarning(
-          $this->t("La capacité a été ajustée à @count (nombre d'inscrits actuel).", [
-            '@count' => $count,
-          ])
-        );
+      $capacity = $entity->getCapacity();
+      if ($capacity > 0) {
+        $count = $this->registrationManager->getRegistrationCount((int) $entity->id());
+        if ($capacity < $count) {
+          $entity->set('field_capacity', $count);
+          $this->messenger->addWarning(
+            $this->t("La capacité a été ajustée à @count (nombre d'inscrits actuel).", [
+              '@count' => $count,
+            ])
+          );
+        }
       }
     }
+  }
+
+  /**
+   * Invalidates cache when a new event is created.
+   */
+  #[Hook('entity_insert')]
+  public function entityInsert(EntityInterface $entity): void {
+    if (!$entity instanceof NodeInterface) {
+      return;
+    }
+    Cache::invalidateTags(['event_list']);
   }
 
   /**
@@ -59,10 +68,13 @@ class EntityHooks {
    */
   #[Hook('entity_update')]
   public function entityUpdate(EntityInterface $entity): void {
-    if (!$entity instanceof Event) {
+
+    if (!$entity instanceof NodeInterface) {
       return;
     }
-
+    if ($entity->bundle() !== 'event') {
+      return;
+    }
     Cache::invalidateTags([
       'event:' . $entity->id(),
       'event_list',
@@ -80,7 +92,35 @@ class EntityHooks {
 
     $this->registrationManager->deleteRegistrationsForEvent((int) $entity->id());
 
-    Cache::invalidateTags(['event_list']);
+    Cache::invalidateTags([
+      'event:' . $entity->id(),
+      'event_list',
+    ]);
+  }
+
+  /**
+   * Adds geodata autocomplete to the location field on event add form.
+   */
+  #[Hook('form_event_add_form_alter')]
+  public function eventAddFormAlter(array &$form, FormStateInterface $form_state): void {
+    $this->addLocationAutocomplete($form);
+  }
+
+  /**
+   * Adds geodata autocomplete to the location field on event edit form.
+   */
+  #[Hook('form_event_edit_form_alter')]
+  public function eventEditFormAlter(array &$form, FormStateInterface $form_state): void {
+    $this->addLocationAutocomplete($form);
+  }
+
+  /**
+   * Attaches autocomplete route to the location field.
+   */
+  private function addLocationAutocomplete(array &$form): void {
+    if (isset($form['field_location']['widget'][0]['value'])) {
+      $form['field_location']['widget'][0]['value']['#autocomplete_route_name'] = 'eventhub.geodata_autocomplete';
+    }
   }
 
 }

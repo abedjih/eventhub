@@ -1,0 +1,11 @@
+langcode: fr
+status: true
+dependencies:
+  module:
+    - commerce_product
+id: pet_product
+label: 'Produit animalerie'
+description: 'Produits pour chiens et chats'
+variationType: pet_product
+multipleVariations: true
+injectVariationFields: true

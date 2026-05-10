@@ -1,0 +1,9 @@
+langcode: fr
+status: true
+dependencies:
+  module:
+    - commerce_product
+id: commerce_product.teaser
+label: Résumé
+targetEntityType: commerce_product
+cache: true

@@ -1,0 +1,8 @@
+langcode: fr
+status: true
+dependencies:
+  module:
+    - commerce_store
+label: 'Animalerie'
+id: pet_shop
+description: 'Boutique de produits pour animaux de compagnie'

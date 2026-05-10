@@ -1,0 +1,16 @@
+uuid: 1a668f47-302f-45b8-9bb6-c5f60a737d5d
+langcode: fr
+status: true
+dependencies:
+  module:
+    - commerce_store
+  enforced:
+    module:
+      - commerce_store
+_core:
+  default_config_hash: jF3zps2fK-ebAbUv5-Sz1yk2oy_VEsEGCSsOWviHEjY
+id: commerce_store_delete_action
+label: 'Supprimer la boutique'
+type: commerce_store
+plugin: 'entity:delete_action:commerce_store'
+configuration: {  }

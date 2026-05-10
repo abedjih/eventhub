@@ -1,0 +1,20 @@
+uuid: 0c79f733-fa59-4f74-9f51-c0b540192b07
+langcode: fr
+status: true
+dependencies:
+  module:
+    - eventhub_core
+  theme:
+    - eventhub_theme2
+id: eventhub_theme2_5derniersevenements
+theme: eventhub_theme2
+region: sidebar_first
+weight: -6
+provider: null
+plugin: eventhub_latest_events
+settings:
+  id: eventhub_latest_events
+  label: '5 derniers événements'
+  label_display: visible
+  provider: eventhub_core
+visibility: {  }

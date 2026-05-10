@@ -1,0 +1,13 @@
+uuid: 968aa4e1-1b24-406d-b416-69636960c414
+langcode: fr
+status: true
+dependencies:
+  module:
+    - commerce_product
+_core:
+  default_config_hash: 56wGUA1rdf8bahxas6hCd-gqTROcshxNxEBoh7sTZqs
+id: commerce_product.teaser
+label: Résumé
+description: null
+targetEntityType: commerce_product
+cache: true

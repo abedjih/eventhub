@@ -1,0 +1,15 @@
+eventhub_shop.catalog:
+  path: '/boutique'
+  defaults:
+    _controller: '\Drupal\eventhub_shop\Controller\ShopController::catalog'
+    _title: 'Boutique Animaux'
+  requirements:
+    _permission: 'access content'
+
+eventhub_shop.category:
+  path: '/boutique/{category}'
+  defaults:
+    _controller: '\Drupal\eventhub_shop\Controller\ShopController::category'
+    _title: 'Boutique'
+  requirements:
+    _permission: 'access content'

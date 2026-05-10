@@ -1,0 +1,11 @@
+uuid: ce7687cf-35c6-475d-adac-d3704267841e
+langcode: fr
+status: true
+dependencies:
+  config:
+    - node.type.test_test
+id: node.test_test
+target_entity_type_id: node
+target_bundle: test_test
+default_langcode: site_default
+language_alterable: false

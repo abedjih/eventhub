@@ -1,0 +1,38 @@
+langcode: fr
+status: true
+dependencies:
+  config:
+    - commerce_product.commerce_product_variation_type.pet_product
+  module:
+    - commerce_price
+    - commerce_product
+id: commerce_product_variation.pet_product.default
+targetEntityType: commerce_product_variation
+bundle: pet_product
+mode: default
+content:
+  price:
+    type: commerce_price_default
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  sku:
+    type: string_textfield
+    weight: -1
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  title:
+    type: string_textfield
+    weight: -2
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  list_price: true
+  status: true

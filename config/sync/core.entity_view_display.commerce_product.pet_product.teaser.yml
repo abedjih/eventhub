@@ -1,0 +1,71 @@
+uuid: 7e8598f8-5817-4808-8808-8ee491ff70a7
+langcode: fr
+status: true
+dependencies:
+  config:
+    - commerce_product.commerce_product_type.pet_product
+    - core.entity_view_mode.commerce_product.teaser
+    - field.field.commerce_product.pet_product.field_animal_category
+    - field.field.commerce_product.pet_product.field_product_description
+    - field.field.commerce_product.pet_product.field_product_image
+    - field.field.commerce_product.pet_product.field_product_type_animal
+    - image.style.medium
+  module:
+    - commerce_product
+    - image
+_core:
+  default_config_hash: Jzn4-rQWpCFC3bRc3YZkxutiHA6ytrq3G0gR6Dp-t3A
+id: commerce_product.pet_product.teaser
+targetEntityType: commerce_product
+bundle: pet_product
+mode: teaser
+content:
+  field_animal_category:
+    type: entity_reference_label
+    label: hidden
+    settings:
+      link: false
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_product_image:
+    type: image
+    label: hidden
+    settings:
+      image_link: content
+      image_style: medium
+      image_loading:
+        attribute: lazy
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_product_type_animal:
+    type: entity_reference_label
+    label: hidden
+    settings:
+      link: false
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  title:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: true
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  variations:
+    type: commerce_add_to_cart
+    label: hidden
+    settings:
+      combine: true
+    third_party_settings: {  }
+    weight: 5
+    region: content
+hidden:
+  created: true
+  field_product_description: true
+  langcode: true
+  stores: true
+  uid: true

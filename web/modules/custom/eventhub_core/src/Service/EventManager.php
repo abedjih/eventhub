@@ -35,8 +35,8 @@ class EventManager {
       ->getQuery()
       ->accessCheck(TRUE)
       ->condition('status', 1)
-      ->condition('event_date', $now->format('Y-m-d\TH:i:s'), '>=')
-      ->sort('event_date', 'ASC')
+      ->condition('field_date', $now->format('Y-m-d\TH:i:s'), '>=')
+      ->sort('field_date', 'ASC')
       ->range(0, $limit)
       ->execute();
 
@@ -67,8 +67,8 @@ class EventManager {
       ->getQuery()
       ->accessCheck(TRUE)
       ->condition('status', 1)
-      ->condition('category', $termId)
-      ->sort('event_date', 'ASC')
+      ->condition('field_category', $termId)
+      ->sort('field_date', 'ASC')
       ->execute();
 
     if (empty($ids)) {
@@ -98,7 +98,7 @@ class EventManager {
       ->getQuery()
       ->accessCheck(TRUE)
       ->condition('uid', $uid)
-      ->sort('event_date', 'DESC')
+      ->sort('field_date', 'DESC')
       ->execute();
 
     if (empty($ids)) {
@@ -132,8 +132,13 @@ class EventManager {
       return 0;
     }
 
+    $capacity = $event->getCapacity();
+    if ($capacity <= 0) {
+      return 0;
+    }
+
     $count = $this->registrationManager->getRegistrationCount($eventId);
-    $remaining = $event->getCapacity() - $count;
+    $remaining = $capacity - $count;
 
     return max(0, $remaining);
   }
@@ -149,6 +154,37 @@ class EventManager {
    */
   public function isEventFull(int $eventId): bool {
     return $this->getRemainingCapacity($eventId) <= 0;
+  }
+
+  /**
+   * Gets the latest published events.
+   *
+   * @param int $limit
+   *   Maximum number of events to return.
+   *
+   * @return \Drupal\eventhub_core\Entity\Event[]
+   *   Array of Event entities ordered by creation date DESC.
+   */
+  public function getLatestEvents(int $limit = 5): array {
+    $ids = $this->entityTypeManager
+      ->getStorage('event')
+      ->getQuery()
+      ->accessCheck(FALSE)
+      ->condition('status', 1)
+      ->sort('created', 'DESC')
+      ->range(0, $limit)
+      ->execute();
+
+    if (empty($ids)) {
+      return [];
+    }
+
+    /** @var \Drupal\eventhub_core\Entity\Event[] $events */
+    $events = $this->entityTypeManager
+      ->getStorage('event')
+      ->loadMultiple($ids);
+
+    return $events;
   }
 
   /**

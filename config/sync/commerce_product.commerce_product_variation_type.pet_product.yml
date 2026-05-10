@@ -1,0 +1,12 @@
+uuid: 10e2e27e-3285-4c15-9068-54cece0c19a5
+langcode: fr
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: Yw8XqXP_y5tVAqx7RmZcR5Jm2PKtstP6A6BOJYd7cbE
+id: pet_product
+label: 'Produit animalerie'
+orderItemType: default
+generateTitle: true
+traits: {  }
+locked: false

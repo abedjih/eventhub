@@ -8,7 +8,7 @@ use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Queue\Attribute\QueueWorker;
 use Drupal\Core\Queue\QueueWorkerBase;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
-use Drupal\eventhub_core\Service\GeoDataRepository;
+use Drupal\eventhub_import\Service\GeoDataRepository;
 use Drupal\eventhub_import\Constants\GeoApiConstants;
 use GuzzleHttp\ClientInterface;
 use Psr\Log\LoggerInterface;
@@ -37,7 +37,7 @@ final class GeoDataImportWorker extends QueueWorkerBase implements ContainerFact
    *   The plugin ID for the plugin instance.
    * @param mixed $plugin_definition
    *   The plugin implementation definition.
-   * @param \Drupal\eventhub_core\Service\GeoDataRepository $geoDataRepository
+   * @param \Drupal\eventhub_import\Service\GeoDataRepository $geoDataRepository
    *   The geodata repository.
    * @param \GuzzleHttp\ClientInterface $httpClient
    *   The HTTP client.

@@ -1,0 +1,22 @@
+uuid: 22114b3a-428a-4c52-a02e-94e4c097d2ac
+langcode: fr
+status: true
+dependencies:
+  module:
+    - commerce_cart
+  theme:
+    - eventhub_theme
+id: eventhub_theme_cart
+theme: eventhub_theme
+region: header
+weight: -4
+provider: null
+plugin: commerce_cart
+settings:
+  id: commerce_cart
+  label: Panier
+  label_display: '0'
+  provider: commerce_cart
+  dropdown: true
+  show_if_empty: true
+visibility: {  }

@@ -1,0 +1,21 @@
+uuid: 8be60790-ff5f-4bd0-99e1-64f63cfccca2
+langcode: fr
+status: true
+dependencies:
+  config:
+    - field.storage.node.layout_builder__layout
+    - node.type.formation
+  module:
+    - layout_builder
+id: node.formation.layout_builder__layout
+field_name: layout_builder__layout
+entity_type: node
+bundle: formation
+label: 'Mise en page'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: layout_section

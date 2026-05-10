@@ -1,0 +1,19 @@
+uuid: 2e71e5de-49b4-44f4-b638-1c04af1859b6
+langcode: fr
+status: true
+dependencies:
+  config:
+    - block_content.type.custom_block
+    - field.storage.block_content.field_texte
+id: block_content.custom_block.field_texte
+field_name: field_texte
+entity_type: block_content
+bundle: custom_block
+label: Texte
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

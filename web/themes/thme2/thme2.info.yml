@@ -1,0 +1,26 @@
+name: thme2
+type: theme
+'base theme': stable9
+version: 1.0.0
+libraries:
+  - thme2/base
+  - thme2/messages
+  - core/normalize
+libraries-extend:
+  user/drupal.user:
+    - thme2/user
+  core/drupal.dropbutton:
+    - thme2/dropbutton
+  core/drupal.dialog:
+    - thme2/dialog
+  file/drupal.file:
+    - thme2/file
+  core/drupal.item-list:
+    - thme2/item-list
+  core/drupal.progress:
+    - thme2/progress
+  core/drupal.tablesort:
+    - thme2/drupal.tablesort
+description: ''
+core_version_requirement: ^11
+generator: 'starterkit_theme:11.3.2'

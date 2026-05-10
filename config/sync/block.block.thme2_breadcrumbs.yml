@@ -1,0 +1,22 @@
+uuid: 15a4cb4c-7ad7-4225-b232-520ca1f1a1d5
+langcode: fr
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - thme2
+_core:
+  default_config_hash: VhBzWb7lMRtIOg9G7VSw_0uopi-7zXeHq4vXqqV1HFE
+id: thme2_breadcrumbs
+theme: thme2
+region: breadcrumb
+weight: 0
+provider: null
+plugin: system_breadcrumb_block
+settings:
+  id: system_breadcrumb_block
+  label: Breadcrumbs
+  label_display: '0'
+  provider: system
+visibility: {  }

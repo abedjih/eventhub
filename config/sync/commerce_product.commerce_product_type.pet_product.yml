@@ -1,0 +1,14 @@
+uuid: 1b48f47c-6ae6-4f7b-aa82-71687c117f80
+langcode: fr
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: TxOA9PFEEJCZqcf6PS94KSUcyaEJOXD8iWbpOomIIYA
+id: pet_product
+label: 'Produit animalerie'
+description: 'Produits pour chiens et chats'
+variationTypes: {  }
+multipleVariations: true
+injectVariationFields: true
+traits: {  }
+locked: false

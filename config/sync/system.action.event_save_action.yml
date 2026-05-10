@@ -1,0 +1,13 @@
+uuid: 46c15ce6-54ff-4bc4-8930-88f7a6822ec2
+langcode: fr
+status: true
+dependencies:
+  module:
+    - eventhub_core
+_core:
+  default_config_hash: W1VdfZhW_Yyv9hg9iHIckLJamAFUtMxOiPo_WWpMsHs
+id: event_save_action
+label: 'Save events'
+type: event
+plugin: 'entity:save_action:event'
+configuration: {  }

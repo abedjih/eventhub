@@ -6,7 +6,7 @@ namespace Drupal\eventhub_core\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\DependencyInjection\AutowireTrait;
-use Drupal\eventhub_core\Service\GeoDataRepository;
+use Drupal\eventhub_import\Service\GeoDataRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 

@@ -2,8 +2,17 @@ services:
   Drupal\eventhub_core\Service\EventManager:
     autowire: true
 
-  Drupal\eventhub_core\Service\GeoDataRepository:
+  Drupal\eventhub_core\Service\UpcomingEventsBuilder:
     autowire: true
 
   Drupal\eventhub_core\Hook\EntityHooks:
+    autowire: true
+
+  Drupal\eventhub_core\Hook\ThemeHooks:
+    autowire: true
+
+  Drupal\eventhub_core\Hook\UserHooks:
+    autowire: true
+
+  Drupal\eventhub_core\Hook\FormHooks:
     autowire: true

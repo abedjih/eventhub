@@ -1,0 +1,86 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for EventHub Registration.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function eventhub_registration_schema(): array {
+  $schema['eventhub_registration'] = [
+    'description' => 'Inscriptions aux événements.',
+    'fields' => [
+      'id' => [
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'description' => 'Identifiant unique.',
+      ],
+      'event_id' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'description' => "ID de l'événement.",
+      ],
+      'participant_name' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'description' => 'Nom du participant.',
+      ],
+      'email' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'description' => 'Email du participant.',
+      ],
+      'phone' => [
+        'type' => 'varchar',
+        'length' => 20,
+        'not null' => FALSE,
+        'description' => 'Téléphone du participant.',
+      ],
+      'registration_status' => [
+        'type' => 'varchar',
+        'length' => 20,
+        'not null' => TRUE,
+        'default' => 'confirmed',
+        'description' => 'Statut : confirmed, pending, cancelled.',
+      ],
+      'notes' => [
+        'type' => 'text',
+        'size' => 'big',
+        'not null' => FALSE,
+        'description' => 'Notes ou commentaires.',
+      ],
+      'created' => [
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => "Timestamp de l'inscription.",
+      ],
+    ],
+    'primary key' => ['id'],
+    'indexes' => [
+      'event_id' => ['event_id'],
+      'email_event' => ['email', 'event_id'],
+      'registration_status' => ['registration_status'],
+    ],
+  ];
+
+  return $schema;
+}
+
+/**
+ * Recreate eventhub_registration as a custom table (replaces old entity table).
+ */
+function eventhub_registration_update_10002(): void {
+  $schema = \Drupal::database()->schema();
+  if ($schema->tableExists('eventhub_registration')) {
+    $schema->dropTable('eventhub_registration');
+  }
+  $spec = eventhub_registration_schema()['eventhub_registration'];
+  $schema->createTable('eventhub_registration', $spec);
+}

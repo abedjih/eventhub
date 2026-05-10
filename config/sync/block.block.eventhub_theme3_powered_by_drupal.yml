@@ -1,0 +1,22 @@
+uuid: 7f1da361-b90c-458f-8b10-29a0b9edd581
+langcode: fr
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - eventhub_theme3
+_core:
+  default_config_hash: 2_xxaOb8b_0AUgYFdJLxIBDDwufyh6YozhGfBd97p38
+id: eventhub_theme3_powered_by_drupal
+theme: eventhub_theme3
+region: header
+weight: 0
+provider: null
+plugin: system_powered_by_block
+settings:
+  id: system_powered_by_block
+  label: 'Propulsé par Drupal'
+  label_display: '0'
+  provider: system
+visibility: {  }

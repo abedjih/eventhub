@@ -1,0 +1,23 @@
+<?php
+
+/**
+ * @file
+ * Module hooks for CWSP Conditional Forms.
+ *
+ * Provides custom Webform elements (and supporting render elements) for the
+ * CWSP project. New elements are added by:
+ *   1. Creating a render element under src/Element/.
+ *   2. Wrapping it with a Webform plugin under src/Plugin/WebformElement/.
+ */
+
+declare(strict_types=1);
+
+/**
+ * Implements hook_help().
+ */
+function cwsp_conditional_forms_help(string $route_name): ?string {
+  if ($route_name === 'help.page.cwsp_conditional_forms') {
+    return '<p>' . t('Provides custom Webform elements with conditional logic for the CWSP project.') . '</p>';
+  }
+  return NULL;
+}

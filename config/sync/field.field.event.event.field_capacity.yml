@@ -1,0 +1,24 @@
+uuid: 322a91a9-3b56-4204-bf1e-c948276a68af
+langcode: fr
+status: true
+dependencies:
+  config:
+    - field.storage.event.field_capacity
+  module:
+    - eventhub_core
+id: event.event.field_capacity
+field_name: field_capacity
+entity_type: event
+bundle: event
+label: Capacité
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

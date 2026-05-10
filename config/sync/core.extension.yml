@@ -1,6 +1,7 @@
 _core:
   default_config_hash: 4GIX5Esnc_umpXUBj4IIocRX7Mt5fPhm4AgXfE3E56E
 module:
+  address: 0
   admin_toolbar: 0
   admin_toolbar_search: 0
   admin_toolbar_tools: 0
@@ -12,6 +13,19 @@ module:
   breakpoint: 0
   ckeditor5: 0
   comment: 0
+  commerce: 0
+  commerce_cart: 0
+  commerce_checkout: 0
+  commerce_log: 0
+  commerce_number_pattern: 0
+  commerce_order: 0
+  commerce_payment: 0
+  commerce_payment_example: 0
+  commerce_price: 0
+  commerce_product: 0
+  commerce_promotion: 0
+  commerce_store: 0
+  commerce_tax: 0
   config: 0
   contextual: 0
   datetime: 0
@@ -21,10 +35,12 @@ module:
   dynamic_page_cache: 0
   easy_breadcrumb: 0
   editor: 0
+  entity: 0
+  entity_reference_revisions: 0
   eventhub_core: 0
-  eventhub_entity_example: 0
   eventhub_import: 0
   eventhub_registration: 0
+  eventhub_shop: 0
   field: 0
   field_ui: 0
   file: 0
@@ -32,9 +48,15 @@ module:
   help: 0
   history: 0
   image: 0
+  inline_entity_form: 0
+  inline_form_errors: 0
   language: 0
+  layout_builder: 0
+  layout_discovery: 0
   link: 0
   locale: 0
+  media: 0
+  media_library: 0
   menu_link_content: 0
   menu_ui: 0
   metatag: 0
@@ -44,9 +66,11 @@ module:
   page_cache: 0
   path: 0
   path_alias: 0
+  profile: 0
   queue_ui: 0
   search: 0
   shortcut: 0
+  state_machine: 0
   system: 0
   taxonomy: 0
   text: 0
@@ -65,4 +89,9 @@ theme:
   stable9: 0
   bootstrap5: 0
   eventhub_theme: 0
+  eventhub_theme2: 0
+  thme2: 0
+  bartik: 0
+  canvas_stark: 0
+  eventhub_theme3: 0
 profile: standard

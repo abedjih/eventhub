@@ -1,0 +1,301 @@
+/* ============================================
+   EventHub Shop - Pet Products Store
+   ============================================ */
+
+/* Hero Section */
+.shop-hero {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #fff;
+  text-align: center;
+  padding: 3rem 2rem;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+}
+
+.shop-hero h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  color: #fff;
+}
+
+.shop-hero p {
+  font-size: 1.2rem;
+  opacity: 0.9;
+}
+
+/* Category Cards */
+.shop-categories {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.shop-category-card {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 2rem;
+  text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.shop-category-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.category-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+.shop-category-card h2 {
+  font-size: 1.5rem;
+  color: #2d3748;
+  margin-bottom: 0.5rem;
+}
+
+.shop-category-card p {
+  color: #718096;
+  margin-bottom: 1.5rem;
+}
+
+/* Product Types Section */
+.shop-product-types {
+  background: #f7fafc;
+  border-radius: 12px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+
+.shop-product-types h2 {
+  text-align: center;
+  color: #2d3748;
+  margin-bottom: 1.5rem;
+}
+
+.product-type-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  list-style: none;
+  padding: 0;
+}
+
+.product-type-list li {
+  list-style: none;
+}
+
+.product-type-list li a {
+  display: inline-block;
+  padding: 0.5rem 1.5rem;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 25px;
+  color: #4a5568;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.product-type-list li a:hover {
+  background: #667eea;
+  color: #fff;
+  border-color: #667eea;
+}
+
+/* All Products Link */
+.shop-all-products {
+  text-align: center;
+  margin: 2rem 0;
+}
+
+/* Product Grid (Views) */
+.shop-catalog .product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+  list-style: none;
+  padding: 0;
+  margin: 2rem 0;
+}
+
+.shop-catalog .product-item {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  list-style: none;
+}
+
+.shop-catalog .product-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.shop-catalog .product-item img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+}
+
+.shop-catalog .product-item .field--name-title {
+  padding: 0.75rem 1rem 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #2d3748;
+}
+
+.shop-catalog .product-item .field--name-title a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.shop-catalog .product-item .field--name-title a:hover {
+  color: #667eea;
+}
+
+.shop-catalog .product-item .field--name-field-animal-category,
+.shop-catalog .product-item .field--name-field-product-type-animal {
+  padding: 0.25rem 1rem;
+  font-size: 0.85rem;
+  color: #718096;
+}
+
+.shop-catalog .product-item .field--name-field-animal-category .field__item,
+.shop-catalog .product-item .field--name-field-product-type-animal .field__item {
+  display: inline-block;
+  background: #edf2f7;
+  padding: 0.15rem 0.6rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+}
+
+/* Add to Cart Button */
+.shop-catalog .product-item .field--name-variations {
+  padding: 1rem;
+}
+
+.shop-catalog .product-item .button--add-to-cart,
+.shop-catalog .product-item input[type="submit"] {
+  width: 100%;
+  padding: 0.6rem 1rem;
+  background: #667eea;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: background 0.2s ease;
+}
+
+.shop-catalog .product-item .button--add-to-cart:hover,
+.shop-catalog .product-item input[type="submit"]:hover {
+  background: #5a67d8;
+}
+
+/* Commerce Price */
+.field--name-price {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #48bb78;
+  padding: 0.25rem 1rem;
+}
+
+/* Exposed Form Filters */
+.views-exposed-form {
+  background: #f7fafc;
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: flex-end;
+}
+
+.views-exposed-form .form-item {
+  flex: 1;
+  min-width: 200px;
+}
+
+.views-exposed-form label {
+  font-weight: 600;
+  color: #4a5568;
+  margin-bottom: 0.3rem;
+  display: block;
+}
+
+.views-exposed-form select,
+.views-exposed-form input[type="text"] {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+}
+
+.views-exposed-form .form-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* Buttons */
+.btn {
+  display: inline-block;
+  padding: 0.6rem 1.5rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  border: none;
+}
+
+.btn-primary {
+  background: #667eea;
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background: #5a67d8;
+  color: #fff;
+}
+
+.btn-outline-primary {
+  background: transparent;
+  color: #667eea;
+  border: 2px solid #667eea;
+}
+
+.btn-outline-primary:hover {
+  background: #667eea;
+  color: #fff;
+}
+
+.btn-lg {
+  padding: 0.8rem 2rem;
+  font-size: 1.1rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .shop-hero h1 {
+    font-size: 1.8rem;
+  }
+
+  .shop-categories {
+    grid-template-columns: 1fr;
+  }
+
+  .shop-catalog .product-grid {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1rem;
+  }
+
+  .views-exposed-form {
+    flex-direction: column;
+  }
+}

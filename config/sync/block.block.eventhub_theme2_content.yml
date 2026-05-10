@@ -1,0 +1,22 @@
+uuid: 0c6b87b0-88e6-4fd5-81db-5d9c7b453816
+langcode: fr
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - eventhub_theme2
+_core:
+  default_config_hash: 1o0W13wt232YmsDYiRA5xtlFq0L2WNS7FmIVbBeuhIY
+id: eventhub_theme2_content
+theme: eventhub_theme2
+region: content
+weight: -1
+provider: null
+plugin: system_main_block
+settings:
+  id: system_main_block
+  label: 'Contenu de la page principale'
+  label_display: '0'
+  provider: system
+visibility: {  }

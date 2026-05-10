@@ -1,0 +1,7 @@
+shop:
+  version: 1.x
+  css:
+    theme:
+      css/shop.css: {}
+  dependencies:
+    - core/drupal

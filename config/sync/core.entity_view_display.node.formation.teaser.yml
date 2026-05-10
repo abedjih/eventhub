@@ -1,0 +1,41 @@
+uuid: cb183179-cd14-462f-b911-6f641e04985c
+langcode: fr
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.formation.field_documents
+    - field.field.node.formation.field_image
+    - field.field.node.formation.field_test_champ
+    - field.field.node.formation.layout_builder__layout
+    - image.style.medium
+    - node.type.formation
+  module:
+    - image
+    - user
+id: node.formation.teaser
+targetEntityType: node
+bundle: formation
+mode: teaser
+content:
+  field_image:
+    type: image
+    label: hidden
+    settings:
+      image_link: content
+      image_style: medium
+      image_loading:
+        attribute: lazy
+    third_party_settings: {  }
+    weight: -1
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_documents: true
+  field_test_champ: true
+  langcode: true
+  layout_builder__layout: true

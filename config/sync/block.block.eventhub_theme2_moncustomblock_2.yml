@@ -1,0 +1,23 @@
+uuid: cca40602-4e2e-4029-82bb-aa11ed91aedf
+langcode: fr
+status: true
+dependencies:
+  content:
+    - 'block_content:custom_block:3f26d336-3dc7-4dbd-8ed8-a6cac7a84b76'
+  module:
+    - block_content
+  theme:
+    - eventhub_theme2
+id: eventhub_theme2_moncustomblock_2
+theme: eventhub_theme2
+region: sidebar_first
+weight: -8
+provider: null
+plugin: 'block_content:3f26d336-3dc7-4dbd-8ed8-a6cac7a84b76'
+settings:
+  id: 'block_content:3f26d336-3dc7-4dbd-8ed8-a6cac7a84b76'
+  label: 'Mon custom block 2'
+  label_display: visible
+  provider: block_content
+  view_mode: full
+visibility: {  }

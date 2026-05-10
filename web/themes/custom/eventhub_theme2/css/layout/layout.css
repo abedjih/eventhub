@@ -45,3 +45,12 @@ footer[role="contentinfo"] a {
     width: 100%;
   }
 }
+
+.error {
+  background-color: #fee2e2 !important;
+  color: #b91c1c !important;
+  padding: 1rem !important;
+  border: 1px solid #fca5a5 !important;
+  border-radius: 4px !important;
+  margin-bottom: 1rem !important;
+}

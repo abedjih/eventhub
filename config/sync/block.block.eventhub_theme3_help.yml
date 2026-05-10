@@ -1,0 +1,22 @@
+uuid: cd7d28e3-8322-480a-9b20-adea73348137
+langcode: fr
+status: true
+dependencies:
+  module:
+    - help
+  theme:
+    - eventhub_theme3
+_core:
+  default_config_hash: S0Y16qIQfKiOEzWlddOGk3u_BKwAruAheA8VVFfGbLc
+id: eventhub_theme3_help
+theme: eventhub_theme3
+region: content
+weight: -3
+provider: null
+plugin: help_block
+settings:
+  id: help_block
+  label: Aide
+  label_display: '0'
+  provider: help
+visibility: {  }

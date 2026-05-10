@@ -1,0 +1,22 @@
+name: 'EventHub Shop'
+type: module
+description: 'Boutique en ligne de produits pour animaux (chiens et chats)'
+core_version_requirement: ^10.3 || ^11
+package: EventHub
+dependencies:
+  - drupal:commerce
+  - commerce:commerce_product
+  - commerce:commerce_cart
+  - commerce:commerce_checkout
+  - commerce:commerce_order
+  - commerce:commerce_payment
+  - commerce:commerce_store
+  - commerce:commerce_price
+  - commerce:commerce_number_pattern
+  - commerce:commerce_tax
+  - commerce:commerce_promotion
+  - commerce:commerce_log
+  - drupal:taxonomy
+  - drupal:image
+  - drupal:views
+  - drupal:media

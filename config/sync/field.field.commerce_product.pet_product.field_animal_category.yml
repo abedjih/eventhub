@@ -1,0 +1,30 @@
+uuid: f31ed8b9-e8c3-4d2b-b173-9c270c92c666
+langcode: fr
+status: true
+dependencies:
+  config:
+    - commerce_product.commerce_product_type.pet_product
+    - field.storage.commerce_product.field_animal_category
+    - taxonomy.vocabulary.animal_category
+_core:
+  default_config_hash: EfbujHOu3CHPk8S2rU0Tp3s1BImVDQ3s1co7p2l0yC0
+id: commerce_product.pet_product.field_animal_category
+field_name: field_animal_category
+entity_type: commerce_product
+bundle: pet_product
+label: 'Catégorie animale'
+description: "Sélectionnez la ou les catégories d'animaux concernées"
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      animal_category: animal_category
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+field_type: entity_reference
