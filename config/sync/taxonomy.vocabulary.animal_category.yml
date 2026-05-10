@@ -1,0 +1,11 @@
+uuid: bda4d64f-40f9-468b-bd36-d8203cfe6ac3
+langcode: fr
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: YQrbkwos6Gux0vB54mpMDoz7PoTWWIN1GHierWyks2A
+name: 'Catégorie animale'
+vid: animal_category
+description: "Catégories d'animaux (Chiens, Chats)"
+weight: 0
+new_revision: false

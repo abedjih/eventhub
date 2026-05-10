@@ -1,0 +1,29 @@
+uuid: 4ab21ae8-fc51-4ebe-9d75-7191b448c73d
+langcode: fr
+status: true
+dependencies:
+  config:
+    - views.view.news
+  module:
+    - system
+    - views
+  theme:
+    - thme2
+id: thme2_views_block__news_block_1
+theme: thme2
+region: sidebar_first
+weight: -7
+provider: null
+plugin: 'views_block:news-block_1'
+settings:
+  id: 'views_block:news-block_1'
+  label: 'Last news'
+  label_display: visible
+  provider: views
+  views_label: 'Last news'
+  items_per_page: null
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /actualites

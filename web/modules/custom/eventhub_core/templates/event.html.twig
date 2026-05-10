@@ -13,6 +13,10 @@
  * @see template_preprocess_event()
  */
 #}
+{% block event_header %}
+  <p> Le header de mon event </p>
+{% endblock %}
+
 <article{{ attributes }}>
   {% if view_mode != 'full' %}
     {{ title_prefix }}

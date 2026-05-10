@@ -1,0 +1,4 @@
+administer eventhub shop:
+  title: 'Administrer la boutique animaux'
+  description: 'Gérer les produits et les paramètres de la boutique'
+  restrict access: true

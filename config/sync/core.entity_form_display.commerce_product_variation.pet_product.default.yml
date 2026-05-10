@@ -1,0 +1,41 @@
+uuid: 2c8e0125-9370-4e34-901a-84100cac4cd0
+langcode: fr
+status: true
+dependencies:
+  config:
+    - commerce_product.commerce_product_variation_type.pet_product
+  module:
+    - commerce_price
+_core:
+  default_config_hash: IZ5cRLbKmFNGyPWpA4TcIY07xh9QA3j7i4DZZrSSnNY
+id: commerce_product_variation.pet_product.default
+targetEntityType: commerce_product_variation
+bundle: pet_product
+mode: default
+content:
+  langcode:
+    type: language_select
+    weight: 2
+    region: content
+    settings:
+      include_locked: true
+    third_party_settings: {  }
+  price:
+    type: commerce_price_default
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  sku:
+    type: string_textfield
+    weight: -1
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  list_price: true
+  status: true
+  uid: true

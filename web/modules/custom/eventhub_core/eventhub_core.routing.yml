@@ -20,3 +20,4 @@ entity.event.settings:
     _title: 'Event'
   requirements:
     _permission: 'administer event'
+

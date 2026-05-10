@@ -1,0 +1,19 @@
+uuid: 871a57f9-9d74-4ff3-b166-797f06465dca
+langcode: fr
+status: true
+dependencies: {  }
+id: virement_bancaire
+label: 'Virement bancaire'
+weight: 1
+plugin: manual
+configuration:
+  display_label: 'Virement bancaire'
+  mode: live
+  payment_method_types:
+    - credit_card
+  collect_billing_information: true
+  instructions:
+    value: '<p><strong>Coordonnées bancaires :</strong></p><p>IBAN : FR76 1234 5678 9012 3456 7890 123<br>BIC : BNPAFRPP<br>Titulaire : Boutique Animaux EventHub</p><p>Veuillez indiquer votre numéro de commande en référence du virement.</p>'
+    format: basic_html
+conditions: {  }
+conditionOperator: AND

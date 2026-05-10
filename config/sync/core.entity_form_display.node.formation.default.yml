@@ -3,9 +3,15 @@ langcode: fr
 status: true
 dependencies:
   config:
+    - field.field.node.formation.field_documents
+    - field.field.node.formation.field_image
     - field.field.node.formation.field_test_champ
+    - field.field.node.formation.layout_builder__layout
+    - image.style.thumbnail
     - node.type.formation
   module:
+    - file
+    - image
     - path
 id: node.formation.default
 targetEntityType: node
@@ -17,6 +23,21 @@ content:
     weight: 10
     region: content
     settings: {  }
+    third_party_settings: {  }
+  field_documents:
+    type: file_generic
+    weight: 122
+    region: content
+    settings:
+      progress_indicator: throbber
+    third_party_settings: {  }
+  field_image:
+    type: image_image
+    weight: 1
+    region: content
+    settings:
+      progress_indicator: throbber
+      preview_image_style: thumbnail
     third_party_settings: {  }
   field_test_champ:
     type: string_textfield
@@ -65,5 +86,6 @@ content:
       placeholder: ''
     third_party_settings: {  }
 hidden:
+  layout_builder__layout: true
   promote: true
   sticky: true

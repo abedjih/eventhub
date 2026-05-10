@@ -1,0 +1,22 @@
+uuid: b2f74de8-d28a-42b6-8a07-a63e6ded58e8
+langcode: fr
+status: true
+dependencies:
+  module:
+    - commerce_product
+    - taxonomy
+_core:
+  default_config_hash: hcNjwtpWCcuksqz60KrhK5iRNIg5E8smQl-4GqNsj_Q
+id: commerce_product.field_product_type_animal
+field_name: field_product_type_animal
+entity_type: commerce_product
+type: entity_reference
+settings:
+  target_type: taxonomy_term
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

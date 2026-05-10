@@ -10,7 +10,7 @@ use Drupal\Core\DependencyInjection\AutowireTrait;
 use Drupal\Core\Url;
 use Drupal\eventhub_core\Entity\Event;
 use Drupal\eventhub_core\Service\EventManager;
-use Drupal\eventhub_core\Service\GeoDataRepository;
+use Drupal\eventhub_import\Service\GeoDataRepository;
 use Drupal\eventhub_registration\Service\RegistrationManager;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 

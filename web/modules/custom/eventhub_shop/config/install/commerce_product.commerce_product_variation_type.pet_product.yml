@@ -1,0 +1,11 @@
+langcode: fr
+status: true
+dependencies:
+  module:
+    - commerce_product
+    - commerce_order
+id: pet_product
+label: 'Produit animalerie'
+orderItemType: default
+generateTitle: true
+traits: {  }

@@ -1,0 +1,20 @@
+uuid: 7e13cb93-a29c-42aa-b62b-f938e4bcbeb6
+langcode: fr
+status: true
+dependencies:
+  theme:
+    - eventhub_theme3
+_core:
+  default_config_hash: MBqG1B5mr5-fPSCDyTR6z2zVTRxZ10XeS_pAw6C7za4
+id: eventhub_theme3_local_actions
+theme: eventhub_theme3
+region: content
+weight: -2
+provider: null
+plugin: local_actions_block
+settings:
+  id: local_actions_block
+  label: "Actions d'administration principales"
+  label_display: '0'
+  provider: core
+visibility: {  }

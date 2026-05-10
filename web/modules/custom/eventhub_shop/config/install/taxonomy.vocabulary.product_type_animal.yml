@@ -1,0 +1,7 @@
+langcode: fr
+status: true
+dependencies: {  }
+name: 'Type de produit animal'
+vid: product_type_animal
+description: 'Types de produits pour animaux (Nourriture, Jouets, Accessoires, etc.)'
+weight: 0

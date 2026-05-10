@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\eventhub_import\Unit;
 
-use Drupal\eventhub_core\Service\GeoDataRepository;
+use Drupal\eventhub_import\Service\GeoDataRepository;
 use Drupal\eventhub_import\Plugin\QueueWorker\GeoDataImportWorker;
 use Drupal\Tests\UnitTestCase;
 use GuzzleHttp\ClientInterface;
@@ -27,7 +27,7 @@ class GeoDataImportWorkerTest extends UnitTestCase {
   /**
    * The mocked geodata repository.
    *
-   * @var \Drupal\eventhub_core\Service\GeoDataRepository|\PHPUnit\Framework\MockObject\MockObject
+   * @var \Drupal\eventhub_import\Service\GeoDataRepository|\PHPUnit\Framework\MockObject\MockObject
    */
   private GeoDataRepository $geoDataRepository;
 

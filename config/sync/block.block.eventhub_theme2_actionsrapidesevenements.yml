@@ -1,0 +1,20 @@
+uuid: c7ee3826-121b-4029-82b5-3fd58af8d989
+langcode: fr
+status: true
+dependencies:
+  module:
+    - eventhub_core
+  theme:
+    - eventhub_theme2
+id: eventhub_theme2_actionsrapidesevenements
+theme: eventhub_theme2
+region: sidebar_first
+weight: -5
+provider: null
+plugin: eventhub_quick_actions
+settings:
+  id: eventhub_quick_actions
+  label: 'Actions rapides événements'
+  label_display: visible
+  provider: eventhub_core
+visibility: {  }

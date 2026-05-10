@@ -1,0 +1,22 @@
+uuid: 070223be-ccb1-4b5b-9fe9-b80f73e38d82
+langcode: fr
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - thme2
+_core:
+  default_config_hash: erQSEZF2XUjNmgTl0uNRBzmg18ZGXwUcw2FhApoeuHk
+id: thme2_content
+theme: thme2
+region: content
+weight: -8
+provider: null
+plugin: system_main_block
+settings:
+  id: system_main_block
+  label: 'Contenu de la page principale'
+  label_display: '0'
+  provider: system
+visibility: {  }

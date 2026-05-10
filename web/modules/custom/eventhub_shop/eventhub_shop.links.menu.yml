@@ -1,0 +1,22 @@
+eventhub_shop.catalog:
+  title: 'Boutique'
+  description: 'Boutique de produits pour animaux'
+  route_name: eventhub_shop.catalog
+  menu_name: main
+  weight: 10
+
+eventhub_shop.chiens:
+  title: 'Chiens'
+  description: 'Produits pour chiens'
+  route_name: view.shop_catalog.page_chiens
+  menu_name: main
+  parent: eventhub_shop.catalog
+  weight: 0
+
+eventhub_shop.chats:
+  title: 'Chats'
+  description: 'Produits pour chats'
+  route_name: view.shop_catalog.page_chats
+  menu_name: main
+  parent: eventhub_shop.catalog
+  weight: 1

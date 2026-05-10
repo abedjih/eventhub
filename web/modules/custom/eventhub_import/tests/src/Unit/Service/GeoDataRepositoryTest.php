@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Drupal\Tests\eventhub_core\Unit\Service;
+namespace Drupal\Tests\eventhub_import\Unit\Service;
 
 use Drupal\Component\Datetime\TimeInterface;
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Database\Query\Select;
 use Drupal\Core\Database\StatementInterface;
-use Drupal\eventhub_core\Service\GeoDataRepository;
+use Drupal\eventhub_import\Service\GeoDataRepository;
 use Drupal\Tests\UnitTestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 
@@ -16,7 +16,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  * Tests the GeoDataRepository service.
  *
  * @group eventhub
- * @coversDefaultClass \Drupal\eventhub_core\Service\GeoDataRepository
+ * @coversDefaultClass \Drupal\eventhub_import\Service\GeoDataRepository
  */
 class GeoDataRepositoryTest extends UnitTestCase {
 

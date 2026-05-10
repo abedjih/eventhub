@@ -1,0 +1,96 @@
+uuid: d7bc2d8e-d547-4c2c-871e-5f168c162970
+langcode: fr
+status: true
+dependencies:
+  config:
+    - commerce_product.commerce_product_type.pet_product
+    - field.field.commerce_product.pet_product.field_animal_category
+    - field.field.commerce_product.pet_product.field_product_description
+    - field.field.commerce_product.pet_product.field_product_image
+    - field.field.commerce_product.pet_product.field_product_type_animal
+    - image.style.thumbnail
+  module:
+    - commerce
+    - image
+    - inline_entity_form
+    - text
+_core:
+  default_config_hash: 6jI_TTnxKs86vNc4O4w11upStvW36AUUtaRge_H_s3E
+id: commerce_product.pet_product.default
+targetEntityType: commerce_product
+bundle: pet_product
+mode: default
+content:
+  field_animal_category:
+    type: options_buttons
+    weight: 1
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_product_description:
+    type: text_textarea
+    weight: 3
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_product_image:
+    type: image_image
+    weight: 4
+    region: content
+    settings:
+      progress_indicator: throbber
+      preview_image_style: thumbnail
+    third_party_settings: {  }
+  field_product_type_animal:
+    type: options_select
+    weight: 2
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  langcode:
+    type: language_select
+    weight: 2
+    region: content
+    settings:
+      include_locked: true
+    third_party_settings: {  }
+  stores:
+    type: commerce_entity_select
+    weight: 5
+    region: content
+    settings:
+      hide_single_entity: true
+      autocomplete_threshold: 7
+    third_party_settings: {  }
+  title:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  variations:
+    type: inline_entity_form_complex
+    weight: 10
+    region: content
+    settings:
+      form_mode: default
+      override_labels: false
+      label_singular: ''
+      label_plural: ''
+      allow_new: true
+      allow_existing: false
+      allow_duplicate: true
+      match_operator: CONTAINS
+      revision: false
+      collapsible: false
+      collapsed: false
+    third_party_settings: {  }
+hidden:
+  created: true
+  path: true
+  status: true
+  uid: true

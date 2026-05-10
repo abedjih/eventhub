@@ -1,0 +1,19 @@
+uuid: 65363e13-e14c-4840-8e26-16719eb1f8e2
+langcode: fr
+status: true
+dependencies:
+  module:
+    - commerce_payment_example
+id: carte_bancaire
+label: 'Carte bancaire'
+weight: 0
+plugin: example_onsite
+configuration:
+  display_label: 'Carte bancaire'
+  mode: test
+  payment_method_types:
+    - credit_card
+  collect_billing_information: true
+  api_key: ''
+conditions: {  }
+conditionOperator: AND

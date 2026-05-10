@@ -1,0 +1,19 @@
+uuid: 85ca547c-a642-49a6-885c-6605d8ae935d
+langcode: fr
+status: true
+dependencies:
+  module:
+    - block_content
+id: block_content.field_texte
+field_name: field_texte
+entity_type: block_content
+type: string_long
+settings:
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

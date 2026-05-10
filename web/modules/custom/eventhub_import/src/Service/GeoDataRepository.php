@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Drupal\eventhub_core\Service;
+namespace Drupal\eventhub_import\Service;
 
 use Drupal\Component\Datetime\TimeInterface;
 use Drupal\Core\Database\Connection;

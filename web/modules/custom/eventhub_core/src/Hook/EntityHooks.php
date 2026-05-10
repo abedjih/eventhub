@@ -12,6 +12,7 @@ use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\eventhub_core\Entity\Event;
 use Drupal\eventhub_registration\Service\RegistrationManager;
+use Drupal\node\NodeInterface;
 
 /**
  * Entity hooks for EventHub.
@@ -56,10 +57,9 @@ class EntityHooks {
    */
   #[Hook('entity_insert')]
   public function entityInsert(EntityInterface $entity): void {
-    if (!$entity instanceof Event) {
+    if (!$entity instanceof NodeInterface) {
       return;
     }
-
     Cache::invalidateTags(['event_list']);
   }
 
@@ -68,10 +68,13 @@ class EntityHooks {
    */
   #[Hook('entity_update')]
   public function entityUpdate(EntityInterface $entity): void {
-    if (!$entity instanceof Event) {
+
+    if (!$entity instanceof NodeInterface) {
       return;
     }
-
+    if ($entity->bundle() !== 'event') {
+      return;
+    }
     Cache::invalidateTags([
       'event:' . $entity->id(),
       'event_list',

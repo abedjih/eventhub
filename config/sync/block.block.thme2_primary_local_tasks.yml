@@ -1,0 +1,22 @@
+uuid: 11618dc7-8b9b-4d31-9b1d-514b49006051
+langcode: fr
+status: true
+dependencies:
+  theme:
+    - thme2
+_core:
+  default_config_hash: nGE3EoPQQaQCuqTUtZgw0-KIzmrqdKDzdNQf2JyPUt4
+id: thme2_primary_local_tasks
+theme: thme2
+region: highlighted
+weight: -4
+provider: null
+plugin: local_tasks_block
+settings:
+  id: local_tasks_block
+  label: 'Onglets principaux'
+  label_display: '0'
+  provider: core
+  primary: true
+  secondary: false
+visibility: {  }

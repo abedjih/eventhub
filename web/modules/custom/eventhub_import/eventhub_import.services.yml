@@ -3,5 +3,8 @@ services:
     parent: logger.channel_base
     arguments: ['eventhub_import']
 
+  Drupal\eventhub_import\Service\GeoDataRepository:
+    autowire: true
+
   Drupal\eventhub_import\Hook\CronHooks:
     autowire: true

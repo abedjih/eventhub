@@ -6,8 +6,13 @@ dependencies:
     - filter.format.basic_html
   module:
     - comment
+    - commerce_checkout
+    - commerce_order
+    - commerce_payment
+    - commerce_product
     - file
     - filter
+    - media
     - search
     - shortcut
     - system
@@ -18,11 +23,16 @@ label: 'Utilisateur authentifié'
 weight: 1
 is_admin: false
 permissions:
+  - 'access checkout'
   - 'access comments'
   - 'access content'
   - 'access shortcuts'
   - 'delete own files'
+  - 'manage own commerce_payment_method'
   - 'post comments'
   - 'search content'
   - 'skip comment approval'
   - 'use text format basic_html'
+  - 'view commerce_product'
+  - 'view media'
+  - 'view own commerce_order'

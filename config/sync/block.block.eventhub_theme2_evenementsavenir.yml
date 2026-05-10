@@ -1,0 +1,20 @@
+uuid: f385f187-7ec9-45b5-b661-396b3b242bfa
+langcode: fr
+status: true
+dependencies:
+  module:
+    - eventhub_core
+  theme:
+    - eventhub_theme2
+id: eventhub_theme2_evenementsavenir
+theme: eventhub_theme2
+region: sidebar_first
+weight: -4
+provider: null
+plugin: eventhub_upcoming_events
+settings:
+  id: eventhub_upcoming_events
+  label: 'Événements à venir'
+  label_display: visible
+  provider: eventhub_core
+visibility: {  }

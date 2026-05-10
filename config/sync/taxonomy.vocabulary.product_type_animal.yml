@@ -1,0 +1,11 @@
+uuid: a3477bf3-25be-49f4-87f5-a8475fa57c02
+langcode: fr
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: 1Z_Sp7ezAKgY2RzowzEeOpRYTfxVq6G0rskKR8HzBzk
+name: 'Type de produit animal'
+vid: product_type_animal
+description: 'Types de produits pour animaux (Nourriture, Jouets, Accessoires, etc.)'
+weight: 0
+new_revision: false

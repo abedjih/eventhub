@@ -1,0 +1,11 @@
+uuid: 457dbce0-da32-4d4d-86d2-7d07135ce661
+langcode: fr
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: 1z1VtzzkZQtzwKlr_qB12k9BoACcwVO3nKF-2u-LxKs
+id: pet_shop
+label: Animalerie
+description: 'Boutique de produits pour animaux de compagnie'
+traits: {  }
+locked: false

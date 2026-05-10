@@ -1,0 +1,20 @@
+uuid: e7fcad71-8724-4d04-afd6-389a07b08466
+langcode: fr
+status: true
+dependencies:
+  theme:
+    - thme2
+_core:
+  default_config_hash: Q9_2whdOj1YIomfvsIfopROW4FT_X5pY0DjdOiOaQ5U
+id: thme2_primary_admin_actions
+theme: thme2
+region: highlighted
+weight: -5
+provider: null
+plugin: local_actions_block
+settings:
+  id: local_actions_block
+  label: "Actions d'administration principales"
+  label_display: '0'
+  provider: core
+visibility: {  }
